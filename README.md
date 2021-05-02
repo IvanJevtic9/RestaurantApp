@@ -1,3 +1,3 @@
 # RestaurantApp
 
-Restaurant web service software
+Restaurant web application
