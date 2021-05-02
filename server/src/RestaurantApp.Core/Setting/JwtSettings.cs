@@ -1,4 +1,4 @@
-﻿namespace RestaurantApp.Web.Settings
+﻿namespace RestaurantApp.Core.Setting
 {
     public class JwtSettings
     {

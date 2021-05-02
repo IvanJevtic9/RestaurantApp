@@ -1,11 +1,17 @@
 ﻿namespace RestaurantApp.Core.Entity
 {
+    /// <summary>
+    /// Account types in application
+    /// </summary>
     public enum AccountType
     {
         Restaurant,
         User
     }
 
+    /// <summary>
+    /// Account enitity
+    /// </summary>
     public class Account
     {
         public int Id { get; }

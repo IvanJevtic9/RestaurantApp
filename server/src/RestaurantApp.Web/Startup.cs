@@ -5,7 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using RestaurantApp.Web.Settings;
 using RestaurantApp.Infrastructure.Data;
 using System.Linq;
 using RestaurantApp.Core.Interface;
@@ -13,6 +12,20 @@ using RestaurantApp.Infrastructure;
 using FluentValidation.AspNetCore;
 using System.IO;
 using Microsoft.Extensions.Logging;
+using RestaurantApp.Infrastructure.Data.Repository;
+using RestaurantApp.Core.RepositoryInterface;
+using RestaurantApp.Core.Factory;
+using Microsoft.AspNetCore.Identity;
+using RestaurantApp.Core.Entity;
+using FluentValidation;
+using RestaurantApp.Web.WebModel;
+using RestaurantApp.Web.Validator;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using RestaurantApp.Core.Setting;
+using RestaurantApp.Core.IdentityProvider;
+using RestaurantApp.Core.Service;
 
 namespace RestaurantApp.Web
 {
@@ -110,9 +123,31 @@ namespace RestaurantApp.Web
             var jwtSettings = new JwtSettings();
             configuration.GetSection(nameof(jwtSettings)).Bind(jwtSettings);
 
+            /*Jwt token configurations*/
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(cfg =>
+            {
+                cfg.RequireHttpsMetadata = false;
+                cfg.SaveToken = true;
+                cfg.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidIssuer = jwtSettings.JwtIssuer,
+                    ValidAudience = jwtSettings.JwtIssuer,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.JwtKey))
+                };
+            });
+
             /*Swagger configuration*/
             var swaggerSettings = new SwaggerSettings();
             configuration.Bind(key: nameof(swaggerSettings), swaggerSettings);
+
+            /*Appling app settings*/
+            var appSettings = new AppSettings();
+            configuration.Bind(key: nameof(appSettings), appSettings);
 
             services.AddSwaggerGen(c =>
             {
@@ -121,6 +156,7 @@ namespace RestaurantApp.Web
 
             services.AddSingleton(swaggerSettings);
             services.AddSingleton(jwtSettings);
+            services.AddSingleton(appSettings);
         }
 
         private static void InitializingContainersForDependencyInjection(IServiceCollection services)
@@ -129,6 +165,14 @@ namespace RestaurantApp.Web
             services.AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
 
             services.AddScoped<SeedData>();
+            services.AddScoped<DynamicTypeFactory>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IJwtProvider, JwtProvider>();
+            services.AddScoped<IPasswordHasher<Account>, PasswordHasher<Account>>();
+            services.AddScoped<IAccountManager<Account>, AccountManager>();
+
+            services.AddTransient<IValidator<AccountDto>, AccountValidator>();
+            services.AddTransient<IValidator<LoginDto>, LoginValidator>();
         }
     }
 }

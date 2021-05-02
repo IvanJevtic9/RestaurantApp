@@ -14,8 +14,10 @@ namespace RestaurantApp.Infrastructure.Data.EntityConfiguration
             builder.ToTable("Restaurants");
 
             builder.HasKey(r => r.Id);
+
             builder.HasIndex(r => r.Id)
                    .IsUnique();
+            
             builder.Property(a => a.Id)
                    .ValueGeneratedOnAdd();
 

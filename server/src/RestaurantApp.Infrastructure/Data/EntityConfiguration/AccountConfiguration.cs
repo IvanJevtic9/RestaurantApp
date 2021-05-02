@@ -14,8 +14,7 @@ namespace RestaurantApp.Infrastructure.Data.EntityConfiguration
             builder.ToTable("Accounts");
 
             builder.HasKey(a => new { a.Id, a.AccountType });
-            builder.HasIndex(r => r.Id)
-                   .IsUnique();
+            
             builder.Property(a => a.Id)
                    .ValueGeneratedOnAdd();
 
@@ -44,8 +43,12 @@ namespace RestaurantApp.Infrastructure.Data.EntityConfiguration
             builder.Property(a => a.Phone)
                    .HasMaxLength(15);
 
+            builder.HasIndex(r => r.Id)
+                   .IsUnique();
+
             builder.HasIndex(a => new { a.Id, a.AccountType })
                    .IsUnique();
+
             builder.HasIndex(a => a.Email)
                    .IsUnique();
         }

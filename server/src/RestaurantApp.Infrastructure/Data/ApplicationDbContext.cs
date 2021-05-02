@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RestaurantApp.Core.Entity;
 using RestaurantApp.Infrastructure.Data.EntityConfiguration;
 
 namespace RestaurantApp.Infrastructure.Data
