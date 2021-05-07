@@ -1,1 +1,73 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+  src: url('assets/fonts/Mulish-Bold.ttf');
+  font-family: MBold;
+}
+@font-face {
+  src: url('assets/fonts/Mulish-Light.ttf');
+  font-family: MLight;
+}
+@font-face {
+  src: url('assets/fonts/Mulish-LightItalic.ttf');
+  font-family: MLightItalic;
+}
+@font-face {
+  src: url('assets/fonts/Mulish-Regular.ttf');
+  font-family: MRegular;
+}
+@font-face {
+  src: url('assets/fonts/Mulish-SemiBold.ttf');
+  font-family: MSemiBold;
+}
+
+*{
+  padding: 0px;
+  box-sizing: border-box;
+  margin: 0px;
+}
+
+html,body{
+  font-family: MRegular;
+}
+
+:root{
+  --m-blue-purple: #AFB3F7;
+  --blue-eyes: #92BCEA !important;
+  --green-primary: #00635D;
+  --oxford-blue: #01172F;
+  --dark-sienna: #4C212A;
+}
+
+.bttn{
+  border: 0px;
+  padding: 8px 14px;
+  font-size: 14px;
+  font-family: 'MRegular';
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.4s;
+}
+
+.bttn-primary{
+  background-color: var(--blue-eyes);
+  color: var(--oxford-blue);
+}
+.bttn-primary:hover{
+  background-color: var(--primary-color);
+}
+
+.p-field{
+  display: flex;
+  flex-direction: column;
+  margin: 4px !important;
+}
+
+.p-field > label{
+  font-size: 16px;
+  margin-bottom: 4px !important;
+}
+
+.m-input{
+  padding: 4px 8px;
+  font-size: 16px;
+  font-family: MLight;
+}
