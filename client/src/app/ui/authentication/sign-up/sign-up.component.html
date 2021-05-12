@@ -1,1 +1,171 @@
-<p>sign-up works!</p>
+<div class="wrapper">
+  <div class="m_container">
+    <h2 class="p-mb-4">Prijavite se na naš servis</h2>
+
+    <form class="myForm" (ngSubmit)="onSubmit()"  [formGroup]="signUpForm" >
+
+      <!-- EMAIL -->
+      <div class="p-field">
+        <label for="email" class="required-label">Email</label>
+        <input type="email"
+          id="email"
+          formControlName="email"
+          class="m-input"
+        >
+      </div>
+
+      <div class="p-grid">
+        <div class="p-col-12 p-md-6">
+          <div class="p-field">
+            <label for="password" class="required-label">Lozinka</label>
+            <input type="password"
+              id="password"
+              formControlName="password"
+              class="m-input"
+            >
+          </div>
+        </div>
+        <div class="p-col-12 p-md-6">
+          <div class="p-field">
+            <label for="repeat-password" class="required-label">Ponovite lozinku</label>
+            <input type="password"
+              id="repeat-password"
+              formControlName="confirmPassword"
+              class="m-input"
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="p-grid">
+        <div class="p-col-12 p-md-6">
+          <div class="p-field">
+            <label for="city" class="required-label">Grad</label>
+            <input type="text"
+              id="city"
+              formControlName="city"
+              class="m-input" >
+          </div>
+        </div>
+        <div class="p-col-12 p-md-6">
+          <div class="p-field">
+            <label for="address" class="required-label">Adresa</label>
+            <input type="text"
+              id="address"
+              formControlName="address"
+              class="m-input" >
+          </div>
+        </div>
+      </div>
+
+      <div class="p-grid">
+        <div class="p-col-12 p-md-6">
+          <div class="p-field">
+            <label for="code" class="required-label">Poštanski broj</label>
+            <input type="text"
+              id="code"
+              formControlName="postalCode"
+              class="m-input" >
+          </div>
+        </div>
+        <div class="p-col-12 p-md-6">
+          <div class="p-field">
+            <label for="phone" class="required-label">Telefon</label>
+            <input type="text"
+              id="phone"
+              formControlName="phone"
+              class="m-input" >
+          </div>
+        </div>
+      </div>
+
+      <div class="p-d-flex p-jc-center p-ai-center type p-my-2">
+        <span class="p-mr-3" >
+          Korisnik
+        </span>
+        <div class="p-pl-3">
+          <p-inputSwitch formControlName="type"></p-inputSwitch>
+        </div>
+        <div class="p-ml-4" >
+          Preduzetnik
+        </div>
+      </div>
+
+      <hr>
+
+      <div *ngIf="signUpForm.value.type" formGroupName="restaurant">
+        <div class="p-grid" >
+          <div class="p-col-12">
+            <div class="p-field">
+              <label for="restaurant" class="required-label">Ime restorana</label>
+              <input type="text"
+                id="restaurant"
+                formControlName="name"
+                class="m-input" >
+            </div>
+          </div>
+          <div class="p-col-12 p-md-6">
+            <div class="p-field">
+              <label for="desc">Opis</label>
+              <textarea type="text"
+                id="desc"
+                formControlName="description"
+                class="m-input"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="!signUpForm.value.type" formGroupName="user">
+        <div class="p-grid" >
+          <div class="p-col-12 p-md-6">
+            <div class="p-field">
+              <label for="user" class="required-label">Ime</label>
+              <input type="text"
+                id="user"
+                formControlName="firstName"
+                class="m-input" >
+            </div>
+          </div>
+          <div class="p-col-12 p-md-6">
+            <div class="p-field">
+              <label for="lastname" class="required-label">Prezime</label>
+              <input type="text"
+                id="lastname"
+                formControlName="lastName"
+                class="m-input">
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="p-field">
+            <label for="birthday" class="required-label">Datum rođenja</label>
+            <p-calendar pera="birthday" formControlName="dateOfBirth"></p-calendar>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div *ngIf="!signUpForm.get('email').valid && signUpForm.get('email').touched ">
+        <div class="error" *ngIf="signUpForm.get('email').errors['required']" >
+          Morate popuniti ovo polje.
+        </div>
+        <div class="error" *ngIf="signUpForm.get('email').errors['email']" >
+          Morate uneti validnu email adresu.
+        </div>
+
+      </div> -->
+
+      <!-- Prepraviti disabled -->
+      <button class="bttn bttn-primary p-mt-5" style="width: 100%;" type="submit">
+        Registruj se
+      </button>
+      <div style="text-align: center;" class="p-mt-2">
+        <a routerLink="../sign-in">
+          Imate nalog? Prijavite se
+        </a>
+      </div>
+
+    </form>
+  </div>
+</div>

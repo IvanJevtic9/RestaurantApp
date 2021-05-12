@@ -37,6 +37,25 @@ html,body{
   --dark-sienna: #4C212A;
 }
 
+a{
+  text-decoration: none;
+  cursor: pointer;
+  color: var(--primary-color);
+}
+
+a:hover{
+  color: #237cc5;
+}
+
+.required-label::after {
+  content: '*';
+  font-size: 12px;
+  top: -5px;
+  left: 3px;
+  position: relative;
+  color:rgb(255, 145, 145);
+}
+
 .bttn{
   border: 0px;
   padding: 8px 14px;

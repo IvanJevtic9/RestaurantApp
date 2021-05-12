@@ -1,0 +1,8 @@
+.m_container{
+  max-width: 500px !important;
+  min-width: 320px !important;
+  width: 100% !important;
+}
+.type > span{
+  text-align: center;
+}
