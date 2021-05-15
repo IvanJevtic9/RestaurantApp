@@ -65,6 +65,11 @@ namespace RestaurantApp.Web
 
             RunMigration(context);
 
+            app.UseCors(x => x.AllowAnyMethod()
+                              .AllowAnyHeader()
+                              .SetIsOriginAllowed(origin => true)
+                              .AllowCredentials());
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -99,12 +104,7 @@ namespace RestaurantApp.Web
         private static void AppConfiguration(IServiceCollection services)
         {
             /*Configure cors*/
-            services.AddCors(o => o.AddPolicy("AllowAny", builder =>
-            {
-                builder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader();
-            }));
+            services.AddCors();
 
             /*Configure fluent validatior*/
             services.AddControllers().AddFluentValidation();

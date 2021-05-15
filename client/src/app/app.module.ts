@@ -35,7 +35,8 @@ import {CalendarModule} from 'primeng/calendar';
     ReactiveFormsModule,
     FormsModule,
     InputSwitchModule,
-    CalendarModule
+    CalendarModule,
+    HttpClientModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]
