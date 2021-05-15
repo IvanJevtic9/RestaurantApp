@@ -13,6 +13,14 @@
           class="m-input"
         >
       </div>
+      <div *ngIf="!signUpForm.get('email').valid && signUpForm.get('email').touched ">
+        <div class="error" *ngIf="signUpForm.get('email').errors['required']" >
+          Morate popuniti ovo polje.
+        </div>
+        <div class="error" *ngIf="signUpForm.get('email').errors['email']" >
+          Morate uneti validnu email adresu.
+        </div>
+      </div>
 
       <div class="p-grid">
         <div class="p-col-12 p-md-6">
@@ -24,6 +32,20 @@
               class="m-input"
             >
           </div>
+          <div *ngIf="!signUpForm.get('password').valid && signUpForm.get('password').touched">
+
+            <div class="error" *ngIf="signUpForm.get('password').errors['required']" >
+              Morate popuniti ovo polje.
+            </div>
+            <div class="error" *ngIf="!signUpForm.get('password').errors['required'] && (signUpForm.get('password').errors['minlength'])" >
+                'Lozinka mora imati najmanje 6 karaktera.
+            </div>
+            <div class="error" *ngIf="!signUpForm.get('password').errors['required'] &&
+                    !signUpForm.get('password').errors['minlength'] && signUpForm.get('password').errors['strong']">
+              Lozinka mora sadržati broj, veliko i malo slovo.
+            </div>
+
+          </div>
         </div>
         <div class="p-col-12 p-md-6">
           <div class="p-field">
@@ -34,7 +56,20 @@
               class="m-input"
             >
           </div>
-        </div>
+          <div *ngIf="signUpForm.get('confirmPassword').touched && (
+                  (signUpForm.errors !== null && signUpForm.errors['match']) ||
+                  !signUpForm.get('confirmPassword').valid )" >
+
+              <div class="error" *ngIf="!signUpForm.get('confirmPassword').valid" >
+                Morate popuniti ovo polje.
+              </div>
+              <div class="error" *ngIf="signUpForm.get('confirmPassword').valid &&
+                        signUpForm.errors !== null && signUpForm.errors['match']" >
+                'Lozinke se moraju poklapati.
+              </div>
+            </div>
+
+          </div>
       </div>
 
       <div class="p-grid">
@@ -46,6 +81,11 @@
               formControlName="city"
               class="m-input" >
           </div>
+          <div *ngIf="!signUpForm.get('city').valid && signUpForm.get('city').touched ">
+            <div class="error" *ngIf="signUpForm.get('city').errors['required']" >
+              Morate popuniti ovo polje.
+            </div>
+          </div>
         </div>
         <div class="p-col-12 p-md-6">
           <div class="p-field">
@@ -54,6 +94,11 @@
               id="address"
               formControlName="address"
               class="m-input" >
+          </div>
+          <div *ngIf="!signUpForm.get('address').valid && signUpForm.get('address').touched ">
+            <div class="error" *ngIf="signUpForm.get('address').errors['required']" >
+              Morate popuniti ovo polje.
+            </div>
           </div>
         </div>
       </div>
@@ -64,17 +109,25 @@
             <label for="code" class="required-label">Poštanski broj</label>
             <input type="text"
               id="code"
+              maxlength="5"
               formControlName="postalCode"
               class="m-input" >
+              <div *ngIf="!signUpForm.get('postalCode').valid && signUpForm.get('postalCode').touched ">
+                <div class="error" *ngIf="signUpForm.get('postalCode').errors['required']" >
+                  Morate popuniti ovo polje.
+                </div>
+              </div>
           </div>
         </div>
         <div class="p-col-12 p-md-6">
           <div class="p-field">
             <label for="phone" class="required-label">Telefon</label>
-            <input type="text"
-              id="phone"
-              formControlName="phone"
-              class="m-input" >
+            <p-inputMask inputId="phone" formControlName="phone" mask="(999) 999-9999?"></p-inputMask>
+          </div>
+          <div *ngIf="!signUpForm.get('phone').valid && signUpForm.get('phone').touched ">
+            <div class="error" *ngIf="signUpForm.get('phone').errors['required']" >
+              Morate popuniti ovo polje.
+            </div>
           </div>
         </div>
       </div>
@@ -84,7 +137,7 @@
           Korisnik
         </span>
         <div class="p-pl-3">
-          <p-inputSwitch formControlName="type"></p-inputSwitch>
+          <p-inputSwitch formControlName="type" (onChange)="onChangeForm($event)"></p-inputSwitch>
         </div>
         <div class="p-ml-4" >
           Preduzetnik
@@ -103,14 +156,19 @@
                 formControlName="name"
                 class="m-input" >
             </div>
+            <div *ngIf="!signUpForm.get('restaurant.name').valid && signUpForm.get('restaurant.name').touched ">
+              <div class="error" *ngIf="signUpForm.get('restaurant.name').errors['required']" >
+                Morate popuniti ovo polje.
+              </div>
+            </div>
           </div>
-          <div class="p-col-12 p-md-6">
+          <div class="p-col-12">
             <div class="p-field">
               <label for="desc">Opis</label>
               <textarea type="text"
                 id="desc"
                 formControlName="description"
-                class="m-input"></textarea>
+                class="m-textarea"></textarea>
             </div>
           </div>
         </div>
@@ -126,6 +184,11 @@
                 formControlName="firstName"
                 class="m-input" >
             </div>
+            <div *ngIf="!signUpForm.get('user.firstName').valid && signUpForm.get('user.firstName').touched ">
+              <div class="error" *ngIf="signUpForm.get('user.firstName').errors['required']" >
+                Morate popuniti ovo polje.
+              </div>
+            </div>
           </div>
           <div class="p-col-12 p-md-6">
             <div class="p-field">
@@ -135,6 +198,11 @@
                 formControlName="lastName"
                 class="m-input">
             </div>
+            <div *ngIf="!signUpForm.get('user.lastName').valid && signUpForm.get('user.lastName').touched ">
+              <div class="error" *ngIf="signUpForm.get('user.lastName').errors['required']" >
+                Morate popuniti ovo polje.
+              </div>
+            </div>
           </div>
         </div>
 
@@ -143,18 +211,19 @@
             <label for="birthday" class="required-label">Datum rođenja</label>
             <p-calendar pera="birthday" formControlName="dateOfBirth"></p-calendar>
           </div>
+          <div *ngIf="!signUpForm.get('user.dateOfBirth').valid && signUpForm.get('user.dateOfBirth').touched ">
+            <div class="error" *ngIf="signUpForm.get('user.dateOfBirth').errors['required']" >
+              Morate popuniti ovo polje.
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- <div *ngIf="!signUpForm.get('email').valid && signUpForm.get('email').touched ">
-        <div class="error" *ngIf="signUpForm.get('email').errors['required']" >
-          Morate popuniti ovo polje.
+      <div *ngIf="errorMessages.length > 0">
+        <div class="error" *ngFor="let err of errorMessages" >
+          {{err}}
         </div>
-        <div class="error" *ngIf="signUpForm.get('email').errors['email']" >
-          Morate uneti validnu email adresu.
-        </div>
-
-      </div> -->
+      </div>
 
       <!-- Prepraviti disabled -->
       <button class="bttn bttn-primary p-mt-5" style="width: 100%;" type="submit">

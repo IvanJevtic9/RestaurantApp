@@ -86,7 +86,22 @@ a:hover{
 }
 
 .m-input{
-  padding: 4px 8px;
+  padding: 8px 8px;
   font-size: 16px;
   font-family: MLight;
+  border-radius: 3px;
+  border: 1px solid #e3e3e3;
+}
+.m-input:focus-visible{
+  outline: 0px;
+}
+
+
+/* PRIME FACE CUSTOM STYLE */
+:host /deep/ .p-inputtext{
+  font-family: MLight;
+}
+.p-inputtext:enabled:hover{
+  box-shadow: none;
+
 }

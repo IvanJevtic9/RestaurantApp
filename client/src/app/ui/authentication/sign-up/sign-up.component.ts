@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵɵi18nAttributes } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PasswordValidator } from './validators.validator';
 import { AuthService } from '../../../services/auth.service';
@@ -33,13 +33,45 @@ export class SignUpComponent implements OnInit {
   );
 
   isUserType: boolean = true;
+  errorMessages: string[] = [];
 
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.signUpForm.get('restaurant').disable();
+  }
+  onChangeForm(e:{checked: boolean}){
+
+    if (e.checked) {
+      this.signUpForm.get('restaurant').enable();
+      this.signUpForm.get('user').disable();
+    } else {
+      this.signUpForm.get('restaurant').disable();
+      this.signUpForm.get('user').enable();
+    }
   }
 
   onSubmit(){
+
+    if(!this.signUpForm.valid){
+      this.signUpForm.get("email").markAsTouched();
+      this.signUpForm.get("password").markAsTouched();
+      this.signUpForm.get("confirmPassword").markAsTouched();
+      this.signUpForm.get("city").markAsTouched();
+      this.signUpForm.get("postalCode").markAsTouched();
+      this.signUpForm.get("phone").markAsTouched();
+      this.signUpForm.get("address").markAsTouched();
+      if(!this.signUpForm.value.type){
+        this.signUpForm.get("user.firstName").markAsTouched();
+        this.signUpForm.get("user.lastName").markAsTouched();
+        this.signUpForm.get("user.dateOfBirth").markAsTouched();
+      } else {
+        this.signUpForm.get("restaurant.name").markAsTouched();
+      }
+
+      return;
+    }
+
     let temp: RegistrationModel = {
       email: this.signUpForm.get("email").value,
       password: this.signUpForm.get("password").value,
@@ -52,11 +84,13 @@ export class SignUpComponent implements OnInit {
     };
 
     if(this.signUpForm.get("type").value){
+      temp.accountType = "Restaurant";
       temp.restaurant = {
         name:  this.signUpForm.get("restaurant").get("name").value,
         description: this.signUpForm.get("restaurant").get("description").value
       }
     } else {
+      temp.accountType = "User";
       temp.user = {
         firstName:  this.signUpForm.value.user.firstName,
         lastName:  this.signUpForm.value.user.lastName,
@@ -64,7 +98,13 @@ export class SignUpComponent implements OnInit {
       }
     }
 
-    this.authService.register(temp);
+    this.authService.register(temp)
+    .subscribe( response => {
+      // TODO show registration is succesfull, and link to login page
+    }, error => {
+      console.log('error');
+      this.errorMessages = error;
+    });
 
   }
 

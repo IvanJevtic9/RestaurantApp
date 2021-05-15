@@ -17,6 +17,7 @@ import {ToastModule} from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import {InputSwitchModule} from 'primeng/inputswitch';
 import {CalendarModule} from 'primeng/calendar';
+import {InputMaskModule} from 'primeng/inputmask';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import {CalendarModule} from 'primeng/calendar';
     FormsModule,
     InputSwitchModule,
     CalendarModule,
-    HttpClientModule
+    HttpClientModule,
+    InputMaskModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]
