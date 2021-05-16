@@ -18,6 +18,7 @@ import { MessageService } from 'primeng/api';
 import {InputSwitchModule} from 'primeng/inputswitch';
 import {CalendarModule} from 'primeng/calendar';
 import {InputMaskModule} from 'primeng/inputmask';
+import { SpinnerComponent } from './shared/components/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import {InputMaskModule} from 'primeng/inputmask';
     AuthenticationComponent,
     MainComponent,
     SignInComponent,
-    SignUpComponent
+    SignUpComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,

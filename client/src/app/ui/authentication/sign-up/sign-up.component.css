@@ -23,4 +23,27 @@
   font-family: MLight;
   min-width: 100%;
   max-width: 100%;
+  padding: 2px;
+}
+.reg-success-block{
+  display: flex;
+  font-size: 20px;
+  color: var(--green-100);
+  align-items: center;
+}
+
+.reg-success-block > i {
+  color: var(--green-500);
+  font-size: 28px;
+  margin-right: 8px;
+}
+
+.navigate{
+  margin-left: 10px;
+  color: var(--primary-color) !important;
+  cursor: pointer;
+  transition: all ease-in-out 200ms;
+}
+.navigate:hover{
+  color: var(--blue-300) !important;
 }

@@ -59,6 +59,8 @@ export class AuthService{
     const errorMessages = [];
 
     if (!errorRes.error) {
+      console.log("Error data doesn't have valid format.");
+      errorMessages.push('Server je trenutno nedostupan.');
       return throwError(errorMessages);
     }
 

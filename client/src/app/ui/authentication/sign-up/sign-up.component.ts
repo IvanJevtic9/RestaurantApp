@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PasswordValidator } from './validators.validator';
 import { AuthService } from '../../../services/auth.service';
 import { RegistrationModel } from '../../../models/Registration.model';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sign-up',
@@ -32,6 +33,8 @@ export class SignUpComponent implements OnInit {
   }
   );
 
+  isLoading = false;
+  isRegisterMode: boolean = true;
   isUserType: boolean = true;
   errorMessages: string[] = [];
 
@@ -72,6 +75,8 @@ export class SignUpComponent implements OnInit {
       return;
     }
 
+    this.isLoading = true;
+
     let temp: RegistrationModel = {
       email: this.signUpForm.get("email").value,
       password: this.signUpForm.get("password").value,
@@ -99,10 +104,12 @@ export class SignUpComponent implements OnInit {
     }
 
     this.authService.register(temp)
+    .pipe(tap(data => {
+      this.isLoading = false;
+    }))
     .subscribe( response => {
-      // TODO show registration is succesfull, and link to login page
+      this.isRegisterMode = false;
     }, error => {
-      console.log('error');
       this.errorMessages = error;
     });
 
