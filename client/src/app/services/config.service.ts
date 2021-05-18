@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 
 @Injectable({providedIn: 'root'})
 export class Config {
-  location = 'https://localhost:44367';
+  private location = 'http://localhost:44367';
   // API
-  REGISTER_API = '/api/account/register';
+  REGISTER_API = this.location + '/api/account/register';
+  LOGIN_API = this.location + '/api/account/login';
 }

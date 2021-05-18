@@ -32,10 +32,23 @@ export class AuthService{
 
   constructor(private http: HttpClient, private config: Config){}
 
-  authenticate(username: string, password: string): boolean{
+  authenticate(username: string, password: string){
     console.log(username + ' ' + password);
-
-    return false;
+    this.http.post(
+      this.config.LOGIN_API,
+      { email: username, password: password }
+    ).pipe(
+      catchError(this.errorHandling.bind(this)),
+      map( data => {
+        console.log('MAP PIPE FUNCTION');
+        console.log(data);
+        return data;
+      }
+    )).subscribe(
+      data => {
+        console.log(data);
+      }
+    );
   }
 
   navigateToMainPage(){
@@ -44,9 +57,13 @@ export class AuthService{
 
   register(model: RegistrationModel){
     console.log(model);
+    const header = new HttpHeaders({
+      'Access-Control-Allow-Origin': 'http://localhost:4200/'}
+    );
     return this.http.post(
-      this.config.location + this.config.REGISTER_API,
-      model
+      this.config.REGISTER_API,
+      model,
+      {headers: header}
     ).pipe(
       catchError(this.errorHandling.bind(this))
     );

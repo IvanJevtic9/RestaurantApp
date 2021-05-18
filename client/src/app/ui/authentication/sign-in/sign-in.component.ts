@@ -25,16 +25,11 @@ export class SignInComponent implements OnInit {
       return;
     }
 
-    const isAuthenticated = this.authService.authenticate(
+    this.authService.authenticate(
       form.value.username,
       form.value.password
     );
 
-    if(isAuthenticated){
-      this.authService.navigateToMainPage();
-    } else {
-      this.errorMessage = SignInComponent.ERROR_MSG;
-    }
   }
 
 }
