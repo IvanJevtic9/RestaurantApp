@@ -25,16 +25,20 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using RestaurantApp.Core.Setting;
 using RestaurantApp.Core.IdentityProvider;
-using RestaurantApp.Core.Service;
+using RestaurantApp.Core.Manager;
+using RestaurantApp.Core.Lib;
 
 namespace RestaurantApp.Web
 {
     public class Startup
     {
+        private const string policyName = "AllowAny";
         public IConfiguration Configuration { get; }
-        public Startup(IConfiguration configuration)
+        public IWebHostEnvironment WebHostEnvironment { get; }
+        public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             Configuration = configuration;
+            WebHostEnvironment = webHostEnvironment;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -46,7 +50,7 @@ namespace RestaurantApp.Web
             ConfigureSettings(services, Configuration);
             ConfigureDbContext(services, Configuration);
 
-            InitializingContainersForDependencyInjection(services);
+            InitializingContainersForDependencyInjection(services, Configuration, WebHostEnvironment);
 
             services.AddMvc();
         }
@@ -65,15 +69,14 @@ namespace RestaurantApp.Web
 
             RunMigration(context);
 
-            app.UseCors(x => x.AllowAnyMethod()
-                              .AllowAnyHeader()
-                              .SetIsOriginAllowed(origin => true)
-                              .AllowCredentials());
+            app.UseCors(policyName);
 
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseStaticFiles();
 
             app.UseSwagger();
 
@@ -104,7 +107,15 @@ namespace RestaurantApp.Web
         private static void AppConfiguration(IServiceCollection services)
         {
             /*Configure cors*/
-            services.AddCors();
+            services.AddCors(options =>
+            {
+                options.AddPolicy(policyName, builder =>
+                {
+                    builder.AllowAnyMethod()
+                           .AllowAnyHeader()
+                           .AllowAnyOrigin();
+                });
+            });
 
             /*Configure fluent validatior*/
             services.AddControllers().AddFluentValidation();
@@ -159,17 +170,22 @@ namespace RestaurantApp.Web
             services.AddSingleton(appSettings);
         }
 
-        private static void InitializingContainersForDependencyInjection(IServiceCollection services)
+        private static void InitializingContainersForDependencyInjection(IServiceCollection services, IConfiguration conf, IWebHostEnvironment env)
         {
             /*configuring DI*/
-            services.AddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
-
             services.AddScoped<SeedData>();
             services.AddScoped<DynamicTypeFactory>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IJwtProvider, JwtProvider>();
             services.AddScoped<IPasswordHasher<Account>, PasswordHasher<Account>>();
             services.AddScoped<IAccountManager<Account>, AccountManager>();
+            services.AddScoped(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
+            services.AddScoped(m =>
+            {
+                var unitOfWork = m.Resolve<IUnitOfWork>();
+                var logger = m.Resolve<ILoggerAdapter<Image>>();
+                return new ImageManager(unitOfWork, logger, env.WebRootPath, conf.GetValue("HostUrl", ""));
+            });
 
             services.AddTransient<IValidator<AccountDto>, AccountValidator>();
             services.AddTransient<IValidator<LoginDto>, LoginValidator>();

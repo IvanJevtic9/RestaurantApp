@@ -13,6 +13,7 @@ namespace RestaurantApp.Infrastructure.Data
             modelBuilder.ApplyConfiguration(new AccountConfiguration());
             modelBuilder.ApplyConfiguration(new RestaurantConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new ImageConfiguration());
         }
     }
 }

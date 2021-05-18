@@ -23,6 +23,9 @@
         public string PostalCode { get; set; }
         public AccountType AccountType { get; set; }
 
+        public int? ImageId { get; set; }
+        public virtual Image ProfileImage { get; set; }
+
         public virtual Restaurant Restaurant { get; set; }
         public virtual User User { get; set; }
     }

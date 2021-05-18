@@ -2,6 +2,6 @@
 
 namespace RestaurantApp.Core.RepositoryInterface
 {
-    public interface IUserRepository : IRepository<User>
+    public interface IImageRepository : IRepository<Image>
     { }
 }

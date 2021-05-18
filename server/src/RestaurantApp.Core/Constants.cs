@@ -1,12 +1,17 @@
 ﻿using RestaurantApp.Core.Lib;
+using System.Collections.Generic;
 
-namespace RestaurantApp.Infrastructure
+namespace RestaurantApp.Core
 {
     public class Constants
     {
+        public static readonly List<string> AllowedImageExtensions = new List<string> { "JPG", "JPE", "BMP", "GIF", "PNG" };
+
         public const string EMAIL_REGEX = @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z";
         public const string PASSWORD_REGEX = @"^(?=.*\d)(?=.*[!#$%&@'*+/=?^_()`><{|}~-])(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$";
         public const string NAME_REGEX = @"([a-zA-Z]\s*)+";
+
+        public const string PROFILE_PICTURE_LOCATION = @"Images\ProfilePictures\";
     }
 
     public static class ResponseCodes
@@ -25,6 +30,7 @@ namespace RestaurantApp.Infrastructure
         public const string MUST_BE_EQUAL_PASSWORDS = "The confirmation password must be the same as the password.";
         public const string INVALID_DATE_OF_BIRTH = "Invalid date of birth.";
         public const string INVALID_LOGIN = "Invalid email or password.";
+        public const string INVALID_FILE_FORMAT = "Uploaded file has invalid format.";
 
         #endregion
 

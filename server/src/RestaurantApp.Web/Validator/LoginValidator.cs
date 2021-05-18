@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using RestaurantApp.Infrastructure;
+using RestaurantApp.Core;
 using RestaurantApp.Web.WebModel;
 using System.Text.RegularExpressions;
 

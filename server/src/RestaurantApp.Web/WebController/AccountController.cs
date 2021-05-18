@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RestaurantApp.Core;
 using RestaurantApp.Core.Entity;
 using RestaurantApp.Core.Factory;
 using RestaurantApp.Core.Interface;
 using RestaurantApp.Core.Lib;
-using RestaurantApp.Infrastructure;
+using RestaurantApp.Core.Manager;
+using RestaurantApp.Core.RepositoryInterface;
 using RestaurantApp.Web.WebModel;
 using RestaurantApp.Web.WebModels;
 using System.Collections.Generic;
@@ -16,19 +18,24 @@ namespace RestaurantApp.Web.WebController
     public class AccountController : ControllerBase
     {
         private readonly IAccountManager<Account> accountManager;
+        private readonly IUnitOfWork unitOfWork;
+        private readonly ImageManager imageManager;
         private readonly DynamicTypeFactory dynamicTypeFactory;
 
-
         public AccountController(DynamicTypeFactory dynamicTypeFactory,
-                                 IAccountManager<Account> accountManager)
+                                 IAccountManager<Account> accountManager,
+                                 IUnitOfWork unitOfWork,
+                                 ImageManager imageManager)
         {
             this.dynamicTypeFactory = dynamicTypeFactory;
             this.accountManager = accountManager;
+            this.unitOfWork = unitOfWork;
+            this.imageManager = imageManager;
         }
 
         [HttpPost("register")]
         [AllowAnonymous]
-        public async Task<IActionResult> Registration([FromBody]AccountDto request)
+        public async Task<IActionResult> Registration([FromForm] AccountDto request)
         {
             var response = new ApiResponse();
 
@@ -37,6 +44,14 @@ namespace RestaurantApp.Web.WebController
                 response.Errors = ModelState.GetErrors(dynamicTypeFactory);
                 return BadRequest(response);
             }
+
+            var image = new Image()
+            {
+                ImangeName = request.File.FileName,
+                ImageLocation = "#PROFILE_PICTURE",
+                Role = ImageRole.Profile,
+                Title = request.File.FileName.Split('.')[0]
+            };
 
             var newAccount = new Account()
             {
@@ -48,7 +63,7 @@ namespace RestaurantApp.Web.WebController
                 AccountType = request.AccountType == AccountType.Restaurant.ToString() ? AccountType.Restaurant : AccountType.User
             };
 
-            if(newAccount.AccountType == AccountType.Restaurant)
+            if (newAccount.AccountType == AccountType.Restaurant)
             {
                 newAccount.Restaurant = new Restaurant()
                 {
@@ -68,12 +83,24 @@ namespace RestaurantApp.Web.WebController
 
             var result = accountManager.CreateAccount(newAccount, request.Password);
 
-            if(!result.Succeeded)
+            if (!result.Succeeded)
             {
                 var dict = result.TransformToDict();
                 response.Errors = dict.GetModelError(dynamicTypeFactory);
                 return BadRequest(response);
             }
+
+            result = imageManager.UploadFile(image, request.File);
+
+            if (!result.Succeeded)
+            {
+                var dict = result.TransformToDict();
+                response.Errors = dict.GetModelError(dynamicTypeFactory);
+                return BadRequest(response);
+            }
+
+            newAccount.ImageId = image.Id;
+            unitOfWork.SaveChanges();
 
             response.Message = ResponseCodes.SUCCESSFUL_REGISTRATION;
             return Ok(response);
@@ -94,7 +121,7 @@ namespace RestaurantApp.Web.WebController
 
             var account = accountManager.GetByEmail(request.Email);
 
-            if(account == null)
+            if (account == null)
             {
                 dict.Add(nameof(request.Email), new List<string>() { ResponseCodes.INVALID_LOGIN });
 
@@ -102,7 +129,7 @@ namespace RestaurantApp.Web.WebController
                 return BadRequest(response);
             }
 
-            if(!accountManager.CheckPassword(account, request.Password))
+            if (!accountManager.CheckPassword(account, request.Password))
             {
                 dict.Add(nameof(request.Email), new List<string>() { ResponseCodes.INVALID_LOGIN });
 

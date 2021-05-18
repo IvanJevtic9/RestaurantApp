@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
+using RestaurantApp.Core;
 using RestaurantApp.Core.Entity;
 using RestaurantApp.Core.RepositoryInterface;
-using RestaurantApp.Infrastructure;
 using RestaurantApp.Web.WebModel;
 using System;
 using System.Text.RegularExpressions;
@@ -60,23 +60,23 @@ namespace RestaurantApp.Web.Validator
                     else
                     {
                         if (user.FirstName == null) context.AddFailure(nameof(user.FirstName), ResponseCodes.RequiredField(nameof(user.FirstName)));
-                        else if(user.FirstName.Length < 2) context.AddFailure(nameof(user.FirstName), ResponseCodes.LengthError(nameof(user.FirstName), true, 2));
+                        else if (user.FirstName.Length < 2) context.AddFailure(nameof(user.FirstName), ResponseCodes.LengthError(nameof(user.FirstName), true, 2));
                         else if (!Regex.IsMatch(user.FirstName, Constants.NAME_REGEX)) context.AddFailure(nameof(user.FirstName), $"{ResponseCodes.InvalidValue(nameof(user.FirstName))}");
 
                         if (user.LastName == null) context.AddFailure(nameof(user.LastName), ResponseCodes.RequiredField(nameof(user.LastName)));
                         else if (user.LastName.Length < 2) context.AddFailure(nameof(user.LastName), ResponseCodes.LengthError(nameof(user.LastName), true, 2));
                         else if (!Regex.IsMatch(user.LastName, Constants.NAME_REGEX)) context.AddFailure(nameof(user.LastName), $"{ResponseCodes.InvalidValue(nameof(user.LastName))}");
 
-                        if (DateTime.Now < user.DateOfBirth )
+                        if (DateTime.Now < user.DateOfBirth)
                         {
                             context.AddFailure(nameof(user.DateOfBirth), ResponseCodes.INVALID_DATE_OF_BIRTH);
                         }
                     }
                 }
-                else if(value == AccountType.Restaurant.ToString())
+                else if (value == AccountType.Restaurant.ToString())
                 {
                     var restaurant = accountDto.Restaurant;
-                    if(restaurant == null)
+                    if (restaurant == null)
                     {
                         context.AddFailure(nameof(accountDto.Restaurant), ResponseCodes.RequiredField(nameof(accountDto.Restaurant)));
                     }
@@ -92,6 +92,19 @@ namespace RestaurantApp.Web.Validator
                 if (unitOfWork.Account.Any(a => a.Email == value))
                 {
                     context.AddFailure(context.PropertyName, ResponseCodes.EMAIL_ALREADY_REGISTERED);
+                }
+            });
+
+            RuleFor(a => a.File).Custom((value, context) =>
+            {
+                if (value != null)
+                {
+                    var extension = value.FileName.Split('.')[1].ToUpper();
+
+                    if (!(Constants.AllowedImageExtensions.Contains(extension)))
+                    {
+                        context.AddFailure(context.PropertyName, ResponseCodes.INVALID_FILE_FORMAT + " Should be image format file.");
+                    }
                 }
             });
         }

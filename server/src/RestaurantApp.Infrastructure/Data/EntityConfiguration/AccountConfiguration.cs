@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using RestaurantApp.Core.Entity;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace RestaurantApp.Infrastructure.Data.EntityConfiguration
 {
@@ -14,7 +11,8 @@ namespace RestaurantApp.Infrastructure.Data.EntityConfiguration
             builder.ToTable("Accounts");
 
             builder.HasKey(a => new { a.Id, a.AccountType });
-            
+
+            /*Property configuration*/
             builder.Property(a => a.Id)
                    .ValueGeneratedOnAdd();
 
@@ -27,22 +25,23 @@ namespace RestaurantApp.Infrastructure.Data.EntityConfiguration
 
             builder.Property(a => a.AccountType)
                    .IsRequired();
-            
+
             builder.Property(a => a.City)
                    .IsRequired()
                    .HasMaxLength(189);
-            
+
             builder.Property(a => a.Address)
                    .IsRequired()
                    .HasMaxLength(254);
-            
+
             builder.Property(a => a.PostalCode)
                    .IsRequired()
                    .HasMaxLength(10);
-            
+
             builder.Property(a => a.Phone)
                    .HasMaxLength(15);
 
+            /*Index configuration*/
             builder.HasIndex(r => r.Id)
                    .IsUnique();
 
@@ -51,6 +50,11 @@ namespace RestaurantApp.Infrastructure.Data.EntityConfiguration
 
             builder.HasIndex(a => a.Email)
                    .IsUnique();
+
+            /*Foreign key*/
+            builder.HasOne(a => a.ProfileImage)
+                   .WithMany()
+                   .HasForeignKey(a => a.ImageId);
         }
     }
 }

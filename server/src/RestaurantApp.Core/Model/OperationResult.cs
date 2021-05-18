@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace RestaurantApp.Core.Model
 {
@@ -24,6 +22,11 @@ namespace RestaurantApp.Core.Model
             }
 
             return dict;
+        }
+
+        public void AddError(string key, string message)
+        {
+            Errors.Add(new OperationError() { PropertyKey = key, Message = message });
         }
     }
 

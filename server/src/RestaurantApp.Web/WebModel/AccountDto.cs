@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 
 namespace RestaurantApp.Web.WebModel
 {
@@ -15,6 +13,7 @@ namespace RestaurantApp.Web.WebModel
         public string Address { get; set; }
         public string PostalCode { get; set; }
 
+        public IFormFile File { get; set; }
         public string AccountType { get; set; }
 
         public RestaurantDto Restaurant { get; set; }

@@ -1,7 +1,4 @@
 ﻿using RestaurantApp.Core.RepositoryInterface;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace RestaurantApp.Infrastructure.Data.Repository
 {
@@ -15,13 +12,16 @@ namespace RestaurantApp.Infrastructure.Data.Repository
 
         public IRestaurantRepository Restaurant { get; }
 
+        public IImageRepository Image { get; }
+
         public UnitOfWork(ApplicationDbContext db)
         {
             this.db = db;
-            
+
             Account = new AccountRepository(db);
             User = new UserRepository(db);
             Restaurant = new RestaurantRepository(db);
+            Image = new ImageRepository(db);
         }
 
         public void Dispose()

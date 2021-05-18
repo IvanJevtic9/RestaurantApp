@@ -24,12 +24,16 @@ namespace RestaurantApp.Core.IdentityProvider
         {
             var claim = new List<Claim>
             {
+                new Claim("email", account.Email),
                 new Claim("id", account.Id.ToString()),
+                new Claim("imageId", account.ImageId.ToString()),
+                new Claim("imageName", account.ProfileImage.ImangeName),
+                new Claim("imageUrl", account.ProfileImage.Url),
                 new Claim("accountType", account.AccountType.ToString()),
                 new Claim("address", account.Address),
                 new Claim("city", account.City),
-                new Claim("postalCode", account.Phone),
-                new Claim("phone", account.PostalCode)
+                new Claim("postalCode", account.PostalCode),
+                new Claim("phone", account.Phone)
             };
 
             if (account.AccountType == AccountType.Restaurant)
@@ -41,7 +45,10 @@ namespace RestaurantApp.Core.IdentityProvider
             {
                 claim.Add(new Claim("firstName", account.User.FirstName));
                 claim.Add(new Claim("lastName", account.User.LastName));
-                claim.Add(new Claim("dateOfBirth", account.User.DateOfBirth?.ToString(appSettings.DateFormat)));
+                if (account.User.DateOfBirth != null)
+                {
+                    claim.Add(new Claim("dateOfBirth", account.User.DateOfBirth?.ToString(appSettings.DateFormat)));
+                }
             }
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.JwtKey));

@@ -3,6 +3,5 @@
 namespace RestaurantApp.Core.RepositoryInterface
 {
     public interface IRestaurantRepository : IRepository<Restaurant>
-    {
-    }
+    { }
 }

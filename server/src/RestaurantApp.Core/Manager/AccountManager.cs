@@ -5,11 +5,8 @@ using RestaurantApp.Core.Interface;
 using RestaurantApp.Core.Model;
 using RestaurantApp.Core.RepositoryInterface;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RestaurantApp.Core.Service
+namespace RestaurantApp.Core.Manager
 {
     public class AccountManager : IAccountManager<Account>
     {
@@ -46,14 +43,14 @@ namespace RestaurantApp.Core.Service
         public void Delete(Account account)
         {
             unitOfWork.Account.Remove(account);
-
+            unitOfWork.SaveChanges();
             Logger.LogInformation($"Account with email {0} has been removed", account.Email);
         }
 
         public OperationResult CreateAccount(Account account, string password)
         {
             /*Here we should do some manual validation (AbstractValidatior)*/
-            var op = new OperationResult();
+            var op = new OperationResult() { Succeeded = true };
 
             try
             {
@@ -65,7 +62,7 @@ namespace RestaurantApp.Core.Service
 
                 op.Succeeded = true;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 /*Missing error handling*/
                 op.Succeeded = false;

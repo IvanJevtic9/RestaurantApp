@@ -7,6 +7,7 @@ namespace RestaurantApp.Core.RepositoryInterface
         IAccountRepository Account { get; }
         IUserRepository User { get; }
         IRestaurantRepository Restaurant { get; }
+        IImageRepository Image { get; }
 
         void SaveChanges();
     }

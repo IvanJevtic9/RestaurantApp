@@ -22,12 +22,15 @@ namespace RestaurantApp.Core.Lib
 
             foreach (var key in modelState.Keys)
             {
-                dynamicProperties.Add(new DynamicProperty
+                if(modelState[key].Errors.Count > 0)
                 {
-                    DisplayName = key.ToCamelCase(),
-                    PropertyName = key.ToCamelCase(),
-                    SystemTypeName = modelState[key].Errors.Count > 1 ? typeof(List<string>).ToString() : typeof(string).ToString()
-                });
+                    dynamicProperties.Add(new DynamicProperty
+                    {
+                        DisplayName = key.ToCamelCase(),
+                        PropertyName = key.ToCamelCase(),
+                        SystemTypeName = modelState[key].Errors.Count > 1 ? typeof(List<string>).ToString() : typeof(string).ToString()
+                    });
+                }
             }
 
             var errorType = dynamicFactory.CreateNewTypeWithDynamicProperties(typeof(ErrorModel), dynamicProperties);
@@ -35,24 +38,29 @@ namespace RestaurantApp.Core.Lib
 
             foreach (var key in modelState.Keys)
             {
-                List<string> errors = new List<string>();
-                foreach(var error in modelState[key].Errors)
+                if (modelState[key].Errors.Count > 0)
                 {
-                    errors.Add(error.ErrorMessage);
-                }
+                    dynamic value;
+                    List<string> errors = new List<string>();
 
-                dynamic value;
-                if(errors.Count > 1)
-                {
-                    value = errors;
-                }
-                else
-                {
-                    value = errors[0];
-                }
 
-                errorType.GetProperty($"{key.ToCamelCase()}")
-                         .SetValue(errorObject, value);
+                    foreach (var error in modelState[key].Errors)
+                    {
+                        errors.Add(error.ErrorMessage);
+                    }
+
+                    if (errors.Count > 1)
+                    {
+                        value = errors;
+                    }
+                    else
+                    {
+                        value = errors[0];
+                    }
+
+                    errorType.GetProperty($"{key.ToCamelCase()}")
+                             .SetValue(errorObject, value);
+                }
             }
             return errorObject;
         }
@@ -110,6 +118,16 @@ namespace RestaurantApp.Core.Lib
                 return string.Join(".", propertyName.Split('.').Select(n => char.ToLower(n[0], CultureInfo.InvariantCulture) + n[1..]));
             }
             return propertyName;
+        }
+
+        /// <summary>
+        ///  Get registred dependecy injected type from service container.
+        /// </summary>
+        /// <param name="serviceProvider">Service provider for registration</param>
+        /// <returns>Returnes dependecy injected type</returns>
+        public static T Resolve<T>(this IServiceProvider serviceProvider)
+        {
+            return (T)serviceProvider.GetService(typeof(T));
         }
     }
 }
