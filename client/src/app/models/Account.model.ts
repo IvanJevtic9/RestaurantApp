@@ -1,4 +1,4 @@
-// import jwt_decode from "jwt-decode";
+import jwt_decode from "jwt-decode";
 
 export enum AccountType{
   USER = 0,
@@ -6,8 +6,8 @@ export enum AccountType{
 }
 
 export class Account{
-
   private id: string;
+  private email: string
   private phone: string;
   private city:	string;
   private address: string;
@@ -26,28 +26,32 @@ export class Account{
   }
 
   //Izvlacanje iz tokena potrebne informacije za Usera ili Preduzetnika
-  constructor (private token: string,private email: string){
-    // const tmp = jwt_decode<any>(token);
-    // this.phone = tmp.phone;
-    // this.city = tmp.city;
-    // this.address = tmp.address;
-    // this.postalCode = tmp.postalCode;
-    // this.accountType = (tmp.accountType === "User") ? AccountType.USER : AccountType.RESTAURANT;
-    // this.expDate = new Date(tmp.exp);
-    // this.id = tmp.id;
+  constructor (private token: string){
+    const tmp = jwt_decode<any>(token);
 
-    // if(this.accountType === AccountType.USER){
-    //   this.user = {
-    //     firstName : tmp.firstName,
-    //     lastName : tmp.lastName,
-    //     dateOfBirth : tmp.dateOfBirth
-    //   }
-    // }else{
-    //   this.restaurant = {
-    //     name: tmp.name,
-    //     description: tmp.description
-    //   }
-    // }
+    this.email = tmp.email;
+    this.phone = tmp.phone;
+    this.city = tmp.city;
+    this.address = tmp.address;
+    this.postalCode = tmp.postalCode;
+    this.accountType = (tmp.accountType === "User") ? AccountType.USER : AccountType.RESTAURANT;
+
+    this.expDate = new Date(tmp.exp);
+    this.id = tmp.id;
+
+    if(this.accountType === AccountType.USER){
+      this.user = {
+        firstName : tmp.firstName,
+        lastName : tmp.lastName,
+        dateOfBirth : tmp.dateOfBirth
+      }
+    }else{
+      this.restaurant = {
+        name: tmp.name,
+        description: tmp.description
+      }
+    }
+
   }
 
 

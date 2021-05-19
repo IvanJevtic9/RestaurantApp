@@ -28,6 +28,13 @@ export class SignInComponent implements OnInit {
     this.authService.authenticate(
       form.value.username,
       form.value.password
+    ).subscribe(
+      data => {
+        console.log(data);
+      },
+      error => {
+        this.errorMessage = error[0];
+      }
     );
 
   }
