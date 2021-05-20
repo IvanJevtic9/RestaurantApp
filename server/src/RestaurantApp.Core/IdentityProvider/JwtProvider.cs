@@ -26,9 +26,6 @@ namespace RestaurantApp.Core.IdentityProvider
             {
                 new Claim("email", account.Email),
                 new Claim("id", account.Id.ToString()),
-                new Claim("imageId", account.ImageId.ToString()),
-                new Claim("imageName", account.ProfileImage.ImangeName),
-                new Claim("imageUrl", account.ProfileImage.Url),
                 new Claim("accountType", account.AccountType.ToString()),
                 new Claim("address", account.Address),
                 new Claim("city", account.City),
@@ -36,6 +33,12 @@ namespace RestaurantApp.Core.IdentityProvider
                 new Claim("phone", account.Phone)
             };
 
+            if (account.ImageId != null)
+            {
+                claim.Add(new Claim("imageId", account.ImageId.ToString()));
+                claim.Add(new Claim("imageName", account.ProfileImage.ImangeName));
+                claim.Add(new Claim("imageUrl", account.ProfileImage.Url));
+            }
             if (account.AccountType == AccountType.Restaurant)
             {
                 claim.Add(new Claim("name", account.Restaurant.Name));
