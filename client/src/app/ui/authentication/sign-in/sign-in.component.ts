@@ -1,6 +1,8 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -8,15 +10,17 @@ import { AuthService } from 'src/app/services/auth.service';
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.css']
 })
-export class SignInComponent implements OnInit {
+export class SignInComponent {
   errorMessage: string;
+  userSub: Subscription;
 
   private static ERROR_MSG = 'Kombinacija korisničkog imena i lozinke nije ispravna!';
 
-  constructor(private messageService: MessageService, private authService: AuthService) {}
-
-  ngOnInit(): void {
-  }
+  constructor(
+    private messageService: MessageService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   onSubmit(form: NgForm){
     if(form.value.username ===  '' || form.value.password ===  '' ){
@@ -29,10 +33,15 @@ export class SignInComponent implements OnInit {
       form.value.username,
       form.value.password
     ).subscribe(
-      data => {
-        console.log(data);
+      isUserType => {
+        if(isUserType){
+          this.router.navigate(['home']);
+        } else {
+          this.router.navigate(['search']);
+        }
       },
       error => {
+        console.log(error);
         this.errorMessage = error[0];
       }
     );

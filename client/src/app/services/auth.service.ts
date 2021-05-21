@@ -1,16 +1,19 @@
-import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpHeaders, JsonpClientBackend } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { RegistrationModel } from '../models/Registration.model';
 import { Config } from './config.service';
 import { catchError, map, tap } from 'rxjs/operators';
 import { BehaviorSubject, throwError } from "rxjs";
 import { Account } from "../models/Account.model";
+import { stringify } from "@angular/compiler/src/util";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService{
-  account: BehaviorSubject<Account> = new BehaviorSubject<Account>(null);
+  account: BehaviorSubject<Account>;
+
+  public ACCOUNT = "account";
 
   private INVALID_PASSWORD = 'Invalid email or password.';
   private EMAIL_EXISTS = 'This email has been already registered.';
@@ -29,28 +32,36 @@ export class AuthService{
     }
   }
 
-  constructor(private http: HttpClient, private config: Config){}
+  constructor(private http: HttpClient, private config: Config){
+    const acc = JSON.parse(localStorage.getItem(this.ACCOUNT));
+    this.account = new BehaviorSubject<Account>(acc);
+  }
 
   authenticate(username: string, password: string){
-    return this.http.post(
+    return this.http.post<any>(
       this.config.LOGIN_API,
       { email: username, password: password }
     ).pipe(
       catchError(this.errorHandling.bind(this)),
-      tap( data => {
+      map( data => {
         const account = new Account(data.data.token);
         console.log('Logovao se: ');
         console.log(account);
-        this.account.next(account);
-        // TODO add user to localstorage
-        // Set expire logout function
-        // Add navigation when login is succesfull
+        this.updateAccountData(account);
+        // TODO VLADA - nakon isteka expDate
+        // Kada istekne datum izvrsiti automatski logout (hint. timeout funkcija)
+        return this.account.value.isUserType;
       }
     ));
   }
 
-  navigateToMainPage(){
+  logout(){
+    // TODO VLADA
+  }
 
+  updateAccountData(account: Account){
+    this.account.next(account);
+    localStorage.setItem(this.ACCOUNT, JSON.stringify(account));
   }
 
   register(model: RegistrationModel){
@@ -65,8 +76,6 @@ export class AuthService{
 
 
   errorHandling(errorRes: HttpErrorResponse) {
-    console.log(errorRes);
-
     const errorMessages = [];
 
     if (!errorRes.error) {
