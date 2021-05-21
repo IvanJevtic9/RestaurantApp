@@ -1,4 +1,6 @@
-﻿namespace RestaurantApp.Core.Entity
+﻿using System.Collections.Generic;
+
+namespace RestaurantApp.Core.Entity
 {
     /// <summary>
     /// Restaurant enitity
@@ -12,6 +14,9 @@
 
         public int AccountId { get; set; }
         public virtual Account Account { get; set; }
+
+        public virtual ICollection<RestaurantMenu> RestaurantMenus { get; set; }
+        public virtual ICollection<GalleryImage> GalleryImages { get; set; }
 
         public override string ToString()
         {
