@@ -6,6 +6,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { BehaviorSubject, throwError } from "rxjs";
 import { Account } from "../models/Account.model";
 import { stringify } from "@angular/compiler/src/util";
+import { MessageService } from "primeng/api";
 
 
 
@@ -14,6 +15,8 @@ import { stringify } from "@angular/compiler/src/util";
 })
 export class AuthService{
   account: BehaviorSubject<Account>;
+
+  private autoLogoutTimer: any = null;
 
   public ACCOUNT = "account";
 
@@ -34,7 +37,11 @@ export class AuthService{
     }
   }
 
-  constructor(private http: HttpClient, private config: Config){
+  constructor(
+    private http: HttpClient,
+    private config: Config,
+    private messageService: MessageService
+  ){
     const acc = JSON.parse(localStorage.getItem(this.ACCOUNT));
     this.account = new BehaviorSubject<Account>(acc);
   }
@@ -51,14 +58,32 @@ export class AuthService{
         console.log(account);
         this.updateAccountData(account);
 
+        this.autoLogout();
 
         return this.account.value.isUserType;
       }
     ));
   }
 
+  private autoLogout(){
+    const expireDuration = this.account.value.expDate.getTime() - new Date().getTime();
+    this.autoLogoutTimer = setTimeout(() => {
+      this.autoLogoutTimer = null;
+      this.logout();
+    }, expireDuration);
+  }
+
   logout(){
-    localStorage.removeItem('account');
+    if(this.autoLogoutTimer !== null) {
+      clearTimeout(this.autoLogoutTimer);
+    }
+    this.messageService.add({
+      sticky: true,
+      summary:'Odjavljeni ste.',
+      detail: 'Vaša sesija je istekla. Molimo prijavite se ponovo.',
+      severity: 'warn'
+    })
+    localStorage.removeItem(this.ACCOUNT);
     this.account.next(null);
   }
 

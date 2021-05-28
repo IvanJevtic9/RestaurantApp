@@ -35,8 +35,8 @@ export class Account{
     this.address = tmp.address;
     this.postalCode = tmp.postalCode;
     this.accountType = (tmp.accountType === "User") ? AccountType.USER : AccountType.RESTAURANT;
+    this.expDate = new Date(tmp.exp * 1000);
 
-    this.expDate = new Date(tmp.exp);
     this.id = tmp.id;
 
     if(this.accountType === AccountType.USER){

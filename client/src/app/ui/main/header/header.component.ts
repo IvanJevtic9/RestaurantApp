@@ -18,16 +18,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.accountSubscription = this.authService.account.subscribe(account => {
-      console.log(account);
-
       this.account = account;
-      this.acc_initials =
-        account.user.firstName.charAt(0)+account.user.lastName.charAt(0);
+      if(this.account !== null){
+        this.acc_initials = account.user.firstName.charAt(0)+account.user.lastName.charAt(0);
+      }
     });
   }
 
   ngOnDestroy(){
     this.accountSubscription.unsubscribe();
+  }
+
+  logout(){
+    this.authService.logout();
   }
 
 }
