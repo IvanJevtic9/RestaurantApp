@@ -7,6 +7,8 @@ import { BehaviorSubject, throwError } from "rxjs";
 import { Account } from "../models/Account.model";
 import { stringify } from "@angular/compiler/src/util";
 
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -48,15 +50,16 @@ export class AuthService{
         console.log('Logovao se: ');
         console.log(account);
         this.updateAccountData(account);
-        // TODO VLADA - nakon isteka expDate
-        // Kada istekne datum izvrsiti automatski logout (hint. timeout funkcija)
+
+
         return this.account.value.isUserType;
       }
     ));
   }
 
   logout(){
-    // TODO VLADA
+    localStorage.removeItem('account');
+    this.account.next(null);
   }
 
   updateAccountData(account: Account){
