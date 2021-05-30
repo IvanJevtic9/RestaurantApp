@@ -24,6 +24,8 @@ import {InputSwitchModule} from 'primeng/inputswitch';
 import {CalendarModule} from 'primeng/calendar';
 import {InputMaskModule} from 'primeng/inputmask';
 import {AvatarModule} from 'primeng/avatar';
+
+import {MenuModule} from 'primeng/menu';
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,7 +50,9 @@ import {AvatarModule} from 'primeng/avatar';
     CalendarModule,
     HttpClientModule,
     InputMaskModule,
-    AvatarModule
+    AvatarModule,
+    MenuModule,
+
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]
