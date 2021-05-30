@@ -18,13 +18,14 @@
         </li>
         <!--Samo za testestiranje-->
 
-        <button type="button" pButton  (click)="menu.toggle($event)">
-          <p-avatar type="button" *ngIf="account !== null" [label]="acc_initials" size="large" shape="circle"
-                  label="Show" ></p-avatar>
-        </button>
-        <p-menu #menu [popup]="true" [model]="items">
-          <li label="Odjavite se" *ngIf="account !== null" ><a (click)="logout()">Odjavite se</a></li>
-        </p-menu>
+        <p-avatar (click)="menu.toggle($event)"
+          *ngIf="account !== null"
+          [label]="acc_initials"
+          size="large"
+          shape="circle"
+          label="Show" >
+        </p-avatar>
+        <p-menu #menu [popup]="true" [model]="items"></p-menu>
         <div>
           <a *ngIf="account === null" [routerLink]="['/login/sign-in']"><i class="fas fa-sign-in-alt p-mr-2"></i>Prijavite se</a>
         </div>

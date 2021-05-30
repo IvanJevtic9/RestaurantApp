@@ -1,8 +1,21 @@
 .header-wrapper{
   background-color: #01172fd8;
 }
+
+.header-wrapper /deep/ .p-avatar.p-avatar-circle{
+  cursor: pointer;
+  background-color: #061c33;
+  transition: all ease-in 200ms;
+}
+
+.header-wrapper /deep/ .p-avatar.p-avatar-circle:hover{
+  background-color: #9fc4e9;
+  color: #061c33;
+}
+
 .header-container{
   max-width: 1200px;
+  padding: 0px 10px;
   margin-left: auto;
   margin-right: auto;
   display: flex;

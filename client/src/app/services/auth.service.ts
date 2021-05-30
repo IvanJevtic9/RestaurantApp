@@ -67,6 +67,8 @@ export class AuthService{
 
   private autoLogout(){
     const expireDuration = this.account.value.expDate.getTime() - new Date().getTime();
+    console.log(expireDuration);
+
     this.autoLogoutTimer = setTimeout(() => {
       this.autoLogoutTimer = null;
       this.logout();
@@ -76,13 +78,14 @@ export class AuthService{
   logout(){
     if(this.autoLogoutTimer !== null) {
       clearTimeout(this.autoLogoutTimer);
+    } else {
+      this.messageService.add({
+        sticky: true,
+        summary:'Odjavljeni ste.',
+        detail: 'Vaša sesija je istekla. Molimo prijavite se ponovo.',
+        severity: 'warn'
+      });
     }
-    this.messageService.add({
-      sticky: true,
-      summary:'Odjavljeni ste.',
-      detail: 'Vaša sesija je istekla. Molimo prijavite se ponovo.',
-      severity: 'warn'
-    })
     localStorage.removeItem(this.ACCOUNT);
     this.account.next(null);
   }

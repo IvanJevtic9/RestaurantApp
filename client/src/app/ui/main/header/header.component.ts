@@ -33,7 +33,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.items = [
       {label: 'Uredite profil', icon: 'pi pi-fw pi-user-edit'},
       {label: 'Pregled porudzbina', icon: 'pi pi-fw pi-shopping-cart'},
-      {label: 'Odjavite se', icon:'pi pi-fw pi-sign-out'}
+      {
+        label: 'Odjavite se',
+        icon:'pi pi-fw pi-sign-out',
+        command: () => {
+          this.logout();
+        }
+      }
     ];
   }
 
