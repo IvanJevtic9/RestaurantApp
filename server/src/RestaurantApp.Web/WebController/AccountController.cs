@@ -45,14 +45,6 @@ namespace RestaurantApp.Web.WebController
                 return BadRequest(response);
             }
 
-            var image = new Image()
-            {
-                ImangeName = request.File.FileName,
-                ImageLocation = "#PROFILE_PICTURE",
-                Role = ImageRole.Profile,
-                Title = request.File.FileName.Split('.')[0]
-            };
-
             var newAccount = new Account()
             {
                 Email = request.Email,
@@ -90,17 +82,27 @@ namespace RestaurantApp.Web.WebController
                 return BadRequest(response);
             }
 
-            result = imageManager.UploadFile(image, request.File);
-
-            if (!result.Succeeded)
+            if (request.ImageFile != null)
             {
-                var dict = result.TransformToDict();
-                response.Errors = dict.GetModelError(dynamicTypeFactory);
-                return BadRequest(response);
-            }
+                var image = new Image()
+                {
+                    ImangeName = request.ImageFile.FileName,
+                    ImageLocation = "#PROFILE_PICTURE",
+                    Role = ImageRole.Profile,
+                    Title = request.ImageFile.FileName.Split('.')[0]
+                };
 
-            newAccount.ImageId = image.Id;
-            unitOfWork.SaveChanges();
+                result = imageManager.UploadFile(image, request.ImageFile);
+
+                if (!result.Succeeded)
+                {
+                    var dict = result.TransformToDict();
+                    response.Errors = dict.GetModelError(dynamicTypeFactory);
+                }
+
+                newAccount.ImageId = image.Id;
+                unitOfWork.SaveChanges();
+            }
 
             response.Message = ResponseCodes.SUCCESSFUL_REGISTRATION;
             return Ok(response);

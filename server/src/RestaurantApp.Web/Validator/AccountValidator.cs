@@ -95,7 +95,7 @@ namespace RestaurantApp.Web.Validator
                 }
             });
 
-            RuleFor(a => a.File).Custom((value, context) =>
+            RuleFor(a => a.ImageFile).Custom((value, context) =>
             {
                 if (value != null)
                 {

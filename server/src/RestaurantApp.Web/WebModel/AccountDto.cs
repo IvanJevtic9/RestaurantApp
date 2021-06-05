@@ -13,7 +13,7 @@ namespace RestaurantApp.Web.WebModel
         public string Address { get; set; }
         public string PostalCode { get; set; }
 
-        public IFormFile File { get; set; }
+        public IFormFile ImageFile { get; set; }
         public string AccountType { get; set; }
 
         public RestaurantDto Restaurant { get; set; }

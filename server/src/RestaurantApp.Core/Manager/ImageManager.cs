@@ -70,9 +70,9 @@ namespace RestaurantApp.Core.Manager
 
             if (Directory.Exists(fileLocation))
             {
-                using (var filesStreams = new FileStream(Path.Combine(fileLocation, fileName), FileMode.Create))
+                using (var filesStream = new FileStream(Path.Combine(fileLocation, fileName), FileMode.Create))
                 {
-                    originalFile.CopyTo(filesStreams);
+                    originalFile.CopyTo(filesStream);
                 }
 
                 unitOfWork.Image.Add(dbEntity);
@@ -83,6 +83,8 @@ namespace RestaurantApp.Core.Manager
             {
                 op.AddError("fileLocation", "Internal error - fileLocation does not exist.");
                 op.Succeeded = false;
+
+                logger.LogError(new InvalidOperationException(), "File location does not exist.");
                 return op;
             }
 
