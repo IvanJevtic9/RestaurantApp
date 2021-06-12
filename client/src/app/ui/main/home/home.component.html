@@ -1,1 +1,11 @@
-<p>home works!</p>
+<div *ngIf="account===null || account.isUserType">
+  <div *ngFor="let item of restaurants" class="restaurant-item">
+    <div>
+      <!-- todo add image -->
+    </div>
+    <div style="display: flex;flex-direction: column;">
+      {{item.name}}
+      {{item.description}}
+    </div>
+  </div>
+</div>
