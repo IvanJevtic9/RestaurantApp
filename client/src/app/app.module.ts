@@ -25,6 +25,7 @@ import {CalendarModule} from 'primeng/calendar';
 import {InputMaskModule} from 'primeng/inputmask';
 import {AvatarModule} from 'primeng/avatar';
 import {RippleModule} from 'primeng/ripple';
+import {AutoCompleteModule} from 'primeng/autocomplete';
 
 import {MenuModule} from 'primeng/menu';
 @NgModule({
@@ -53,7 +54,8 @@ import {MenuModule} from 'primeng/menu';
     InputMaskModule,
     AvatarModule,
     MenuModule,
-    RippleModule
+    RippleModule,
+    AutoCompleteModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

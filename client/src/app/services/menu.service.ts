@@ -14,7 +14,17 @@ export class MenuService{
       phone:"23125412",
       city:"Beograd",
       image: null,
-      description: "Пице, сендвичи, кувана јела, оброци, роштиљ, пасте, тортиље и посластице. Наручите и уживајте!",
+      description: "Pice, sendvici, kuvana jela , obroci, rostilj, paste, tortilje i poslstice. Narucite i uzivajte!",
+      name: "Salbo fast food - Konjarnik",
+      postalCode: "11050"
+    },
+    {
+      id: 1,
+      address:"Ustanička 224a",
+      phone:"23125412",
+      city:"Beograd",
+      image: null,
+      description: "Pice, sendvici, kuvana jela , obroci, rostilj, paste, tortilje i poslstice. Narucite i uzivajte!",
       name: "Salbo fast food - Konjarnik",
       postalCode: "11050"
     }

@@ -14,6 +14,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   aSubscription: Subscription;
   account: Account = null;
 
+  results: string[];
+  text: string;
+
   restaurants: Restaurant[] = [];
 
   constructor(
@@ -29,6 +32,11 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.restaurants = this.menuService.getAllRestaurants();
       }
     });
+  }
+
+  search(e:any){
+    console.log(e);
+    
   }
 
   ngOnDestroy(){
