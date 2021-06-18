@@ -30,7 +30,7 @@ export class MenuService{
     }
   ]
 
-  static menu: Menu[] = [
+  static menues: Menu[] = [
     {
       restaurant_id: 0,
       name: "Salbo specijaliteti",
@@ -58,7 +58,35 @@ export class MenuService{
           attributes: []
         },
       ]
-    }
+    },
+    {
+      restaurant_id:0,
+      name: "Rostilj porcija",
+      dishes:[
+        {
+          name:"Rolovani cevapi",
+          ingredients_list:"Somun. Rostilj mesu u slanini",
+          price:320,
+          attributes:[
+            {
+              multiple_select:false,
+              should_add_on_price:true,
+              name:"Izbor",
+              values:[
+                {name:"Urnebes", price: 20},
+                {name:"Kupus salata", price: 30}
+              ]
+            }
+          ]
+         },
+         {
+          name:"Ustipci 250 grama",
+          ingredients_list:"Somun. Rostilj meso mesano sa kackavaljem, slaninom i tucanom paprikom",
+          price:320,
+          attributes:[]
+         }
+       ]
+    },
   ];
 
   constructor(){}
@@ -70,8 +98,8 @@ export class MenuService{
 
   getRestaurantMenues(id: number){
     let menu: Menu[] = [];
-    for(const m of menu){
-      if(m.restaurant_id === id){
+    for(const m of MenuService.menues){
+      if(m.restaurant_id == id){
         menu.push(m);
       }
     }

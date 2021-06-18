@@ -1,19 +1,21 @@
 <div *ngIf="account===null || account.isUserType" class="wrapper">
   <div>
-    <p-autoComplete 
+    <p-autoComplete
      [(ngModel)]="text"
      (completeMethod)="search($event)">
     </p-autoComplete>
   </div>
-  <div *ngFor="let item of restaurants" class="restaurant-item p-grid">
-    <div class="p-sm-12 p-md-3 restaurant-img">
-      <img src="assets/img/bckg.webp" alt="">
-    </div>
-    <div class="p-sm-12 p-md-9 restaurant-details">
-      <h3>{{item.name}}</h3>
-      <p>
-        {{item.description}}
-      </p>
-    </div>
+  <div *ngFor="let item of restaurants" class="restaurant-item p-grid" (click)="navigateToRestaurantPage(item.id)">
+    <a [routerLink]="['/restaurant']">
+      <div class="p-sm-12 p-md-3 restaurant-img">
+        <img src="assets/img/bckg.webp" alt="">
+      </div>
+      <div class="p-sm-12 p-md-9 restaurant-details">
+        <h3>{{item.name}}</h3>
+        <p>
+          {{item.description}}
+        </p>
+      </div>
+    </a>
   </div>
 </div>

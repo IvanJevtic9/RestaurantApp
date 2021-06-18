@@ -1,1 +1,32 @@
-<p>client-search works!</p>
+<div class="wrapper">
+  <div class="pozadina">
+    <img src="assets/img/bckg.webp" class="slika">
+    <div class="informacije">
+
+    </div>
+  </div>
+
+  <div>
+    <p-tabView class="tab-view" >
+      <p-tabPanel header="Menu" >
+        <div *ngFor="let item of menus" class="restaurant-menu">
+            <div>
+              <h3>{{item.name}}</h3>
+            </div>
+              <div *ngFor="let dish of item.dishes" class="restaurant-dish">
+                  <div>
+                    <p class="dish-name">{{dish.name}}</p>
+                    <p>{{dish.ingredients_list}}</p>
+                  </div>
+              </div>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="Informacije">
+          Content 2
+      </p-tabPanel>
+      <p-tabPanel header="O nama">
+          Content 3
+      </p-tabPanel>
+  </p-tabView>
+  </div>
+</div>

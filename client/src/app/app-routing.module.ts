@@ -16,7 +16,7 @@ const routes: Routes = [
   ]},
   { path: '', component: MainComponent, children:[
     {path: 'home', component: HomeComponent},
-    {path: 'search', component: ClientSearchComponent}
+    {path: 'restaurant/:id', component: ClientSearchComponent}
   ]},
   { path: '**', redirectTo: 'home' },
 ];
