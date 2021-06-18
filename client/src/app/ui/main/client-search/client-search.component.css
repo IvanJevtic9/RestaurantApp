@@ -1,0 +1,28 @@
+.wrapper{
+  align-items: center;
+}
+
+.restaurant-menu{
+  background-color: white;
+  padding: 15px;
+  margin-bottom: 10px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.restaurant-dish{
+  padding-left: 15px;
+  padding-right: 10px;
+  font-family: MRegular;
+  display: flex;
+  flex-direction: column;
+}
+
+.restaurant-dish p{
+  margin-top: 10px;
+  font-family: MRegular;
+  color: #3e3e3e;
+}
+
+.dish-name{
+
+}
