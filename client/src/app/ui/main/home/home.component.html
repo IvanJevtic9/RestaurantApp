@@ -6,6 +6,7 @@
     </p-autoComplete>
   </div>
   <div *ngFor="let item of restaurants" class="restaurant-item p-grid" (click)="navigateToRestaurantPage(item.id)">
+<<<<<<< HEAD
     <div class="p-sm-12 p-md-3 restaurant-img">
       <img src="assets/img/bckg.webp" alt="">
     </div>
@@ -15,5 +16,18 @@
         {{item.description}}
       </p>
     </div>
+=======
+    <a [routerLink]="['/restaurant']">
+      <div class="p-sm-12 p-md-3 restaurant-img">
+        <img src="assets/img/bckg.webp" alt="">
+      </div>
+      <div class="p-sm-12 p-md-9 restaurant-details">
+        <h3>{{item.name}}</h3>
+        <p>
+          {{item.description}}
+        </p>
+      </div>
+    </a>
+>>>>>>> 44616150e791ee19f0bbd6b9c1da724cbe98ed92
   </div>
 </div>
