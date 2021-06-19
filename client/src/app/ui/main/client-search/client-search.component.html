@@ -1,11 +1,13 @@
 <div class="wrapper">
   <div class="pozadina">
-    <img src="assets/img/bckg.webp" class="slika">
-    <div class="informacije">
-
+    <img src="assets/img/bckg.webp" class=" slika">
+    <div *ngIf="restaurant!==null" class="informacije">
+        <div>{{restaurant.image}}</div>
+        <h2>{{restaurant.name}}</h2>
+        <p>{{restaurant.city}}</p>
+        <p>{{restaurant.address}}</p>
     </div>
   </div>
-
   <div>
     <p-tabView class="tab-view" >
       <p-tabPanel header="Menu" >
@@ -13,19 +15,25 @@
             <div>
               <h3>{{item.name}}</h3>
             </div>
-              <div *ngFor="let dish of item.dishes" class="restaurant-dish">
-                  <div>
-                    <p class="dish-name">{{dish.name}}</p>
-                    <p>{{dish.ingredients_list}}</p>
+              <div *ngFor="let dish of item.dishes" class="restaurant-dish p-grid ">
+                    <div class="dish-box">
+                      <div class="dish-img">
+                        <img src="" class="p-sm-12 p-md-3 img-dish">
+                      </div>
+                      <div class="p-sm-12 p-md-9 dish-details">
+                        <p class="dish-name">{{dish.name}}</p>
+                        <p>{{dish.ingredients_list}}</p>
+                      </div>
                   </div>
               </div>
         </div>
       </p-tabPanel>
       <p-tabPanel header="Informacije">
-          Content 2
       </p-tabPanel>
       <p-tabPanel header="O nama">
-          Content 3
+        <div *ngIf="restaurant!==null">
+            <p>{{restaurant.description}}</p>
+        </div>
       </p-tabPanel>
   </p-tabView>
   </div>

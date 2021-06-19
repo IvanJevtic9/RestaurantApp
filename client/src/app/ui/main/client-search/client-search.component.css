@@ -2,11 +2,33 @@
   align-items: center;
 }
 
+.slika{
+  max-width: 100%;
+  height: auto;
+}
+
+.informacije{
+  position:absolute;
+  height: 300px;
+  width: 500px;
+  background-color: white;
+  top: 100px;
+  left: 80px;
+}
+
 .restaurant-menu{
   background-color: white;
   padding: 15px;
   margin-bottom: 10px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.restaurant-dish{
+  background-color: white;
+  padding: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  box-shadow: grey 0px 1px 4px;
 }
 
 .restaurant-dish{
@@ -17,12 +39,27 @@
   flex-direction: column;
 }
 
+.restaurant-dish:hover{
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
 .restaurant-dish p{
   margin-top: 10px;
   font-family: MRegular;
   color: #3e3e3e;
 }
 
-.dish-name{
-
+.dish-box{
+  margin-top: 2px;
+  display: grid;
+  grid-template-columns: 200px 200px 200px;
+  cursor: pointer;
 }
+
+.dish-img{
+  padding: 0px;
+  margin-bottom: 0px;
+  background-color: black;
+}
+
+

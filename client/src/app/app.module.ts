@@ -26,9 +26,8 @@ import {InputMaskModule} from 'primeng/inputmask';
 import {AvatarModule} from 'primeng/avatar';
 import {RippleModule} from 'primeng/ripple';
 import {AutoCompleteModule} from 'primeng/autocomplete';
-
 import {TabViewModule} from 'primeng/tabview';
-
+import {DialogModule} from 'primeng/dialog';
 import {MenuModule} from 'primeng/menu';
 @NgModule({
   declarations: [
@@ -58,7 +57,8 @@ import {MenuModule} from 'primeng/menu';
     MenuModule,
     RippleModule,
     AutoCompleteModule,
-    TabViewModule
+    TabViewModule,
+    DialogModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

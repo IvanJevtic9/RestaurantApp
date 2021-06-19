@@ -3,7 +3,7 @@ import { MenuService } from 'src/app/services/menu.service';
 import { Menu } from 'src/app/models/Food.model';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-
+import { Restaurant } from 'src/app/models/Restaurant.model';
 
 
 @Component({
@@ -15,6 +15,7 @@ export class ClientSearchComponent implements OnInit,OnDestroy {
 
   subscription: Subscription;
   menus: Menu[] = [];
+  restaurant: Restaurant;
 
 
   constructor(
@@ -27,10 +28,13 @@ export class ClientSearchComponent implements OnInit,OnDestroy {
   ngOnInit(): void {
    this.subscription = this.activeRoute.params.subscribe(data=>{
     this.menus = this.menuService.getRestaurantMenues(data.id);
+    this.restaurant = this.menuService.getRestaurant(data.id);
    });
   }
+
 
   ngOnDestroy():void{
     this.subscription.unsubscribe();
   }
+
 }

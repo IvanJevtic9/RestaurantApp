@@ -96,6 +96,10 @@ export class MenuService{
     return this.restaurants;
   }
 
+  getRestaurant(id:number){
+    return this.restaurants[id];
+  }
+
   getRestaurantMenues(id: number){
     let menu: Menu[] = [];
     for(const m of MenuService.menues){
