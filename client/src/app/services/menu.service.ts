@@ -188,6 +188,16 @@ export class MenuService{
     return MenuService.dishes;
   }
 
+  getRestaurant(id: number){
+    // TODO get restaurant from server
+    for(const restaurant of this.restaurants){
+      if(restaurant.id == id){
+        return restaurant;
+      }
+    }
+    return null;
+  }
+
   getRestaurantMenues(id: number){
     let menu: Menu[] = [];
     for(const m of MenuService.menues){

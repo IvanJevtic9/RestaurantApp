@@ -29,6 +29,8 @@ import { MessagesModule } from 'primeng/messages';
 import { MessageModule } from 'primeng/message';
 import { MenuModule } from 'primeng/menu';
 import { TabViewModule } from 'primeng/tabview';
+import { DropdownModule } from 'primeng/dropdown';
+import { DialogModule } from 'primeng/dialog';
 
 import { AdminComponent } from './ui/admin/admin.component';
 import { DishOverviewComponent } from './ui/admin/dish-overview/dish-overview.component';
@@ -36,7 +38,6 @@ import { DishEditComponent } from './ui/admin/dish-edit/dish-edit.component';
 import { AboutUsComponent } from './ui/admin/about-us/about-us.component';
 import { MenuesComponent } from './ui/admin/menues/menues.component';
 import { MenuFormComponent } from './shared/menu-form/menu-form.component';
-import { DropdownModule } from 'primeng/dropdown';
 @NgModule({
   declarations: [
     AppComponent,
@@ -72,13 +73,10 @@ import { DropdownModule } from 'primeng/dropdown';
     RippleModule,
     AutoCompleteModule,
     TabViewModule,
-<<<<<<< Updated upstream
-    DialogModule
-=======
+    DialogModule,
     MessagesModule,
     MessageModule,
     DropdownModule
->>>>>>> Stashed changes
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]
