@@ -1,0 +1,49 @@
+<div class="wrapper">
+    <div class="p-d-flex p-jc-between p-ai-center p-mb-3">
+        <h3>Moj meni</h3>
+        <button class="btnn btnn-p ric"
+         *ngIf="!addMenuFlag"
+         (click)="addMenuFlag = true"   
+         pRipple
+        >
+            <i class="fas fa-plus"></i>
+            Kreiraj meni
+        </button>
+    </div>
+
+    <!-- Forma za kreiranje menija -->
+    <app-menu-form
+     *ngIf="addMenuFlag"
+     [myDishes]="dishes"
+     (menu)="updateMenues($event)">
+    </app-menu-form>
+
+    <p-messages styleClass="p-mt-5" *ngIf="menues.length === 0" severity="info">
+        <ng-template pTemplate>
+          <i class="fas fa-info-circle fa-2x"></i>
+          <div style="margin-left: 20px; color: #0872a3;">Nemate nijedan meni.</div>
+        </ng-template>
+    </p-messages>
+
+    <div class="p-mt-5">
+
+        <div class="menu-list p-d-flex p-flex-column p-mb-2" *ngFor="let menu of menues">
+            <h3>{{menu.name}}</h3>
+            <span class="p-mt-3 light-text">
+                {{menu.dishes.length}} 
+                <span *ngIf="menu.dishes.length == 1">jelo</span>
+                <span *ngIf="menu.dishes.length != 1">jela</span>
+            </span>
+            <div class="control-btns p-d-flex ">
+                <button class="btnn btnn-p x  p-mr-1" pRipple (click)="editMenu()">
+                    <i class="far fa-edit"></i>
+                </button>
+                <button class="btnn btnn-r x" pRipple (click)="deleteMenu()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+</div>

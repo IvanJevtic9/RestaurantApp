@@ -1,0 +1,43 @@
+<div class="p-field p-m-0 top-container">
+    <label for="fieldId">Naziv menija</label>
+    <input id="fieldId" class="m-input p-mb-3" type="text" [(ngModel)]="menu.name">
+
+    <label>Jela na meniju</label>
+    <div class="p-d-flex p-flex-column p-my-2" 
+        *ngIf="menu.dishes.length > 0"
+    >
+        <div class="p-d-flex p-jc-between p-ai-center dish-item"
+         *ngFor="let dish of menu.dishes;let i = index">
+            {{dish.name}}
+            <span (click)="removeDish(i)">
+                <i class="far fa-times-circle"></i>
+            </span>
+        </div>
+    </div>
+    <p-dropdown
+        *ngIf="allDishes.length > 0"
+        class="p-mt-1"
+        [options]="allDishes" 
+        placeholder="Dodaj jelo"
+        optionLabel="name"
+        [(ngModel)]="selectedDish"
+        (onChange)="onDishSelect()"
+        [showTransitionOptions]="'200ms'"
+        [hideTransitionOptions]="'200ms'">
+    </p-dropdown>
+    
+    <div *ngIf="allDishes.length == 0"
+        class="p-my-3 light-text bold-text"
+    >
+        Nemate više jela za dodavanje.
+    </div>
+
+    <div class="p-d-flex p-flex-row-reverse p-mt-3">
+        <button class="btnn btnn-r x" pRipple (click)="onCancle()">
+            <i class="fas fa-times"></i>
+        </button>
+        <button class="btnn btnn-g x p-mr-1" pRipple (click)="onConfirm()">
+            <i class="fas fa-check"></i>
+        </button>
+    </div>
+</div>

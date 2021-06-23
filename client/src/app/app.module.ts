@@ -14,21 +14,29 @@ import { HeaderComponent } from './ui/main/header/header.component';
 import { HomeComponent } from './ui/main/home/home.component';
 import { ClientSearchComponent } from './ui/main/client-search/client-search.component';
 
-
 // Primeface
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {CheckboxModule} from 'primeng/checkbox';
-import {ToastModule} from 'primeng/toast';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import {InputSwitchModule} from 'primeng/inputswitch';
-import {CalendarModule} from 'primeng/calendar';
-import {InputMaskModule} from 'primeng/inputmask';
-import {AvatarModule} from 'primeng/avatar';
-import {RippleModule} from 'primeng/ripple';
-import {AutoCompleteModule} from 'primeng/autocomplete';
-import {TabViewModule} from 'primeng/tabview';
-import {DialogModule} from 'primeng/dialog';
-import {MenuModule} from 'primeng/menu';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { CalendarModule } from 'primeng/calendar';
+import { InputMaskModule } from 'primeng/inputmask';
+import { AvatarModule } from 'primeng/avatar';
+import { RippleModule } from 'primeng/ripple';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { MessagesModule } from 'primeng/messages';
+import { MessageModule } from 'primeng/message';
+import { MenuModule } from 'primeng/menu';
+import { TabViewModule } from 'primeng/tabview';
+
+import { AdminComponent } from './ui/admin/admin.component';
+import { DishOverviewComponent } from './ui/admin/dish-overview/dish-overview.component';
+import { DishEditComponent } from './ui/admin/dish-edit/dish-edit.component';
+import { AboutUsComponent } from './ui/admin/about-us/about-us.component';
+import { MenuesComponent } from './ui/admin/menues/menues.component';
+import { MenuFormComponent } from './shared/menu-form/menu-form.component';
+import { DropdownModule } from 'primeng/dropdown';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,7 +47,13 @@ import {MenuModule} from 'primeng/menu';
     SpinnerComponent,
     HeaderComponent,
     HomeComponent,
-    ClientSearchComponent
+    ClientSearchComponent,
+    AdminComponent,
+    DishOverviewComponent,
+    DishEditComponent,
+    AboutUsComponent,
+    MenuesComponent,
+    MenuFormComponent
   ],
   imports: [
     BrowserModule,
@@ -58,7 +72,13 @@ import {MenuModule} from 'primeng/menu';
     RippleModule,
     AutoCompleteModule,
     TabViewModule,
+<<<<<<< Updated upstream
     DialogModule
+=======
+    MessagesModule,
+    MessageModule,
+    DropdownModule
+>>>>>>> Stashed changes
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

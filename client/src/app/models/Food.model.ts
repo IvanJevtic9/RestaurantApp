@@ -9,6 +9,7 @@ export interface attribute {
 }
 
 export interface Dish{
+  id: number;
   name: string;
   image?: string;
   ingredients_list: string;

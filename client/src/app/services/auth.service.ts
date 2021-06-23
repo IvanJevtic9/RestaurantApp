@@ -4,7 +4,7 @@ import { RegistrationModel } from '../models/Registration.model';
 import { Config } from './config.service';
 import { catchError, map, tap } from 'rxjs/operators';
 import { BehaviorSubject, throwError } from "rxjs";
-import { Account } from "../models/Account.model";
+import { Account, AccountType } from "../models/Account.model";
 import { stringify } from "@angular/compiler/src/util";
 import { MessageService } from "primeng/api";
 
@@ -42,8 +42,10 @@ export class AuthService{
     private config: Config,
     private messageService: MessageService
   ){
-    const acc = JSON.parse(localStorage.getItem(this.ACCOUNT));
+    const acc = new Account("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJyYW5pc2xhdmdyb21AZ21haWwuY29tIiwiaWQiOiIxMDAzIiwiYWNjb3VudFR5cGUiOiJSZXN0YXVyYW50IiwiYWRkcmVzcyI6IlZvbGdpbmEgMjBBIiwiY2l0eSI6IkJlbGdyYWRlIiwicG9zdGFsQ29kZSI6IjExMDUwIiwicGhvbmUiOiIwMjM1MjYrMTIiLCJpbWFnZUlkIjoiMSIsImltYWdlTmFtZSI6IjRaNUE3NzYzLmpwZyIsImltYWdlVXJsIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzNjcvSW1hZ2VzXFxQcm9maWxlUGljdHVyZXNcXDIyMDYyMDIxXzIzXzI1XzAyXzRaNUE3NzYzLmpwZyIsIm5hbWUiOiJWcmggQmVvZ3JhZGEiLCJkZXNjcmlwdGlvbiI6IkJsYSBibGEgYmxhIHNhZHNhZHNhZHNkYXNkYXNkYXNkIiwiZXhwIjoxNzgyMDc3MTMwfQ.KsndTXinsI8GcZwj9dqXhXmua61qmkgVrAmeEfxtKVE");
     this.account = new BehaviorSubject<Account>(acc);
+    // const acc = JSON.parse(localStorage.getItem(this.ACCOUNT));
+    // this.account = new BehaviorSubject<Account>(acc);
   }
 
   authenticate(username: string, password: string){

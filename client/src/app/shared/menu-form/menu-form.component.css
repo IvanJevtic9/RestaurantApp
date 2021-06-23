@@ -1,0 +1,24 @@
+.top-container{
+    background-color: white;
+    padding: 30px 20px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.dish-item{
+    background-color: var(--yellow-100);
+    border-radius: 2px;
+    margin-bottom: 1px;
+    padding: 6px 15px 6px 15px;
+}
+
+.dish-item span{
+    color: var(--pink-200);
+    cursor: pointer;
+    transition: 200ms ease-in-out;
+}
+.dish-item span:hover{
+    color: var(--pink-400);
+}
+.dish-item span i {
+    font-size: 20px !important;
+}

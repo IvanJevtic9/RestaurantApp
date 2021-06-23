@@ -1,0 +1,21 @@
+.wrapper{
+    max-width: 1300px;
+    padding: 20px 12px;
+    margin: 0px auto;
+}
+.menu-list{
+    position: relative;
+    background-color: white;
+    padding: 20px 30px;
+}
+
+.control-btns{
+    position: absolute;
+    right: 18px;
+    top: 30px;
+    bottom: 30px;
+}
+.control-btns button{
+    border-radius: 3px;
+    width: 54px;
+}

@@ -33,7 +33,7 @@ html,body{
 :root{
   --m-blue-purple: #AFB3F7;
   --blue-eyes: #92BCEA !important;
-  --green-primary: #00635D;
+  --green-primary: #257973;
   --oxford-blue: #01172F;
   --dark-sienna: #4C212A;
 }
@@ -75,6 +75,51 @@ a:hover{
   background-color: var(--primary-color);
 }
 
+.btnn{
+  border: 0px;
+  padding: 8px 14px;
+  font-size: 16px;
+  font-family: 'MRegular';
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.4s;
+}
+
+.btnn-p{
+  background-color: var(--blue-600);
+  color: var(--blue-50);
+}
+.btnn-p:hover{
+  background-color: var(--blue-500);
+}
+
+.btnn-g{
+  background-color: var(--green-600);
+  color: var(--green-50);
+}
+.btnn-g:hover{
+  background-color: var(--green-500);
+}
+
+.btnn-r{
+  background-color: var(--pink-600);
+  color: var(--pink-50);
+}
+.btnn-r:hover{
+  background-color: var(--pink-500);
+}
+
+
+.btnn.ric i{
+  padding-right: 5px;
+}
+.btnn.lic i{
+  padding-left: 5px;
+}
+.btnn.x i{
+  padding: 0px 5px;
+}
+
 .p-field{
   display: flex;
   flex-direction: column;
@@ -83,7 +128,7 @@ a:hover{
 
 .p-field > label{
   font-size: 16px;
-  margin-bottom: 4px !important;
+  margin-bottom: 6px !important;
 }
 
 .m-input{
@@ -105,4 +150,12 @@ a:hover{
 .p-inputtext:enabled:hover{
   box-shadow: none;
 
+}
+
+.light-text{
+  color: rgb(161, 159, 159);
+}
+
+.bold-text{
+  font-family: MSemiBold;
 }

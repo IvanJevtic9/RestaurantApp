@@ -26,7 +26,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.accountSubscription = this.authService.account.subscribe(account => {
       this.account = account;
       if(this.account !== null){
-        this.acc_initials = account.user.firstName.charAt(0)+account.user.lastName.charAt(0);
+        if(account.isUserType){
+          this.acc_initials = account.user.firstName.charAt(0)+account.user.lastName.charAt(0);
+        } else {
+          this.acc_initials = account.restaurant.name.charAt(0);
+        }
       }
     });
 
