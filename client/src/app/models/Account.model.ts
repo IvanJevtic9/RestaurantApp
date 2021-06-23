@@ -12,6 +12,7 @@ export class Account{
   public city:	string;
   public address: string;
   public postalCode:	string;
+  public zipCode: string;
   public restaurant?: {
     name:	string,
     description?: string
