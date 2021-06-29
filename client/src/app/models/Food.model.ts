@@ -20,6 +20,7 @@ export interface Dish{
 export interface Menu{
   restaurant_id: number,
   name: string;
+  image?: string;
   dishes: Dish[];
 }
 
