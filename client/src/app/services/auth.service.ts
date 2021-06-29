@@ -99,9 +99,14 @@ export class AuthService{
 
   register(model: RegistrationModel){
     console.log(model);
+    const header = new HttpHeaders({
+      'Content-Type': 'multipart/form-data',
+      'Accept': 'application/json'
+    });
     return this.http.post(
       this.config.REGISTER_API,
-      model
+      model,
+      {headers: header}
     ).pipe(
       catchError(this.errorHandling.bind(this))
     );
@@ -110,7 +115,7 @@ export class AuthService{
 
   errorHandling(errorRes: HttpErrorResponse) {
     const errorMessages = [];
-
+    
     if (!errorRes.error) {
       console.log("Error data doesn't have valid format.");
       errorMessages.push('Server je trenutno nedostupan.');
