@@ -42,7 +42,10 @@ namespace RestaurantApp.Core.IdentityProvider
             if (account.AccountType == AccountType.Restaurant)
             {
                 claim.Add(new Claim("name", account.Restaurant.Name));
-                claim.Add(new Claim("description", account.Restaurant.Description));
+                if (account.Restaurant.Description != null)
+                {
+                    claim.Add(new Claim("description", account.Restaurant.Description));
+                }
             }
             else
             {
