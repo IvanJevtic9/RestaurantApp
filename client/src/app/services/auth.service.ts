@@ -97,10 +97,8 @@ export class AuthService{
     localStorage.setItem(this.ACCOUNT, JSON.stringify(account));
   }
 
-  register(model: RegistrationModel){
-    console.log(model);
+  register(model: FormData){
     const header = new HttpHeaders({
-      'Content-Type': 'multipart/form-data',
       'Accept': 'application/json'
     });
     return this.http.post(
@@ -115,7 +113,7 @@ export class AuthService{
 
   errorHandling(errorRes: HttpErrorResponse) {
     const errorMessages = [];
-    
+
     if (!errorRes.error) {
       console.log("Error data doesn't have valid format.");
       errorMessages.push('Server je trenutno nedostupan.');

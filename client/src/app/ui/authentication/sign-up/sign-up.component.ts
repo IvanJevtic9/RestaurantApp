@@ -14,7 +14,7 @@ export class SignUpComponent implements OnInit {
 
   signUpForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required, Validators.minLength(6), PasswordValidator.strong] ),
+    password: new FormControl('', [Validators.required, Validators.minLength(6), PasswordValidator.strong]),
     confirmPassword: new FormControl('', [Validators.required]),
     city: new FormControl('', Validators.required),
     address: new FormControl('', Validators.required),
@@ -23,7 +23,7 @@ export class SignUpComponent implements OnInit {
     type: new FormControl(false, [Validators.required]),
     user: new FormGroup({
       firstName: new FormControl('', Validators.required),
-      lastName: new FormControl('' , Validators.required),
+      lastName: new FormControl('', Validators.required),
       dateOfBirth: new FormControl('')
     }),
     restaurant: new FormGroup({
@@ -43,7 +43,7 @@ export class SignUpComponent implements OnInit {
   ngOnInit(): void {
     this.signUpForm.get('restaurant').disable();
   }
-  onChangeForm(e:{checked: boolean}){
+  onChangeForm(e: { checked: boolean }) {
 
     if (e.checked) {
       this.signUpForm.get('restaurant').enable();
@@ -54,9 +54,9 @@ export class SignUpComponent implements OnInit {
     }
   }
 
-  onSubmit(){
+  onSubmit() {
 
-    if(!this.signUpForm.valid){
+    if (!this.signUpForm.valid) {
       this.signUpForm.get("email").markAsTouched();
       this.signUpForm.get("password").markAsTouched();
       this.signUpForm.get("confirmPassword").markAsTouched();
@@ -64,7 +64,7 @@ export class SignUpComponent implements OnInit {
       this.signUpForm.get("postalCode").markAsTouched();
       this.signUpForm.get("phone").markAsTouched();
       this.signUpForm.get("address").markAsTouched();
-      if(!this.signUpForm.value.type){
+      if (!this.signUpForm.value.type) {
         this.signUpForm.get("user.firstName").markAsTouched();
         this.signUpForm.get("user.lastName").markAsTouched();
         this.signUpForm.get("user.dateOfBirth").markAsTouched();
@@ -77,41 +77,37 @@ export class SignUpComponent implements OnInit {
 
     this.isLoading = true;
 
-    let temp: RegistrationModel = {
-      email: this.signUpForm.get("email").value,
-      password: this.signUpForm.get("password").value,
-      confirmPassword: this.signUpForm.get("confirmPassword").value,
-      address: this.signUpForm.get("address").value,
-      city: this.signUpForm.get("city").value,
-      phone: this.signUpForm.get("phone").value,
-      postalCode: this.signUpForm.get("postalCode").value,
-      accountType: '' + this.signUpForm.get("type").value,
-    };
 
-    if(this.signUpForm.get("type").value){
-      temp.accountType = "Restaurant";
-      temp.restaurant = {
-        name:  this.signUpForm.get("restaurant").get("name").value,
-        description: this.signUpForm.get("restaurant").get("description").value
-      }
+    let formModel = new FormData();
+
+    formModel.append("email", this.signUpForm.get("email").value);
+    formModel.append("password", this.signUpForm.get("password").value,);
+    formModel.append("confirmPassword", this.signUpForm.get("confirmPassword").value);
+    formModel.append("address", this.signUpForm.get("address").value);
+    formModel.append("city", this.signUpForm.get("city").value);
+    formModel.append("phone", this.signUpForm.get("phone").value);
+    formModel.append("postalCode", this.signUpForm.get("postalCode").value);
+
+    if (this.signUpForm.get("type").value) {
+      formModel.append("accountType", "Restaurant");
+      formModel.append("restaurant.name", this.signUpForm.get("restaurant").get("name").value);
+      formModel.append("restaurant.description", this.signUpForm.get("restaurant").get("description").value);
     } else {
-      temp.accountType = "User";
-      temp.user = {
-        firstName:  this.signUpForm.value.user.firstName,
-        lastName:  this.signUpForm.value.user.lastName,
-        dateOfBirth: this.signUpForm.value.user.dateOfBirth
-      }
+      formModel.append("accountType", "User");
+      formModel.append("user.firstName", this.signUpForm.value.user.firstName,);
+      formModel.append("user.lastName", this.signUpForm.value.user.lastName);
+      formModel.append("user.dateOfBirth", this.signUpForm.value.user.dateOfBirth);
     }
 
-    this.authService.register(temp)
-    .pipe(tap(data => {
-      this.isLoading = false;
-    }))
-    .subscribe( response => {
-      this.isRegisterMode = false;
-    }, error => {
-      this.errorMessages = error;
-    });
+    this.authService.register(formModel)
+      .pipe(tap(data => {
+        this.isLoading = false;
+      }))
+      .subscribe(response => {
+        this.isRegisterMode = false;
+      }, error => {
+        this.errorMessages = error;
+      });
 
   }
 
