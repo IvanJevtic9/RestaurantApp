@@ -110,9 +110,10 @@ export class AuthService{
     );
   }
 
-
   errorHandling(errorRes: HttpErrorResponse) {
     const errorMessages = [];
+
+    console.log(errorRes);
 
     if (!errorRes.error) {
       console.log("Error data doesn't have valid format.");

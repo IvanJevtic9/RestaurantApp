@@ -12,6 +12,8 @@ import { tap } from 'rxjs/operators';
 })
 export class SignUpComponent implements OnInit {
 
+  profile_image: any;
+
   signUpForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required, Validators.minLength(6), PasswordValidator.strong]),
@@ -30,8 +32,7 @@ export class SignUpComponent implements OnInit {
       name: new FormControl('', Validators.required),
       description: new FormControl('')
     })
-  }
-  );
+  });
 
   isLoading = false;
   isRegisterMode: boolean = true;
@@ -54,7 +55,13 @@ export class SignUpComponent implements OnInit {
     }
   }
 
-  onSubmit() {
+  onBasicUpload(event){
+    this.profile_image = event[0];
+    console.log(this.profile_image);
+    
+  }
+
+  onSubmit(){
 
     if (!this.signUpForm.valid) {
       this.signUpForm.get("email").markAsTouched();
@@ -99,6 +106,12 @@ export class SignUpComponent implements OnInit {
       formModel.append("user.dateOfBirth", this.signUpForm.value.user.dateOfBirth);
     }
 
+    if(this.profile_image !== undefined || this.profile_image !== null){
+      console.log(this.profile_image);
+      
+      formModel.append("imageFile",this.profile_image);
+    }
+
     this.authService.register(formModel)
       .pipe(tap(data => {
         this.isLoading = false;
@@ -106,6 +119,7 @@ export class SignUpComponent implements OnInit {
       .subscribe(response => {
         this.isRegisterMode = false;
       }, error => {
+        this.isLoading = false;
         this.errorMessages = error;
       });
 

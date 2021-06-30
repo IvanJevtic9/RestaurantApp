@@ -18,7 +18,7 @@ export interface Dish{
 }
 
 export interface Menu{
-  restaurant_id: number,
+  id: number,
   name: string;
   image?: string;
   dishes: Dish[];

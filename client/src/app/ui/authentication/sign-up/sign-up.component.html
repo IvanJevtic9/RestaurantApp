@@ -220,6 +220,13 @@
           </div>
         </div>
 
+        <div class="p-d-flex p-ai-center p-mt-4 p-mx-1">
+            <input type="file"
+                class="custom-file-upload"
+                id="file"
+                (change)="onBasicUpload($event.target.files)">
+        </div>
+
         <div *ngIf="errorMessages.length > 0" class="p-mt-3" style="text-align: center;">
           <div class="error" *ngFor="let err of errorMessages" >
             {{err}}
