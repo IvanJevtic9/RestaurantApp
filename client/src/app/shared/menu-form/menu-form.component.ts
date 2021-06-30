@@ -13,7 +13,7 @@ export class MenuFormComponent implements OnInit {
   allDishes: Dish[] = [];
 
   menu: Menu = {
-    restaurant_id: -1,
+    id: -1,
     name: "",
     dishes: []
   };
@@ -37,7 +37,7 @@ export class MenuFormComponent implements OnInit {
         break;
       }
     }
-    
+
     this.selectedDish = null;
   }
 

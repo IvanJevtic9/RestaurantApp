@@ -32,7 +32,7 @@ export class MenuService{
 
   static menues: Menu[] = [
     {
-      restaurant_id: 0,
+      id: 0,
       name: "Salbo specijaliteti",
       dishes: [
         {
@@ -62,7 +62,7 @@ export class MenuService{
       ]
     },
     {
-      restaurant_id:0,
+      id:0,
       name: "Rostilj porcija",
       dishes:[
         {
@@ -201,7 +201,7 @@ export class MenuService{
   getRestaurantMenues(id: number){
     let menu: Menu[] = [];
     for(const m of MenuService.menues){
-      if(m.restaurant_id == id){
+      if(m.id == id){
         menu.push(m);
       }
     }

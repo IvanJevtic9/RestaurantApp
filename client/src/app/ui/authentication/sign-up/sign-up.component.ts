@@ -55,14 +55,13 @@ export class SignUpComponent implements OnInit {
     }
   }
 
-  onBasicUpload(event){
+  onBasicUpload(event) {
     this.profile_image = event[0];
     console.log(this.profile_image);
-    
+
   }
 
-  onSubmit(){
-
+  onSubmit() {
     if (!this.signUpForm.valid) {
       this.signUpForm.get("email").markAsTouched();
       this.signUpForm.get("password").markAsTouched();
@@ -83,7 +82,6 @@ export class SignUpComponent implements OnInit {
     }
 
     this.isLoading = true;
-
 
     let formModel = new FormData();
 
@@ -106,10 +104,10 @@ export class SignUpComponent implements OnInit {
       formModel.append("user.dateOfBirth", this.signUpForm.value.user.dateOfBirth);
     }
 
-    if(this.profile_image !== undefined || this.profile_image !== null){
+    if (this.profile_image !== undefined || this.profile_image !== null) {
       console.log(this.profile_image);
-      
-      formModel.append("imageFile",this.profile_image);
+
+      formModel.append("imageFile", this.profile_image);
     }
 
     this.authService.register(formModel)
