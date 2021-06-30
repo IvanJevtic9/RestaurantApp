@@ -4,6 +4,7 @@ import { PasswordValidator } from './validators.validator';
 import { AuthService } from '../../../services/auth.service';
 import { RegistrationModel } from '../../../models/Registration.model';
 import { tap } from 'rxjs/operators';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-sign-up',
@@ -101,7 +102,7 @@ export class SignUpComponent implements OnInit {
       formModel.append("accountType", "User");
       formModel.append("user.firstName", this.signUpForm.value.user.firstName,);
       formModel.append("user.lastName", this.signUpForm.value.user.lastName);
-      formModel.append("user.dateOfBirth", this.signUpForm.value.user.dateOfBirth);
+      formModel.append("user.dateOfBirth", formatDate(this.signUpForm.value.user.dateOfBirth, 'yyyy-MM-dd', 'en-US'));
     }
 
     if (this.profile_image !== undefined || this.profile_image !== null) {
