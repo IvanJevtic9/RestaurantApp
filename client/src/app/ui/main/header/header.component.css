@@ -4,13 +4,13 @@
 
 .header-wrapper /deep/ .p-avatar.p-avatar-circle{
   cursor: pointer;
-  background-color: #061c33;
-  transition: all ease-in 200ms;
+  background-color: #fffbbc;
+  color: #061c33;
+  transition: all ease-in 150ms;
 }
 
 .header-wrapper /deep/ .p-avatar.p-avatar-circle:hover{
-  background-color: #9fc4e9;
-  color: #061c33;
+  background-color: var(--yellow-400) !important;
 }
 
 .header-container{
@@ -23,16 +23,13 @@
   align-items: center;
 }
 
-.header-container > div > ul {
-  color: var(--blue-eyes);
-  font-size: 22px;
-}
-
 .header-container > div > ul{
   display: flex;
   list-style: none;
   align-content: center;
   align-items: center;
+  padding: 11px 0px;
+  font-size: 22px;
 }
 
 .header-container > div > ul > li{
@@ -41,9 +38,14 @@
   padding: 2px;
   cursor: pointer;
 }
-
-.header-container > div > ul > li:hover{
-  color: #6091c5;
+.header-container > div > ul > li > a{
+  color: var(--blue-eyes);
+}
+.header-container > div > ul > li > a:hover{
+  color: #b7d7fa;
+}
+.is-active{
+  color: #fffbbc !important;
 }
 
 

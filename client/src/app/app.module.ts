@@ -33,11 +33,11 @@ import { DropdownModule } from 'primeng/dropdown';
 import { DialogModule } from 'primeng/dialog';
 
 import { AdminComponent } from './ui/admin/admin.component';
-import { DishOverviewComponent } from './ui/admin/dish-overview/dish-overview.component';
-import { DishEditComponent } from './ui/admin/dish-edit/dish-edit.component';
 import { AboutUsComponent } from './ui/admin/about-us/about-us.component';
 import { MenuesComponent } from './ui/admin/menues/menues.component';
 import { MenuFormComponent } from './shared/menu-form/menu-form.component';
+import { AdminOrdersComponent } from './ui/admin/admin-orders/admin-orders.component';
+import { GalleryComponent } from './ui/admin/gallery/gallery.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,11 +50,11 @@ import { MenuFormComponent } from './shared/menu-form/menu-form.component';
     HomeComponent,
     ClientSearchComponent,
     AdminComponent,
-    DishOverviewComponent,
-    DishEditComponent,
     AboutUsComponent,
     MenuesComponent,
-    MenuFormComponent
+    MenuFormComponent,
+    AdminOrdersComponent,
+    GalleryComponent
   ],
   imports: [
     BrowserModule,

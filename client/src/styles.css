@@ -142,6 +142,13 @@ a:hover{
   outline: 0px;
 }
 
+.light-text{
+  color: rgb(161, 159, 159);
+}
+
+.bold-text{
+  font-family: MSemiBold;
+}
 
 /* PRIME FACE CUSTOM STYLE */
 :host /deep/ .p-inputtext{
@@ -150,12 +157,4 @@ a:hover{
 .p-inputtext:enabled:hover{
   box-shadow: none;
 
-}
-
-.light-text{
-  color: rgb(161, 159, 159);
-}
-
-.bold-text{
-  font-family: MSemiBold;
 }

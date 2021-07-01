@@ -37,7 +37,7 @@ export class SignInComponent {
         if(isUserType){
           this.router.navigate(['home']);
         } else {
-          this.router.navigate(['search']);
+          this.router.navigate(['admin']);
         }
       },
       error => {

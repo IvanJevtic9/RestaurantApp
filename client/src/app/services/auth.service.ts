@@ -40,12 +40,10 @@ export class AuthService{
   constructor(
     private http: HttpClient,
     private config: Config,
-    private messageService: MessageService
+    private messageService: MessageService,
   ){
-    const acc = new Account("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJyYW5pc2xhdmdyb21AZ21haWwuY29tIiwiaWQiOiIxMDAzIiwiYWNjb3VudFR5cGUiOiJSZXN0YXVyYW50IiwiYWRkcmVzcyI6IlZvbGdpbmEgMjBBIiwiY2l0eSI6IkJlbGdyYWRlIiwicG9zdGFsQ29kZSI6IjExMDUwIiwicGhvbmUiOiIwMjM1MjYrMTIiLCJpbWFnZUlkIjoiMSIsImltYWdlTmFtZSI6IjRaNUE3NzYzLmpwZyIsImltYWdlVXJsIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzNjcvSW1hZ2VzXFxQcm9maWxlUGljdHVyZXNcXDIyMDYyMDIxXzIzXzI1XzAyXzRaNUE3NzYzLmpwZyIsIm5hbWUiOiJWcmggQmVvZ3JhZGEiLCJkZXNjcmlwdGlvbiI6IkJsYSBibGEgYmxhIHNhZHNhZHNhZHNkYXNkYXNkYXNkIiwiZXhwIjoxNzgyMDc3MTMwfQ.KsndTXinsI8GcZwj9dqXhXmua61qmkgVrAmeEfxtKVE");
+    const acc = JSON.parse(localStorage.getItem(this.ACCOUNT));
     this.account = new BehaviorSubject<Account>(acc);
-    // const acc = JSON.parse(localStorage.getItem(this.ACCOUNT));
-    // this.account = new BehaviorSubject<Account>(acc);
   }
 
   authenticate(username: string, password: string){
@@ -56,11 +54,9 @@ export class AuthService{
       catchError(this.errorHandling.bind(this)),
       map( data => {
         const account = new Account(data.data.token);
-        console.log('Logovao se: ');
-        console.log(account);
         this.updateAccountData(account);
-
         this.autoLogout();
+
 
         return this.account.value.isUserType;
       }
