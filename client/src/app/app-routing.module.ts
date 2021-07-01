@@ -9,8 +9,8 @@ import { ClientSearchComponent } from './ui/main/client-search/client-search.com
 import { AdminComponent } from './ui/admin/admin.component';
 import { MenuesComponent } from './ui/admin/menues/menues.component';
 import { AboutUsComponent } from './ui/admin/about-us/about-us.component';
-import { DishEditComponent } from './ui/admin/dish-edit/dish-edit.component';
-import { DishOverviewComponent } from './ui/admin/dish-overview/dish-overview.component';
+import { AdminOrdersComponent } from './ui/admin/admin-orders/admin-orders.component';
+import { GalleryComponent } from './ui/admin/gallery/gallery.component';
 
 const routes: Routes = [
   { path: 'login', redirectTo: 'login/sign-in' },
@@ -24,11 +24,11 @@ const routes: Routes = [
     {path: 'home', component: HomeComponent},
     {path: 'restaurant/:id', component: ClientSearchComponent}
   ]},
-  { path: 'admin', component: AdminComponent, children: [
-    {path: 'menues', component: MenuesComponent},
-    {path: 'about', component: AboutUsComponent},
-    {path: 'dish/:id', component: DishEditComponent},
-    {path: 'dishes', component: DishOverviewComponent}
+  { path: 'admin',    component: AdminComponent, children: [
+    {path: 'menues',  component: MenuesComponent},
+    {path: 'about',   component: AboutUsComponent},
+    {path: 'orders',   component: AdminOrdersComponent},
+    {path: 'gallery', component: GalleryComponent}
   ]},
   { path: '**', redirectTo: 'home' },
 ];
