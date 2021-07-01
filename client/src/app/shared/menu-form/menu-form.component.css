@@ -16,9 +16,18 @@
     cursor: pointer;
     transition: 200ms ease-in-out;
 }
-.dish-item span:hover{
-    color: var(--pink-400);
+
+.box{
+    /* margin: 0px 20px;
+    padding: 10px; */
+    border: 1px solid var(--link);
+    width: 100%;
 }
-.dish-item span i {
-    font-size: 20px !important;
+.pic {
+    width: 210px;
+}
+
+label{
+    font-size: 16px;
+    margin-bottom: 6px !important;
 }
