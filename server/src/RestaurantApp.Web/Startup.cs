@@ -45,9 +45,8 @@ namespace RestaurantApp.Web
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            AppConfiguration(services);
-
             ConfigureSettings(services, Configuration);
+            
             ConfigureDbContext(services, Configuration);
 
             InitializingContainersForDependencyInjection(services, Configuration, WebHostEnvironment);
@@ -87,6 +86,10 @@ namespace RestaurantApp.Web
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
@@ -102,23 +105,6 @@ namespace RestaurantApp.Web
             {
                 context.Database.Migrate();
             }
-        }
-
-        private static void AppConfiguration(IServiceCollection services)
-        {
-            /*Configure cors*/
-            services.AddCors(options =>
-            {
-                options.AddPolicy(policyName, builder =>
-                {
-                    builder.AllowAnyMethod()
-                           .AllowAnyHeader()
-                           .AllowAnyOrigin();
-                });
-            });
-
-            /*Configure fluent validatior*/
-            services.AddControllers().AddFluentValidation();
         }
 
         private static void ConfigureDbContext(IServiceCollection services, IConfiguration configuration)
@@ -151,6 +137,20 @@ namespace RestaurantApp.Web
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.JwtKey))
                 };
             });
+
+            /*Configure cors*/
+            services.AddCors(options =>
+            {
+                options.AddPolicy(policyName, builder =>
+                {
+                    builder.AllowAnyMethod()
+                           .AllowAnyHeader()
+                           .AllowAnyOrigin();
+                });
+            });
+
+            /*Configure fluent validatior*/
+            services.AddControllers().AddFluentValidation();
 
             /*Swagger configuration*/
             var swaggerSettings = new SwaggerSettings();
@@ -188,6 +188,8 @@ namespace RestaurantApp.Web
             });
 
             services.AddTransient<IValidator<AccountDto>, AccountValidator>();
+            services.AddTransient<IValidator<ChangePasswordDto>, ChangePasswordValidator>();
+            services.AddTransient<IValidator<AccountUpdateDto>, AccountUpdateValidator>();
             services.AddTransient<IValidator<LoginDto>, LoginValidator>();
         }
     }

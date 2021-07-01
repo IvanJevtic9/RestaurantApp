@@ -6,10 +6,12 @@ using RestaurantApp.Core.Factory;
 using RestaurantApp.Core.Interface;
 using RestaurantApp.Core.Lib;
 using RestaurantApp.Core.Manager;
+using RestaurantApp.Core.Model;
 using RestaurantApp.Core.RepositoryInterface;
 using RestaurantApp.Web.WebModel;
 using RestaurantApp.Web.WebModels;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RestaurantApp.Web.WebController
@@ -19,18 +21,21 @@ namespace RestaurantApp.Web.WebController
     {
         private readonly IAccountManager<Account> accountManager;
         private readonly IUnitOfWork unitOfWork;
+        private readonly IAuthorizationService authorizationService;
         private readonly ImageManager imageManager;
         private readonly DynamicTypeFactory dynamicTypeFactory;
 
         public AccountController(DynamicTypeFactory dynamicTypeFactory,
                                  IAccountManager<Account> accountManager,
                                  IUnitOfWork unitOfWork,
+                                 IAuthorizationService authorizationService,
                                  ImageManager imageManager)
         {
             this.dynamicTypeFactory = dynamicTypeFactory;
             this.accountManager = accountManager;
             this.unitOfWork = unitOfWork;
             this.imageManager = imageManager;
+            this.authorizationService = authorizationService;
         }
 
         [HttpPost("register")]
@@ -38,6 +43,7 @@ namespace RestaurantApp.Web.WebController
         public async Task<IActionResult> Registration([FromForm] AccountDto request)
         {
             var response = new ApiResponse();
+            var result = new OperationResult();
 
             if (!ModelState.IsValid)
             {
@@ -73,15 +79,6 @@ namespace RestaurantApp.Web.WebController
                 };
             }
 
-            var result = accountManager.CreateAccount(newAccount, request.Password);
-
-            if (!result.Succeeded)
-            {
-                var dict = result.TransformToDict();
-                response.Errors = dict.GetModelError(dynamicTypeFactory);
-                return BadRequest(response);
-            }
-
             if (request.ImageFile != null)
             {
                 var image = new Image()
@@ -98,10 +95,19 @@ namespace RestaurantApp.Web.WebController
                 {
                     var dict = result.TransformToDict();
                     response.Errors = dict.GetModelError(dynamicTypeFactory);
+                    return BadRequest(response);
                 }
 
                 newAccount.ImageId = image.Id;
-                unitOfWork.SaveChanges();
+            }
+
+            result = accountManager.CreateAccount(newAccount, request.Password);
+
+            if (!result.Succeeded)
+            {
+                var dict = result.TransformToDict();
+                response.Errors = dict.GetModelError(dynamicTypeFactory);
+                return BadRequest(response);
             }
 
             response.Message = ResponseCodes.SUCCESSFUL_REGISTRATION;
@@ -141,6 +147,103 @@ namespace RestaurantApp.Web.WebController
 
             response.Data = accountManager.JwtProvider.GetJwtToken(account);
             return Ok(response);
+        }
+
+        [HttpPut("update")]
+        [Authorize]
+        public async Task<IActionResult> UpdateProfile([FromForm] AccountUpdateDto request)
+        {
+            var response = new ApiResponse();
+
+            if (!ModelState.IsValid)
+            {
+                response.Errors = ModelState.GetErrors(dynamicTypeFactory);
+                return BadRequest(response);
+            }
+
+            var account = accountManager.GetByEmail(request.Email);
+            var userId = this.User.Claims.ToList().FirstOrDefault(x => x.Type.Equals("id")).Value;
+
+            if (account == null)
+            {
+                response.Message(ResponseCodes.ACCOUNT_DOES_NOT_EXIST);
+                return NotFound(response);
+            }
+
+            if (account.Id.ToString() != userId)
+            {
+                response.Message(ResponseCodes.FORBIDEN_REQUEST);
+                return Forbid();
+            }
+
+            if (request.Address != null)
+            {
+                account.Address = request.Address;
+            }
+            if (request.City != null)
+            {
+                account.City = request.City;
+            }
+            if (request.Phone != null)
+            {
+                account.Phone = request.Phone;
+            }
+            if (request.PostalCode != null)
+            {
+                account.PostalCode = request.PostalCode;
+            }
+            if (request.ImageFile != null)
+            {
+                if (account.ProfileImage != null) imageManager.DeleteFile(account.ProfileImage);
+
+                var image = new Image()
+                {
+                    ImangeName = request.ImageFile.FileName,
+                    ImageLocation = "#PROFILE_PICTURE",
+                    Role = ImageRole.Profile,
+                    Title = request.ImageFile.FileName.Split('.')[0]
+                };
+
+                imageManager.UploadFile(image, request.ImageFile);
+                account.ImageId = image.Id;
+
+            }
+            if (account.AccountType == AccountType.Restaurant)
+            {
+                if (request.Restaurant != null && request.Restaurant.Name != null)
+                {
+                    account.Restaurant.Name = request.Restaurant.Name;
+                }
+                if (request.Restaurant != null && request.Restaurant.Description != null)
+                {
+                    account.Restaurant.Description = request.Restaurant.Description;
+                }
+            }
+            else
+            {
+                if (request.User != null && request.User.FirstName != null)
+                {
+                    account.User.FirstName = request.User.FirstName;
+                }
+                if (request.User != null && request.User.LastName != null)
+                {
+                    account.User.LastName = request.User.LastName;
+                }
+                if (request.User != null && request.User.DateOfBirth != null)
+                {
+                    account.User.DateOfBirth = request.User.DateOfBirth;
+                }
+            }
+
+            unitOfWork.SaveChanges();
+            return Ok(response);
+        }
+
+        [HttpPut("change-password")]
+        [Authorize]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto request)
+        {
+
         }
     }
 }

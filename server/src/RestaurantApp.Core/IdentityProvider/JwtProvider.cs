@@ -62,6 +62,8 @@ namespace RestaurantApp.Core.IdentityProvider
             var expireDate = DateTime.Now.AddMinutes(jwtSettings.JwtExpireMinutes);
 
             var token = new JwtSecurityToken(
+                    issuer: jwtSettings.JwtIssuer,
+                    audience: jwtSettings.JwtIssuer,
                     claims: claim,
                     expires: expireDate,
                     signingCredentials: credentials
