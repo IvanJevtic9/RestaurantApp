@@ -190,6 +190,7 @@ namespace RestaurantApp.Web
             services.AddTransient<IValidator<AccountDto>, AccountValidator>();
             services.AddTransient<IValidator<ChangePasswordDto>, ChangePasswordValidator>();
             services.AddTransient<IValidator<AccountUpdateDto>, AccountUpdateValidator>();
+            services.AddTransient<IValidator<RestaurantMenuDto>, RestaurantValidator>();
             services.AddTransient<IValidator<LoginDto>, LoginValidator>();
         }
     }

@@ -12,6 +12,7 @@ namespace RestaurantApp.Core
         public const string NAME_REGEX = @"([a-zA-Z]\s*)+";
 
         public const string PROFILE_PICTURE_LOCATION = @"Images\ProfilePictures\";
+        public const string MENU_BANNER_LOCATION = @"Images\MenuCategoryPictures\";
     }
 
     public static class ResponseCodes
@@ -25,9 +26,11 @@ namespace RestaurantApp.Core
 
         #region Error codes
 
+        public const string DOES_NOT_EXIST = "Item not found.";
+        public const string ACCOUNT_DOES_NOT_EXIST = "Account does not exist.";
+        public const string RESTAURANT_DOES_NOT_EXIST = "Restaurant does not exist.";
         public const string FORBIDEN_REQUEST = "User does not have permission to execute this request.";
         public const string PASSWORD_NOT_MATCHED = "Invalid old password.";
-        public const string ACCOUNT_DOES_NOT_EXIST = "Account does not exist.";
         public const string INVALID_ACCOUNT_TYPE = "Invalid account type.";
         public const string EMAIL_ALREADY_REGISTERED = "This email has been already registered.";
         public const string PASSWORD_RULES = "The valid password must contain at least one number digit, one uppercase and lowercase letter and one special character.";

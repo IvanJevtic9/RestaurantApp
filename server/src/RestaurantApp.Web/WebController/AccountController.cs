@@ -85,7 +85,7 @@ namespace RestaurantApp.Web.WebController
             {
                 var image = new Image()
                 {
-                    ImangeName = request.ImageFile.FileName,
+                    ImageName = request.ImageFile.FileName,
                     ImageLocation = "#PROFILE_PICTURE",
                     Role = ImageRole.Profile,
                     Title = request.ImageFile.FileName.Split('.')[0]
@@ -199,15 +199,22 @@ namespace RestaurantApp.Web.WebController
 
                 var image = new Image()
                 {
-                    ImangeName = request.ImageFile.FileName,
+                    ImageName = request.ImageFile.FileName,
                     ImageLocation = "#PROFILE_PICTURE",
                     Role = ImageRole.Profile,
                     Title = request.ImageFile.FileName.Split('.')[0]
                 };
 
-                imageManager.UploadFile(image, request.ImageFile);
-                account.ImageId = image.Id;
+                var result = imageManager.UploadFile(image, request.ImageFile);
 
+                if (!result.Succeeded)
+                {
+                    var dict = result.TransformToDict();
+                    response.Errors = dict.GetModelError(dynamicTypeFactory);
+                    return BadRequest(response);
+                }
+
+                account.ImageId = image.Id;
             }
             if (account.AccountType == AccountType.Restaurant)
             {

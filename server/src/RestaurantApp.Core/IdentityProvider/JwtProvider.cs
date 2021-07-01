@@ -36,7 +36,7 @@ namespace RestaurantApp.Core.IdentityProvider
             if (account.ImageId != null)
             {
                 claim.Add(new Claim("imageId", account.ImageId.ToString()));
-                claim.Add(new Claim("imageName", account.ProfileImage.ImangeName));
+                claim.Add(new Claim("imageName", account.ProfileImage.ImageName));
                 claim.Add(new Claim("imageUrl", account.ProfileImage.Url));
             }
             if (account.AccountType == AccountType.Restaurant)

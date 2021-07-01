@@ -18,6 +18,23 @@ namespace RestaurantApp.Core.Manager
             base(unitOfWork, logger, rootWebLocation, hostUrl)
         { }
 
+        private string GetImageFolderLocation(Image dbEntity)
+        {
+            var filePurp = "";
+
+            switch (dbEntity.Role)
+            {
+                case ImageRole.Profile:
+                    filePurp = Constants.PROFILE_PICTURE_LOCATION;
+                    break;
+                case ImageRole.Menu:
+                    filePurp = Constants.MENU_BANNER_LOCATION;
+                    break;
+            }
+
+            return filePurp;
+        }
+
         public override OperationResult DeleteFile(int id)
         {
             var image = unitOfWork.Image.GetById(id);
@@ -29,20 +46,14 @@ namespace RestaurantApp.Core.Manager
         {
             var op = new OperationResult() { Succeeded = true };
 
-            string filePurp = "";
-            switch (dbEntity.Role)
-            {
-                case ImageRole.Profile:
-                    filePurp = Constants.PROFILE_PICTURE_LOCATION;
-                    break;
-            }
+            string filePurp = GetImageFolderLocation(dbEntity);
 
-            var fileLocation = Path.Combine(rootWebLocation, filePurp, dbEntity.ImangeName);
+            var fileLocation = Path.Combine(rootWebLocation, filePurp, dbEntity.ImageName);
             File.Delete(fileLocation);
 
             unitOfWork.Image.Remove(dbEntity);
             unitOfWork.SaveChanges();
-            logger.LogInformation($"File {dbEntity.ImangeName} has been deleted.");
+            logger.LogInformation($"File {dbEntity.ImageName} has been deleted.");
 
             return op;
         }
@@ -51,19 +62,13 @@ namespace RestaurantApp.Core.Manager
         {
             var op = new OperationResult() { Succeeded = true };
 
-            string filePurp = "";
-            switch (dbEntity.Role)
-            {
-                case ImageRole.Profile:
-                    filePurp = Constants.PROFILE_PICTURE_LOCATION;
-                    break;
-            }
+            string filePurp = GetImageFolderLocation(dbEntity);
 
-            var fileName = $"{DateTime.Now.ToString("ddMMyyyy_HH_mm_ss")}_{dbEntity.ImangeName}";
+            var fileName = $"{DateTime.Now.ToString("ddMMyyyy_HH_mm_ss")}_{dbEntity.ImageName}";
             var fileLocation = Path.Combine(rootWebLocation, filePurp);
             var fileUri = Path.Combine(hostUrl, filePurp, fileName);
 
-            dbEntity.ImangeName = fileName;
+            dbEntity.ImageName = fileName;
             dbEntity.Url = fileUri;
 
             if (Directory.Exists(fileLocation))
@@ -75,11 +80,11 @@ namespace RestaurantApp.Core.Manager
 
                 unitOfWork.Image.Add(dbEntity);
                 unitOfWork.SaveChanges();
-                logger.LogInformation($"An Image {dbEntity.ImangeName} has been uploaded.");
+                logger.LogInformation($"An Image {dbEntity.ImageName} has been uploaded.");
             }
             else
             {
-                op.AddError("fileLocation", "Internal error - fileLocation does not exist.");
+                op.AddError("fileLocation", $"Internal error - location {fileLocation} does not exist.");
                 op.Succeeded = false;
 
                 logger.LogError(new InvalidOperationException(), "File location does not exist.");

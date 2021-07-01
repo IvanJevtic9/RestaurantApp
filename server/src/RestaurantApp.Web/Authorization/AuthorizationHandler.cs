@@ -35,7 +35,16 @@ namespace RestaurantApp.Web.Authorization
             {
                 var account = resource as Account;
 
-                if(userId == account.Id.ToString())
+                if (userId == account.Id.ToString())
+                {
+                    context.Succeed(requirement);
+                }
+            }
+            else if (resource is Restaurant)
+            {
+                var restaurant = resource as Restaurant;
+
+                if(requirement.operationType == OperationType.Read)
                 {
                     context.Succeed(requirement);
                 }

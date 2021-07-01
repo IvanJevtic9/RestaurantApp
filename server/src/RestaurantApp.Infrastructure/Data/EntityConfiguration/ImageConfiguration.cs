@@ -16,7 +16,7 @@ namespace RestaurantApp.Infrastructure.Data.EntityConfiguration
             builder.Property(i => i.Id)
                    .ValueGeneratedOnAdd();
 
-            builder.Property(i => i.ImangeName)
+            builder.Property(i => i.ImageName)
                    .IsRequired()
                    .HasMaxLength(254);
 

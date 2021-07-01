@@ -21,4 +21,9 @@
     <ProjectReference Include="..\RestaurantApp.Infrastructure\RestaurantApp.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\MenuCategoryPictures\" />
+    <Folder Include="wwwroot\Images\ProfilePictures\" />
+  </ItemGroup>
+
 </Project>
