@@ -38,10 +38,7 @@ namespace RestaurantApp.Core.Manager
             }
 
             var fileLocation = Path.Combine(rootWebLocation, filePurp, dbEntity.ImangeName);
-            if (File.Exists(fileLocation))
-            {
-                File.Delete(fileLocation);
-            }
+            File.Delete(fileLocation);
 
             unitOfWork.Image.Remove(dbEntity);
             unitOfWork.SaveChanges();
@@ -66,6 +63,7 @@ namespace RestaurantApp.Core.Manager
             var fileLocation = Path.Combine(rootWebLocation, filePurp);
             var fileUri = Path.Combine(hostUrl, filePurp, fileName);
 
+            dbEntity.ImangeName = fileName;
             dbEntity.Url = fileUri;
 
             if (Directory.Exists(fileLocation))

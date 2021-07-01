@@ -14,7 +14,7 @@ namespace RestaurantApp.Core.Interface
         public TAccount GetById(int accountId, string includeProperties = null);
         public void Delete(TAccount account);
         public OperationResult CreateAccount(TAccount account, string password);
+        public OperationResult ChangePassword(TAccount account, string oldPassword, string newPassword);
         public bool CheckPassword(TAccount account, string password);
-
     }
 }

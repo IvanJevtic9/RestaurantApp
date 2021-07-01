@@ -109,4 +109,68 @@ namespace RestaurantApp.Web.Validator
             });
         }
     }
+    public class AccountUpdateValidator : AbstractValidator<AccountUpdateDto>
+    {
+        public AccountUpdateValidator(IUnitOfWork unitOfWork)
+        {
+            RuleFor(a => a.City).MaximumLength(189).When(a => !string.IsNullOrEmpty(a.City)).WithMessage(a => ResponseCodes.LengthError(nameof(a.City), false, 189));
+            RuleFor(a => a.Address).MaximumLength(254).When(a => !string.IsNullOrEmpty(a.Address)).WithMessage(a => ResponseCodes.LengthError(nameof(a.Address), false, 254));
+            RuleFor(a => a.PostalCode).MaximumLength(10).When(a => !string.IsNullOrEmpty(a.PostalCode)).WithMessage(a => ResponseCodes.LengthError(nameof(a.PostalCode), false, 10));
+            RuleFor(a => a.Phone).MaximumLength(15).When(a => !string.IsNullOrEmpty(a.Phone)).WithMessage(a => ResponseCodes.LengthError(nameof(a.Phone), false, 15));
+
+            RuleFor(a => a.ImageFile).Custom((value, context) =>
+            {
+                if (value != null)
+                {
+                    var extension = value.FileName.Split('.')[1].ToUpper();
+
+                    if (!(Constants.AllowedImageExtensions.Contains(extension)))
+                    {
+                        context.AddFailure(context.PropertyName, ResponseCodes.INVALID_FILE_FORMAT + " Should be image format file.");
+                    }
+                }
+            });
+
+            RuleFor(a => a.Email).Custom((value, context) =>
+            {
+                var acc = unitOfWork.Account.GetFirstOrDefault(a => a.Email == value);
+
+                if (acc != null)
+                {
+                    if (acc.AccountType.ToString() == AccountType.User.ToString() && context.InstanceToValidate.User != null)
+                    {
+                        var user = context.InstanceToValidate.User;
+
+                        if (user.FirstName != null && user.FirstName.Length < 2)
+                            context.AddFailure(nameof(user.FirstName), ResponseCodes.LengthError(nameof(user.FirstName), true, 2));
+                        else if (user.FirstName != null && !Regex.IsMatch(user.FirstName, Constants.NAME_REGEX))
+                            context.AddFailure(nameof(user.FirstName), $"{ResponseCodes.InvalidValue(nameof(user.FirstName))}");
+
+                        if (user.LastName != null && user.LastName.Length < 2)
+                            context.AddFailure(nameof(user.LastName), ResponseCodes.LengthError(nameof(user.LastName), true, 2));
+                        else if (user.LastName != null && !Regex.IsMatch(user.LastName, Constants.NAME_REGEX))
+                            context.AddFailure(nameof(user.LastName), $"{ResponseCodes.InvalidValue(nameof(user.LastName))}");
+
+                        if (user.DateOfBirth != null && DateTime.Now < user.DateOfBirth)
+                        {
+                            context.AddFailure(nameof(user.DateOfBirth), ResponseCodes.INVALID_DATE_OF_BIRTH);
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    public class ChangePasswordValidator : AbstractValidator<ChangePasswordDto>
+    {
+        public ChangePasswordValidator()
+        {
+            RuleFor(a => a.NewPassword).NotEmpty().WithMessage(a => ResponseCodes.RequiredField(nameof(a.NewPassword)));
+            RuleFor(a => a.ConfirmPassword).Equal(a => a.NewPassword).WithMessage(ResponseCodes.MUST_BE_EQUAL_PASSWORDS);
+            RuleFor(a => a.NewPassword)
+                .Matches(Constants.PASSWORD_REGEX)
+                .When(a => !string.IsNullOrEmpty(a.NewPassword))
+                .WithMessage(a => $"{ResponseCodes.InvalidValue(nameof(a.NewPassword))} {ResponseCodes.PASSWORD_RULES}");
+        }
+    }
 }

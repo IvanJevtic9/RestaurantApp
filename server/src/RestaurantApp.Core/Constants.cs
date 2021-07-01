@@ -19,12 +19,16 @@ namespace RestaurantApp.Core
         #region Success codes
 
         public const string SUCCESSFUL_REGISTRATION = "The Account has been created.";
+        public const string SUCCESSFUL_REQUEST = "Reguest has been executed successfully";
 
         #endregion
 
         #region Error codes
 
-        public static string INVALID_ACCOUNT_TYPE = "Invalid account type.";
+        public const string FORBIDEN_REQUEST = "User does not have permission to execute this request.";
+        public const string PASSWORD_NOT_MATCHED = "Invalid old password.";
+        public const string ACCOUNT_DOES_NOT_EXIST = "Account does not exist.";
+        public const string INVALID_ACCOUNT_TYPE = "Invalid account type.";
         public const string EMAIL_ALREADY_REGISTERED = "This email has been already registered.";
         public const string PASSWORD_RULES = "The valid password must contain at least one number digit, one uppercase and lowercase letter and one special character.";
         public const string MUST_BE_EQUAL_PASSWORDS = "The confirmation password must be the same as the password.";

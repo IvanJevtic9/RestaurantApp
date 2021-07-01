@@ -20,6 +20,19 @@ namespace RestaurantApp.Web.WebModel
         public UserDto User { get; set; }
     }
 
+    public class AccountUpdateDto
+    {
+        public string Email { get; set; }
+        public string Phone { get; set; }
+        public string City { get; set; }
+        public string Address { get; set; }
+        public string PostalCode { get; set; }
+        public IFormFile ImageFile { get; set; }
+
+        public RestaurantDto Restaurant { get; set; }
+        public UserDto User { get; set; }
+    }
+
     public class RestaurantDto
     {
         public string Name { get; set; }
@@ -31,5 +44,12 @@ namespace RestaurantApp.Web.WebModel
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime? DateOfBirth { get; set; }
+    }
+
+    public class ChangePasswordDto
+    {
+        public string OldPassword { get; set; }
+        public string NewPassword { get; set; }
+        public string ConfirmPassword { get; set; }
     }
 }

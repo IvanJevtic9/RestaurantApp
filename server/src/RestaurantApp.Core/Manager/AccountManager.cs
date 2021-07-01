@@ -75,5 +75,19 @@ namespace RestaurantApp.Core.Manager
         {
             return PasswordHasher.VerifyHashedPassword(account, account.PasswordHash, password) == PasswordVerificationResult.Success;
         }
+
+        public OperationResult ChangePassword(Account account, string oldPassword, string newPassword)
+        {
+            var op = new OperationResult() { Succeeded = false };
+
+            if (CheckPassword(account, oldPassword))
+            {
+                account.PasswordHash = PasswordHasher.HashPassword(account, newPassword);
+                unitOfWork.SaveChanges();
+                op.Succeeded = true;
+            }
+
+            return op;
+        }
     }
 }
