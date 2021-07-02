@@ -16,7 +16,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   account: Account;
   accountSubscription: Subscription;
   acc_initials: string;
-
+  price = 0;
   //Menu
   items: MenuItem[];
 

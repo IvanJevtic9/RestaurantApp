@@ -1,5 +1,5 @@
 <div class="header-wrapper">
-  <div class="header-container" *ngIf="account.isUserType">
+  <div class="header-container" *ngIf="account === null || account.isUserType">
     <img src="assets/img/logo.png" alt="logo">
 
     <div>
@@ -11,16 +11,18 @@
           </a>
         </li>
         <li>
-          <span>Meni</span>
+          <a [routerLink]="['/home']">
+            <span>Meni</span>
+          </a>
         </li>
         <li>
           <span class="cart">
-            {{'2000 din.'}}
+            {{price}}
             <i class="fas fa-shopping-cart"></i>
           </span>
         </li>
         <!--Samo za testestiranje-->
-
+        
         <p-avatar (click)="menu.toggle($event)"
           *ngIf="account !== null"
           [label]="acc_initials"
@@ -35,8 +37,7 @@
       </ul>
     </div>
   </div>
-
-  <div class="header-container" *ngIf="!account.isUserType">
+  <div class="header-container" *ngIf="account !== null && !account.isUserType">
     <div>
       <ul>
         <li>
