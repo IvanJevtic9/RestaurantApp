@@ -12,13 +12,6 @@
   padding: 1px 4px 2px 4px;
 }
 
-.m_container /deep/ .p-inputtext{
-  font-family: MLight;
-  width: 100%;
-}
-.m_container /deep/ .p-calendar {
-  width: 100%;
-}
 .m-textarea{
   font-family: MLight;
   min-width: 100%;

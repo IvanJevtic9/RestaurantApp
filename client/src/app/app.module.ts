@@ -38,6 +38,9 @@ import { MenuesComponent } from './ui/admin/menues/menues.component';
 import { MenuFormComponent } from './shared/menu-form/menu-form.component';
 import { AdminOrdersComponent } from './ui/admin/admin-orders/admin-orders.component';
 import { GalleryComponent } from './ui/admin/gallery/gallery.component';
+import { UserComponent } from './ui/user/user.component';
+import { UserDataComponent } from './ui/user/user-data/user-data.component';
+import { UserPasswordComponent } from './ui/user/user-password/user-password.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,7 +57,10 @@ import { GalleryComponent } from './ui/admin/gallery/gallery.component';
     MenuesComponent,
     MenuFormComponent,
     AdminOrdersComponent,
-    GalleryComponent
+    GalleryComponent,
+    UserComponent,
+    UserDataComponent,
+    UserPasswordComponent
   ],
   imports: [
     BrowserModule,

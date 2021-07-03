@@ -1,3 +1,11 @@
 .top-div /deep/ .p-dropdown{
     width: 100%;
 }
+
+.top-div /deep/ .m_container /deep/ .p-inputtext{
+    font-family: MLight;
+    width: 100%;
+  }
+.top-div /deep/ .m_container /deep/ .p-calendar {
+    width: 100%;
+}

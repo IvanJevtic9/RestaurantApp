@@ -11,6 +11,9 @@ import { MenuesComponent } from './ui/admin/menues/menues.component';
 import { AboutUsComponent } from './ui/admin/about-us/about-us.component';
 import { AdminOrdersComponent } from './ui/admin/admin-orders/admin-orders.component';
 import { GalleryComponent } from './ui/admin/gallery/gallery.component';
+import { UserComponent } from './ui/user/user.component';
+import { UserDataComponent } from './ui/user/user-data/user-data.component';
+import { UserPasswordComponent } from './ui/user/user-password/user-password.component';
 
 const routes: Routes = [
   { path: 'login', redirectTo: 'login/sign-in' },
@@ -22,13 +25,21 @@ const routes: Routes = [
   ]},
   { path: '', component: MainComponent, children:[
     {path: 'home', component: HomeComponent},
-    {path: 'restaurant/:id', component: ClientSearchComponent}
+    {path: 'restaurant/:id', component: ClientSearchComponent},
+    {path: 'user', component: UserComponent, children: [
+      {path: 'details', component: UserDataComponent},
+      {path: 'change-password', component: UserPasswordComponent},
+    ]}
   ]},
   { path: 'admin',    component: AdminComponent, children: [
     {path: 'menues',  component: MenuesComponent},
     {path: 'about',   component: AboutUsComponent},
     {path: 'orders',   component: AdminOrdersComponent},
-    {path: 'gallery', component: GalleryComponent}
+    {path: 'gallery', component: GalleryComponent},
+    {path: 'user', component: UserComponent, children: [
+      {path: 'details', component: UserDataComponent},
+      {path: 'change-password', component: UserPasswordComponent},
+    ]}
   ]},
   { path: '**', redirectTo: 'home' },
 ];
