@@ -20,12 +20,15 @@ namespace RestaurantApp.Infrastructure.Data.EntityConfiguration
                    .HasMaxLength(255)
                    .IsRequired();
 
-            builder.Property(d => d.DishDescription)
+            builder.Property(d => d.ItemDescription)
                    .HasMaxLength(1000)
                    .IsRequired();
 
-            builder.Property(d => d.TagPrice)
+            builder.Property(d => d.Attributes)
                    .HasMaxLength(1000)
+                   .IsRequired();
+
+            builder.Property(d => d.Price)
                    .IsRequired();
 
             /*Foreign key configuration*/

@@ -13,6 +13,8 @@ namespace RestaurantApp.Core
 
         public const string PROFILE_PICTURE_LOCATION = @"Images\ProfilePictures\";
         public const string MENU_BANNER_LOCATION = @"Images\MenuCategoryPictures\";
+        public const string MENU_ITEM_LOCATION = @"Images\MenuItemPictures\";
+        public const string GALLERY_IMAGE_LOCATION = @"Images\GalleryPictures\";
     }
 
     public static class ResponseCodes
@@ -26,6 +28,8 @@ namespace RestaurantApp.Core
 
         #region Error codes
 
+        public const string REQUIRED_LIST = "There must be at least one item.";
+        public const string MUST_BE_POSITIVE = "Must be a positive number";
         public const string DOES_NOT_EXIST = "Item not found.";
         public const string ACCOUNT_DOES_NOT_EXIST = "Account does not exist.";
         public const string RESTAURANT_DOES_NOT_EXIST = "Restaurant does not exist.";

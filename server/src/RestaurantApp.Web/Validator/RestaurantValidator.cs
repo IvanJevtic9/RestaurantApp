@@ -17,4 +17,48 @@ namespace RestaurantApp.Web.Validator
             RuleFor(m => m.ManuBanner).NotEmpty().WithMessage(a => ResponseCodes.RequiredField(nameof(a.ManuBanner)));
         }
     }
+
+    public class MenuItemValidator : AbstractValidator<RestaurantMenuItemDto>
+    {
+        public MenuItemValidator()
+        {
+            RuleFor(m => m.Name).NotEmpty().WithMessage(a => ResponseCodes.RequiredField(nameof(a.Name)));
+            RuleFor(m => m.Description).NotEmpty().WithMessage(a => ResponseCodes.RequiredField(nameof(a.Description)));
+            RuleFor(m => m.Price).NotEmpty().WithMessage(a => ResponseCodes.RequiredField(nameof(a.Price)));
+            RuleFor(m => m.MenuId).NotEmpty().WithMessage(a => ResponseCodes.RequiredField(nameof(a.MenuId)));
+
+            RuleFor(m => m.Price).Custom((value, context) =>
+            {
+                if (value <= 0)
+                {
+                    context.AddFailure(context.PropertyName, ResponseCodes.MUST_BE_POSITIVE);
+                }
+            });
+        }
+    }
+
+    public class GalleryValidator : AbstractValidator<GalleryDto>
+    {
+        public GalleryValidator()
+        {
+            RuleFor(g => g.GalleryImages).Custom((value, context) =>
+            {
+                if (value.Count < 1)
+                {
+                    context.AddFailure(context.PropertyName, ResponseCodes.REQUIRED_LIST);
+                }
+
+                for (int l = 0; l < value.Count; l++)
+                {
+                    var extension = value[l].FileName.Split('.')[1].ToUpper();
+
+                    if (!(Constants.AllowedImageExtensions.Contains(extension)))
+                    {
+                        context.AddFailure(context.PropertyName, ResponseCodes.INVALID_FILE_FORMAT + $"File {l} in list should be image format.");
+                    }
+                    break;
+                }
+            });
+        }
+    }
 }

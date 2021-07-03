@@ -30,6 +30,12 @@ namespace RestaurantApp.Core.Manager
                 case ImageRole.Menu:
                     filePurp = Constants.MENU_BANNER_LOCATION;
                     break;
+                case ImageRole.MenuItem:
+                    filePurp = Constants.MENU_ITEM_LOCATION;
+                    break;
+                case ImageRole.Gallery:
+                    filePurp = Constants.GALLERY_IMAGE_LOCATION;
+                    break;
             }
 
             return filePurp;

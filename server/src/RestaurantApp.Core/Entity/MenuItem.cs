@@ -4,8 +4,9 @@
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string DishDescription { get; set; }
-        public string TagPrice { get; set; }
+        public string ItemDescription { get; set; }
+        public string Attributes { get; set; }
+        public double Price { get; set; }
 
         public int? ItemImageId { get; set; }
         public virtual Image ItemImage { get; set; }

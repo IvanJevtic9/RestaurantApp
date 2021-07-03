@@ -27,6 +27,9 @@ using RestaurantApp.Core.Setting;
 using RestaurantApp.Core.IdentityProvider;
 using RestaurantApp.Core.Manager;
 using RestaurantApp.Core.Lib;
+using AutoMapper;
+using RestaurantApp.Web.ResponseSerializer;
+using System.Reflection;
 
 namespace RestaurantApp.Web
 {
@@ -45,8 +48,8 @@ namespace RestaurantApp.Web
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            ConfigureSettings(services, Configuration);
-            
+            ConfigureSettings(services, Configuration, this.GetType().Assembly);
+
             ConfigureDbContext(services, Configuration);
 
             InitializingContainersForDependencyInjection(services, Configuration, WebHostEnvironment);
@@ -114,7 +117,7 @@ namespace RestaurantApp.Web
                                                               .UseLazyLoadingProxies());
         }
 
-        private static void ConfigureSettings(IServiceCollection services, IConfiguration configuration)
+        private static void ConfigureSettings(IServiceCollection services, IConfiguration configuration, Assembly assembly)
         {
             /*Jwt settings configuration*/
             var jwtSettings = new JwtSettings();
@@ -148,6 +151,8 @@ namespace RestaurantApp.Web
                            .AllowAnyOrigin();
                 });
             });
+
+            services.AddAutoMapper(assembly.GetType().Assembly);
 
             /*Configure fluent validatior*/
             services.AddControllers().AddFluentValidation();
@@ -186,12 +191,19 @@ namespace RestaurantApp.Web
                 var logger = m.Resolve<ILoggerAdapter<Image>>();
                 return new ImageManager(unitOfWork, logger, env.WebRootPath, conf.GetValue("HostUrl", ""));
             });
+            services.AddScoped(provider => new MapperConfiguration(cfg =>
+            {
+                var unitOfWork = provider.Resolve<IUnitOfWork>();
+                cfg.AddProfile(new Profiler(unitOfWork));
+            }).CreateMapper());
 
             services.AddTransient<IValidator<AccountDto>, AccountValidator>();
             services.AddTransient<IValidator<ChangePasswordDto>, ChangePasswordValidator>();
             services.AddTransient<IValidator<AccountUpdateDto>, AccountUpdateValidator>();
             services.AddTransient<IValidator<RestaurantMenuDto>, RestaurantValidator>();
             services.AddTransient<IValidator<LoginDto>, LoginValidator>();
+            services.AddTransient<IValidator<GalleryDto>, GalleryValidator>();
+            services.AddTransient<IValidator<RestaurantMenuItemDto>, MenuItemValidator>();
         }
     }
 }

@@ -5,7 +5,7 @@
         Profile,
         Gallery,
         Menu,
-        Dish
+        MenuItem
     }
 
     public class Image
