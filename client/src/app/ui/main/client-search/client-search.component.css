@@ -1,65 +1,83 @@
 .wrapper{
   align-items: center;
+  max-width: 1300px;
 }
 
-.slika{
-  max-width: 100%;
-  height: auto;
+.info-wrapper{
+  position: relative;
+  max-width: 1300px;
 }
 
-.informacije{
-  position:absolute;
-  height: 300px;
-  width: 500px;
+.background-gallery{
+  height: 280px;
+}
+
+.info{
+  position: absolute;
+  width: 520px;
+  top:100px;
+  z-index: 100;
+  border-radius: 10px;
+  padding: 20px 30px;
   background-color: white;
-  top: 100px;
-  left: 80px;
+}
+
+.img > img{
+  background-color: #e3e3e3;
+  padding: 5px;
+  width: 100%;
 }
 
 .restaurant-menu{
   background-color: white;
-  padding: 15px;
   margin-bottom: 10px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.menu-name{
+  padding: 16px 24px;
+  background-color: #01172fd8;
+  color: white;
 }
 
 .restaurant-dish{
   background-color: white;
-  padding: 15px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  box-shadow: grey 0px 1px 4px;
-}
-
-.restaurant-dish{
-  padding-left: 15px;
-  padding-right: 10px;
+  margin-right: 25px;
+  margin-left: 25px;
+  padding-bottom: 10px;
+  padding-top: 15px;
+  border-bottom: 1px solid #e3e3e3;
   font-family: MRegular;
-  display: flex;
-  flex-direction: column;
-}
-
-.restaurant-dish:hover{
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-}
-
-.restaurant-dish p{
-  margin-top: 10px;
-  font-family: MRegular;
-  color: #3e3e3e;
-}
-
-.dish-box{
-  margin-top: 2px;
-  display: grid;
-  grid-template-columns: 200px 200px 200px;
   cursor: pointer;
+}
+.restaurant-dish:last-child{
+  border-bottom:0px;
+}
+
+.dish-desc{
+  font-size: 14px;
+}
+.dish-desc{
+  margin-top: 28px;
+  font-family: MRegular;
+  color: #9b9b9b !important;
+}
+
+.dish-price{
+  font-size: 18px;
+  margin-top: 14px;
+}
+
+.img-container{
+  width: 230px;
 }
 
 .dish-img{
-  padding: 0px;
-  margin-bottom: 0px;
-  background-color: black;
+  display: block;
+  max-width:230px;
+  max-height:105px;
+  width: auto;
+  height: auto;
 }
 
 

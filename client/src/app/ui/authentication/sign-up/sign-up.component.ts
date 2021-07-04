@@ -1,8 +1,7 @@
-import { Component, OnInit, ɵɵi18nAttributes } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PasswordValidator } from './validators.validator';
 import { AuthService } from '../../../services/auth.service';
-import { RegistrationModel } from '../../../models/Registration.model';
 import { tap } from 'rxjs/operators';
 import { formatDate } from '@angular/common';
 

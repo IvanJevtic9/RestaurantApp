@@ -1,7 +1,7 @@
 export interface attribute {
   name: string;
   should_add_on_price: boolean; // If true, attribute price shoud be added on dish price
-  multiple_select: boolean; // More than one attribut could be selected
+  multiple_select?: boolean; // More than one attribut could be selected
   values: {
     name: string;
     price: number;

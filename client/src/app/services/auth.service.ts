@@ -1,14 +1,10 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders, JsonpClientBackend } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { RegistrationModel } from '../models/Registration.model';
 import { Config } from './config.service';
 import { catchError, map, tap } from 'rxjs/operators';
 import { BehaviorSubject, throwError } from "rxjs";
 import { Account, AccountType } from "../models/Account.model";
-import { stringify } from "@angular/compiler/src/util";
 import { MessageService } from "primeng/api";
-
-
 
 @Injectable({
   providedIn: 'root'
@@ -56,7 +52,6 @@ export class AuthService{
         const account = new Account(data.data.token);
         this.updateAccountData(account);
         this.autoLogout();
-
 
         return this.account.value.isUserType;
       }

@@ -13,36 +13,228 @@
 
     <!-- Forma za kreiranje menija -->
     <app-menu-form
-     *ngIf="true"
+     *ngIf="addMenuFlag"
      (menu)="updateMenues($event)">
     </app-menu-form>
 
-    <p-messages styleClass="p-mt-5" *ngIf="menues.length === 0" severity="info">
+    <p-messages styleClass="p-mt-5" *ngIf="menues.length === 0 && !addMenuFlag" severity="info">
         <ng-template pTemplate>
           <i class="fas fa-info-circle fa-2x"></i>
           <div style="margin-left: 20px; color: #0872a3;">Nemate nijedan meni.</div>
         </ng-template>
     </p-messages>
 
-    <div class="p-mt-5">
-
-        <div class="menu-list p-d-flex p-flex-column p-mb-2" *ngFor="let menu of menues">
+    <div class="p-mt-5" style="position: relative;">
+      <div class="" *ngFor="let menu of menues;let i = index">
+        <div class="menu-list p-grid p-m-2">
+          <div class="p-sm-12 p-md-3 menu-img">
+            <img class="p-mx-auto" src="{{menu.image ? menu.image : 'assets/img/no-img.png'}}" alt="">
+          </div>
+          <div class="p-sm-12 p-md-9 p-d-flex p-flex-column">
             <h3>{{menu.name}}</h3>
             <span class="p-mt-3 light-text">
-                {{menu.dishes.length}} 
-                <span *ngIf="menu.dishes.length == 1">jelo</span>
-                <span *ngIf="menu.dishes.length != 1">jela</span>
+              {{menu.dishes.length}}
+              <span *ngIf="menu.dishes.length == 1">jelo</span>
+              <span *ngIf="menu.dishes.length != 1">jela</span>
             </span>
-            <div class="control-btns p-d-flex ">
-                <button class="btnn btnn-p x  p-mr-1" pRipple (click)="editMenu()">
-                    <i class="far fa-edit"></i>
-                </button>
-                <button class="btnn btnn-r x" pRipple (click)="deleteMenu()">
-                    <i class="fas fa-times"></i>
-                </button>
+          </div>
+
+          <div class="btn-group">
+            <div class="p-d-flex">
+              <button class="btnn btnn-p x p-mr-1">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button  class="btnn btnn-b x">
+                <i class="fas fa-trash"></i>
+              </button>
             </div>
+          </div>
+
+          <div class="dish-extend" (click)="toggleDishMenu(i)">
+            Pogledaj jelovnik
+            <i class="fas fa-angle-down p-ml-2" *ngIf="toggle == i"></i>
+            <i class="fas fa-angle-right p-ml-2" *ngIf="toggle != i"></i>
+          </div>
         </div>
 
-    </div>
+        <div class="menu" *ngIf="i == toggle">
+          <div *ngIf="!addDishFlag">
+            <a (click)="createDish()">
+              <i class="fas fa-plus" style="font-size: 13px;"></i>
+              Dodaj jelo
+            </a>
+            <div class="p-mt-2 form-grid">
+              <span class="light-text" *ngIf="menu.dishes.length == 0">Nemate nijedno jelo na meniju.</span>
+              <div class="dish-preview"
+                [ngStyle]="{
+                  'background': '#e3e3e3 url(' + dish.image + ') no-repeat center center/cover'}"
+               *ngFor="let dish of menu.dishes"
+              >
+                <p>
+                  {{dish.name}}
+                </p>
+                <div class="dish-control-group">
+                  <i class="fas fa-edit p-m-1"></i>
+                  <i class="fas fa-trash p-m-1"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="addDishFlag">
+            <form class="myForm" [formGroup]="addDishForm" >
+              <div class="p-d-flex p-jc-between p-ac-center p-ac-end">
+                <span class="dish-title p-mt-2 p-mb-3">Novo jelo</span>
+                <div style="height: 15px;margin-top: 7px;">
+                  <a style="font-size: 14px;" class="p-mr-2" (click)="onDishSubmit(i)">
+                    <i class="fas fa-save"></i>
+                    Sačuvaj
+                  </a>
+                  <a style="font-size: 14px;" (click)="onAddDishFinish()">
+                    <i class="fas fa-reply"></i>
+                    Poništi
+                  </a>
+                </div>
+              </div>
+              <div class="p-grid">
+                <div class="p-col-2 ddlabel">
+                  <label for="d-name">Naziv</label>
+                </div>
+                <div class="p-col-10">
+                  <input type="text"
+                    id="d-name"
+                    formControlName="name"
+                    class="m-input" >
+                </div>
 
+                <div class="p-col-2 ddlabel">
+                  <label for="ingredients">Sastojci</label>
+                </div>
+                <div class="p-col-10">
+                  <textarea type="text"
+                    id="desc"
+                    formControlName="ingredients_list"
+                    class="m-textarea"></textarea>
+                </div>
+
+                <div class="p-col-2 ddlabel">
+                  <label for="price">Cena</label>
+                </div>
+                <div class="p-col-10">
+                  <p-inputNumber
+                    inputId="price"
+                    formControlName="price"
+                    [minFractionDigits]="0"
+                    suffix=" din.">
+                  </p-inputNumber>
+                </div>
+
+                <div class="p-col-12 p-mt-3 p-py-3 p-px-4 p-d-flex p-jc-between p-ac-center attribute-list">
+                  <span style="font-family: MSemiBold;">
+                    Dodaci
+                  </span>
+                  <a style="font-size: 14px;" *ngIf="!addAttributeFlag" (click)="createNewEmptyAddon()">
+                    <i class="fas fa-plus" ></i>
+                    Napravi dodatak
+                  </a>
+                  <div *ngIf="addAttributeFlag">
+                    <a style="font-size: 14px;" class="p-mr-2"  (click)="saveNewCategory()">
+                      <i class="fas fa-save"></i>
+                      Sačuvaj
+                    </a>
+                    <a style="font-size: 14px;" (click)="cancelAddingNewcategory()">
+                      <i class="fas fa-reply"></i>
+                      Poništi
+                    </a>
+                  </div>
+                </div>
+
+                <div class="p-col-12 p-pb-3 p-px-4 att-list" *ngIf="!addAttributeFlag">
+                  <span *ngFor="let item of addon_category">
+                    {{item.name}}
+                    <span>
+                      ({{item.addon_values_count}})
+                    </span>
+                  </span>
+                  <div class="light-text" *ngIf="addon_category.length == 0">
+                    Niste dodali nijedan dodatak za jelo.
+                  </div>
+                </div>
+
+                <form class="p-grid p-col-12 mmForm" [formGroup]="newAddonGroup" *ngIf="addAttributeFlag">
+                  <div class="p-col-8 p-pl-3 p-d-flex p-flex-column">
+                    <label for="attach-name" class="required-label ">
+                      Naziv dodatka
+                    </label>
+                    <input type="text"
+                      id="attach-name"
+                      formControlName="name"
+                      class="m-input" >
+                  </div>
+
+                  <div class="p-col-4 p-ac-center p-d-flex p-ac-center p-jc-between" style="padding-left: 20px;">
+                      <label for="multiple" class="p-mt-3" style="height: 30px;">
+                        Više od jednog izbora
+                      </label>
+                      <p-checkbox inputId="multiple"
+                         [formControl]="newAddonGroup.controls['should_add_on_price']">
+                      </p-checkbox>
+                  </div>
+
+                  <div class="p-col-12 ddlabel">
+                    Atributi
+                  </div>
+
+                  <div class="p-mb-4 p-px-3 att-list">
+                    <span *ngFor="let item of addon_values">
+                      {{item.name}}
+                      <span>
+                        {{item.price | number : '1.2-2'}}  din.
+                      </span>
+                    </span>
+                    <div class="light-text" *ngIf="addon_values.length == 0">
+                      Niste dodali nijedan atribut.
+                    </div>
+                  </div>
+
+                  <form class="p-grid p-col-12 add-attribute-form" [formGroup]="newAttributeInput">
+                    <div class="p-col-12 new-att">
+                      Novi atribut
+                    </div>
+                    <div class="p-col-7">
+                      <label for="dd-name" class="required-label">
+                        Naziv atribut
+                      </label>
+                      <input type="text"
+                        id="dd-name"
+                        formControlName="name"
+                        class="m-input" >
+                    </div>
+                    <div class="p-col-4">
+                      <label for="att-price" class="required-label">
+                        Cena atributa
+                      </label>
+                      <p-inputNumber
+                        inputId="att-price"
+                        formControlName="price"
+                        [minFractionDigits]="0"
+                        suffix=" din.">
+                      </p-inputNumber>
+                    </div>
+                    <div class="p-col-1">
+                      <button class="btnn btnn-p" (click)="addAttribute()"
+                         style="margin-top: 20px;margin-left: 10px;">
+                        <i class="fas fa-plus"></i>
+                      </button>
+                    </div>
+
+                  </form>
+                </form>
+
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
 </div>

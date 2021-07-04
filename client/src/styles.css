@@ -79,7 +79,7 @@ a:hover{
   border: 0px;
   padding: 8px 14px;
   font-size: 16px;
-  font-family: 'MRegular';
+  font-family: MRegular;
   border-radius: 2px;
   cursor: pointer;
   transition: all 0.4s;
@@ -109,6 +109,10 @@ a:hover{
   background-color: var(--pink-500);
 }
 
+.btnn-b{
+  background-color: var(--oxford-blue);
+  color: var(--pink-200);
+}
 
 .btnn.ric i{
   padding-right: 5px;
@@ -138,6 +142,10 @@ a:hover{
   border-radius: 3px;
   border: 1px solid #e3e3e3;
 }
+.m-input:focus{
+  border-color: #2196F3;
+}
+
 .m-input:focus-visible{
   outline: 0px;
 }
@@ -156,5 +164,4 @@ a:hover{
 }
 .p-inputtext:enabled:hover{
   box-shadow: none;
-
 }

@@ -1,40 +1,57 @@
-<div class="wrapper">
-  <div class="pozadina">
-    <img src="assets/img/bckg.webp" class=" slika">
-    <div *ngIf="restaurant!==null" class="informacije">
-        <div>{{restaurant.image}}</div>
-        <h2>{{restaurant.name}}</h2>
-        <p>{{restaurant.city}}</p>
-        <p>{{restaurant.address}}</p>
+
+<div class="background-gallery"
+  [ngStyle]="{
+    'background': '#e3e3e3 url(' + restaurant.image + ') no-repeat center center/cover'}">
+
+  <div class="info-wrapper p-mx-auto">
+    <div class="info p-grid">
+        <div class="p-col-fixed img" style="width: 60px;">
+          <img src="{{restaurant.image === null ? 'assets/img/no-img.png' : restaurant.image}}" alt="logo">
+        </div>
+        <div class="p-col">
+          <h2 class="p-mb-1 bold-text">{{restaurant.name}}</h2>
+          <span class="light-text" style="font-size: 14px;">
+            {{restaurant.address}},
+            {{restaurant.city}}
+          </span>
+        </div>
     </div>
   </div>
-  <div>
-    <p-tabView class="tab-view" >
-      <p-tabPanel header="Menu" >
-        <div *ngFor="let item of menus" class="restaurant-menu">
-            <div>
-              <h3>{{item.name}}</h3>
-            </div>
-              <div *ngFor="let dish of item.dishes" class="restaurant-dish p-grid ">
-                    <div class="dish-box">
-                      <div class="dish-img">
-                        <img src="" class="p-sm-12 p-md-3 img-dish">
-                      </div>
-                      <div class="p-sm-12 p-md-9 dish-details">
-                        <p class="dish-name">{{dish.name}}</p>
-                        <p>{{dish.ingredients_list}}</p>
-                      </div>
-                  </div>
-              </div>
-        </div>
-      </p-tabPanel>
-      <p-tabPanel header="Informacije">
-      </p-tabPanel>
-      <p-tabPanel header="O nama">
-        <div *ngIf="restaurant!==null">
-            <p>{{restaurant.description}}</p>
-        </div>
-      </p-tabPanel>
-  </p-tabView>
-  </div>
 </div>
+<div style="background-color: white;height: 100%;">
+  <p-tabView class="tab-view" >
+    <p-tabPanel header="Menu" >
+      <div class="wrapper p-mx-auto">
+        <div *ngFor="let item of menus" class="restaurant-menu">
+          <div class="menu-name">
+            <h3>{{item.name}}</h3>
+          </div>
+
+          <div *ngFor="let dish of item.dishes" class="restaurant-dish">
+            <div class="p-grid">
+              <div class="p-col">
+                <h4 class="p-mt-2">
+                  {{dish.name}}
+                </h4>
+                <p class="dish-desc">{{dish.ingredients_list}}</p>
+                <p class="dish-price">Od {{dish.price | number : '1.2-2'}} din.</p>
+              </div>
+              <div class="p-col-fixed p-mr-2 p-mt-1 img-container" style="width: 230px">
+                <img src="assets/img/pizza.webp" class="dish-img p-mx-auto">
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel header="Informacije"></p-tabPanel>
+    <p-tabPanel header="O nama">
+      <div *ngIf="restaurant!==null">
+        <p>{{restaurant.description}}</p>
+      </div>
+    </p-tabPanel>
+
+  </p-tabView>
+</div>
+

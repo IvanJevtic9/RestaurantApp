@@ -16,7 +16,6 @@ import { ClientSearchComponent } from './ui/main/client-search/client-search.com
 
 // Primeface
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CheckboxModule } from 'primeng/checkbox';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { InputSwitchModule } from 'primeng/inputswitch';
@@ -31,6 +30,9 @@ import { MenuModule } from 'primeng/menu';
 import { TabViewModule } from 'primeng/tabview';
 import { DropdownModule } from 'primeng/dropdown';
 import { DialogModule } from 'primeng/dialog';
+import { AccordionModule } from 'primeng/accordion';
+import { InputNumberModule } from 'primeng/inputnumber';
+import {CheckboxModule} from 'primeng/checkbox';
 
 import { AdminComponent } from './ui/admin/admin.component';
 import { AboutUsComponent } from './ui/admin/about-us/about-us.component';
@@ -82,7 +84,9 @@ import { UserPasswordComponent } from './ui/user/user-password/user-password.com
     DialogModule,
     MessagesModule,
     MessageModule,
-    DropdownModule
+    DropdownModule,
+    AccordionModule,
+    InputNumberModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

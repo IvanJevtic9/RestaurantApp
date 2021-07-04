@@ -9,3 +9,18 @@
 .top-div /deep/ .m_container /deep/ .p-calendar {
     width: 100%;
 }
+.top-div /deep/ .p-autocomplete,
+.top-div /deep/ .p-autocomplete .p-autocomplete-input,
+.top-div /deep/ .p-inputnumber {
+  width: 100%;
+}
+
+.top-div /deep/ .p-inputtext:enabled:focus{
+  box-shadow: none;
+}
+
+.top-div /deep/ .p-tabview .p-tabview-nav{
+  max-width: 1300px;
+  margin-left: auto;
+  margin-right: auto;
+}

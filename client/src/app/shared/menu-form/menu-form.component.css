@@ -1,6 +1,6 @@
 .top-container{
     background-color: white;
-    padding: 30px 20px;
+    padding: 30px 20px 40px 20px;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
@@ -17,17 +17,106 @@
     transition: 200ms ease-in-out;
 }
 
-.box{
-    /* margin: 0px 20px;
-    padding: 10px; */
+/* .box{
     border: 1px solid var(--link);
     width: 100%;
+} */
+
+.error-class{
+  border-color: rgb(255, 145, 145);
 }
-.pic {
-    width: 210px;
+.menu-desc-title{
+  font-family: MLight;
+  font-size: 18px;
+  padding: 0px 8px 20px 8px;
 }
 
-label{
+.error-message{
+  color: rgb(238, 151, 151);
+  padding: 0px 2px;
+  margin-top: -10px;
+}
+
+label {
     font-size: 16px;
     margin-bottom: 6px !important;
+}
+
+.btnn{
+  font-size: 13px !important;
+}
+
+.user-photo {
+  position: relative;
+  height: 140px;
+  padding-bottom: 10px;
+}
+.user-photo > img{
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border-width: 1px 1px 0px 1px;
+  border-style: solid;
+  border-color: var(--blue-100);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 5px;
+}
+
+.fileUpload{
+  width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+.fileUpload + label {
+  position: absolute;
+  top: 130px;
+  text-align: center;
+  width: 140px;
+  min-width: 140px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-family: MBold;
+  color: #06203a;
+  background-color: rgba(130, 194, 255, 0.356);
+  display: inline-block;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  cursor: pointer;
+  border-width: 0px 1px 1px 1px;
+  border-style: solid;
+  border-color: var(--blue-100);
+  font-size: 14px;
+  transition: all;
+  transition-duration: 300ms;
+}
+
+.fileUpload:focus + label,
+.fileUpload + label:hover {
+  background-color: rgb(130, 195, 255);
+}
+.fileUpload:focus + label {
+	outline: 1px dotted #000;
+	outline: -webkit-focus-ring-color auto 5px;
+}
+
+.close-img{
+  position: absolute;
+  cursor: pointer;
+  top: 2px;
+  left: 118px;
+  font-size: 18px;
+  transition: all;
+  transition-duration: 300ms;
+}
+.close-img:hover{
+  color: #f15b6a;
+}
+
+.picture-wrapper{
+  width: 160px;
+  margin-bottom: 20px;
 }

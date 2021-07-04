@@ -1,83 +1,49 @@
 <div class="p-grid p-m-0 top-container">
-    <div class="p-col-12 p-d-flex p-flex-column">
-        <label for="fieldId">Naziv menija</label>
-        <input id="fieldId"
-            class="m-input p-mb-1"
-            type="text"
-            [(ngModel)]="menu.name">
-    </div>
+    <h3 class="p-col-12 menu-desc-title">Napravite meni</h3>
 
-    <div class="p-col">
-        <div class="p-d-flex p-jc-between p-ai-center">
-            <h4>Jela</h4>
-            <a class="p-mr-3" (click)="display = true">
-                <i class="fas fa-plus"></i>
-                Dodaj jelo
-            </a>
+    <div class="p-col-fixed picture-wrapper">
+      <div class="user-photo">
+        <img [src]="(imgURL===null)?'assets/img/no-img.png' : imgURL" alt="user-photo">
+        <div class="form-group">
+          <input type="file"
+            class="fileUpload"
+            id="file"
+            accept='image/*'
+            (change)="handleFileInput($event.target.files)">
+          <label for="file">
+            <i class="fas fa-camera"></i> &nbsp;
+            Učitajte sliku
+          </label>
         </div>
-        
-        <div class="p-mt-4 light-text">
-            Nemate dodato nijedno jelo.
+        <i *ngIf="imgURL !== null" (click)="(removeImg())" class="far fa-window-close close-img"></i>
+      </div>
+    </div>
+
+    <div class="p-col p-d-flex p-flex-column">
+      <label for="fieldId" class="required-label">
+        Naziv menija
+      </label>
+      <input id="fieldId"
+          [ngClass]="{'error-class': errorFlag}"
+          #menuname
+          class="m-input p-mb-4"
+          type="text"
+          [(ngModel)]="menu.name">
+
+        <div *ngIf="errorFlag" class="error-message">
+          Morate uneti ovo polje
         </div>
-    </div>
 
-    <div class="p-col-fixed p-d-flex p-flex-column pic">
-        
-        <img class="box"
-            src="assets/img/no-img.png"
-            alt="" >
-
-        <input 
-            style="display: none;"
-            type="file"
-            (change)="onFileSelect($event)" #hiddenfileinput>
-
-        <button 
-            (click)="hiddenfileinput.click()"
-            class="btnn btnn-p ric p-mt-2"
-        >
-            <i class="fas fa-cloud-upload-alt"></i>
-            Izaberite sliku
-        </button>
-    </div>
-
-
-    <!-- <div class="col-sm-12 col-md-5 col-lg-5">
-        <button class="btnn btnn-r x" pRipple (click)="onCancle()">
-            <i class="fas fa-times"></i>
-        </button>
-        <button class="btnn btnn-g x p-mr-1" pRipple (click)="onConfirm()">
+        <div class="p-mt-auto p-d-flex">
+          <button class="btnn btnn-p ric p-mr-1 p-ml-auto" pRipple (click)="onConfirm()">
             <i class="fas fa-check"></i>
-        </button>
-    </div> -->
-</div>
-
-<p-dialog
-  [breakpoints]="{'960px': '75vw', '640px': '100vw'}"
-  [style]="{width: '50vw'}"
-  position="top"
-  header="Napravi jelo"
-  [transitionOptions]="'0ms'"
-  [modal]="true"
-  [(visible)]="display">
-
-    <div class="p-grid">
-        <div class="p-col-12 p-d-flex p-flex-column">
-            <label for="fieldId">Naziv jela</label>
-            <input id="fieldId"
-                class="m-input p-mb-1"
-                type="text"
-                [(ngModel)]="mDish.name">
+            Potvrdi
+          </button>
+          <button class="btnn btnn-b ric" pRipple (click)="onCancle()">
+              <i class="fas fa-times"></i>
+              Poništi
+          </button>
         </div>
-        <div class="p-col-12 p-d-flex p-flex-column">
-            <label for="fieldId">Sastojci</label>
-            <textarea id="fieldId"
-                class="m-textarea p-mb-1"
-                [(ngModel)]="mDish.ingredients_list">
-            </textarea>
-        </div>
-
     </div>
 
-
-</p-dialog>
+</div>

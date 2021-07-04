@@ -1,6 +1,8 @@
 <div class="wrapper">
   <div>
     <p-autoComplete
+      placeholder="Pretrazite restoran"
+      styleClass="p-mb-4"
      [(ngModel)]="text"
      (completeMethod)="search($event)">
     </p-autoComplete>

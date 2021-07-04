@@ -17,6 +17,10 @@
   min-width: 100%;
   max-width: 100%;
   padding: 2px;
+  border: 1px solid #e3e3e3;
+}
+.m-textarea:focus{
+  border-color: #2196F3;
 }
 .reg-success-block{
   display: flex;
