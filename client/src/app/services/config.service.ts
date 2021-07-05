@@ -6,4 +6,6 @@ export class Config {
   // API
   REGISTER_API = this.location + '/api/account/register';
   LOGIN_API = this.location + '/api/account/login';
+  MENU_API = this.location + '/api/restaurant/menu';
+  GET_MENU_BY_RESTAURANT_ID = this.location + '/api/restaurant/';
 }

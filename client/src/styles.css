@@ -111,7 +111,11 @@ a:hover{
 
 .btnn-b{
   background-color: var(--oxford-blue);
-  color: var(--pink-200);
+  color: var(--yellow-200);
+}
+
+.btnn-b:hover{
+  background-color: #083c74;
 }
 
 .btnn.ric i{

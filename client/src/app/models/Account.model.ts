@@ -6,17 +6,19 @@ export enum AccountType{
 }
 
 export class Account{
-  private id: string;
+  public id: string;
   public email: string
   public phone: string;
   public city:	string;
   public address: string;
   public postalCode:	string;
   public restaurant?: {
+    restaurantId: number,
     name:	string,
     description?: string
   }
   public user?: {
+    userId: number,
     firstName: string,
     lastName:	string,
     dateOfBirth: Date
@@ -26,7 +28,7 @@ export class Account{
   public expDate: Date;
 
   //Izvlacanje iz tokena potrebne informacije za Usera ili Preduzetnika
-  constructor (private token: string){
+  constructor (public token: string){
     const tmp = jwt_decode<any>(token);
 
     this.email = tmp.email;
@@ -41,12 +43,14 @@ export class Account{
 
     if(this.accountType === AccountType.USER){
       this.user = {
+        userId: +tmp.userId,
         firstName : tmp.firstName,
         lastName : tmp.lastName,
         dateOfBirth : tmp.dateOfBirth
       }
     }else{
       this.restaurant = {
+        restaurantId: +tmp.restaurantId,
         name: tmp.name,
         description: tmp.description
       }

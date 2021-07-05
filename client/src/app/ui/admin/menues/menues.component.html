@@ -2,22 +2,25 @@
     <div class="p-d-flex p-jc-between p-ai-center p-my-3">
         <h2>Moj meni</h2>
         <button class="btnn btnn-p ric"
-         *ngIf="!addMenuFlag"
-         (click)="addMenuFlag = true"
+         *ngIf="menuAdditionState == 0"
+         (click)="createNewMenu()"
          pRipple
         >
             <i class="fas fa-plus"></i>
-            Kreiraj meni
+            Kreiraj sekciju menija
         </button>
     </div>
 
     <!-- Forma za kreiranje menija -->
     <app-menu-form
-     *ngIf="addMenuFlag"
+     *ngIf="menuAdditionState != 0"
      (menu)="updateMenues($event)">
     </app-menu-form>
 
-    <p-messages styleClass="p-mt-5" *ngIf="menues.length === 0 && !addMenuFlag" severity="info">
+
+<p-confirmPopup></p-confirmPopup>
+
+    <p-messages styleClass="p-mt-5" *ngIf="menues.length === 0 && menuAdditionState != 0" severity="info">
         <ng-template pTemplate>
           <i class="fas fa-info-circle fa-2x"></i>
           <div style="margin-left: 20px; color: #0872a3;">Nemate nijedan meni.</div>
@@ -44,7 +47,7 @@
               <button class="btnn btnn-p x p-mr-1">
                 <i class="fas fa-edit"></i>
               </button>
-              <button  class="btnn btnn-b x">
+              <button  class="btnn btnn-b x" (click)="deleteMenu(i)">
                 <i class="fas fa-trash"></i>
               </button>
             </div>
@@ -238,3 +241,4 @@
       </div>
     </div>
 </div>
+

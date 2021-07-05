@@ -43,6 +43,8 @@ import { GalleryComponent } from './ui/admin/gallery/gallery.component';
 import { UserComponent } from './ui/user/user.component';
 import { UserDataComponent } from './ui/user/user-data/user-data.component';
 import { UserPasswordComponent } from './ui/user/user-password/user-password.component';
+import {ConfirmPopupModule} from 'primeng/confirmpopup';
+import {ConfirmationService} from 'primeng/api';
 @NgModule({
   declarations: [
     AppComponent,
@@ -86,7 +88,8 @@ import { UserPasswordComponent } from './ui/user/user-password/user-password.com
     MessageModule,
     DropdownModule,
     AccordionModule,
-    InputNumberModule
+    InputNumberModule,
+    ConfirmPopupModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

@@ -41,6 +41,7 @@ namespace RestaurantApp.Core.IdentityProvider
             }
             if (account.AccountType == AccountType.Restaurant)
             {
+                claim.Add(new Claim("restaurantId", account.Restaurant.Id.ToString()));
                 claim.Add(new Claim("name", account.Restaurant.Name));
                 if (account.Restaurant.Description != null)
                 {
@@ -49,6 +50,7 @@ namespace RestaurantApp.Core.IdentityProvider
             }
             else
             {
+                claim.Add(new Claim("userId", account.User.Id.ToString()));
                 claim.Add(new Claim("firstName", account.User.FirstName));
                 claim.Add(new Claim("lastName", account.User.LastName));
                 if (account.User.DateOfBirth != null)

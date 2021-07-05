@@ -8,7 +8,7 @@ import { FileUploadService } from '../../services/file.service';
   styleUrls: ['./menu-form.component.css']
 })
 export class MenuFormComponent implements OnInit {
-  @Output('menu') onMenu: EventEmitter<Menu> = new EventEmitter();
+  @Output('menu') onMenu: EventEmitter<{menu: Menu, file: File}> = new EventEmitter();
 
   display = false;
   errorFlag = false;
@@ -48,10 +48,10 @@ export class MenuFormComponent implements OnInit {
       return;
     }
     this.menu.image = this.imgURL;
-    this.onMenu.emit(this.menu);
+    this.onMenu.emit({menu: this.menu, file: this.fileToUpload});
   }
 
-  onCancle(){
+  onCancel(){
     this.onMenu.emit(null);
   }
 }

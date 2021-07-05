@@ -1,20 +1,27 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Dish, Menu } from 'src/app/models/Food.model';
-import { MenuService } from 'src/app/services/menu.service';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
-import { attribute } from '../../../models/Food.model';
 import { AdminService } from '../../../services/admin.service';
+import { ConfirmationService } from 'primeng/api';
+
+export enum AddMenuState{
+  NO_ADDING,
+  ADD_NEW,
+  UPDATE_EXSISTING
+};
 
 @Component({
   selector: 'app-menues',
   templateUrl: './menues.component.html',
-  styleUrls: ['./menues.component.css']
+  styleUrls: ['./menues.component.css'],
+  providers:[ConfirmationService]
 })
 export class MenuesComponent implements OnInit {
   menues: Menu[] = [];
   dishes: Dish[] = [];
 
-  addMenuFlag = false;
+  menuAdditionState: AddMenuState = AddMenuState.NO_ADDING;
+
   // Index that specifies opend tab
   toggle = -1;
   addDishFlag = false;
@@ -29,10 +36,16 @@ export class MenuesComponent implements OnInit {
 
   addDishForm: FormGroup;
 
-  constructor(private menuService: AdminService) { }
+  constructor(
+    private menuService: AdminService,
+    private confirmationService: ConfirmationService
+  ) { }
 
   ngOnInit(): void {
-    this.menues = this.menuService.getMyMenues();
+    this.menuService.getMyMenues().subscribe(data => {
+      console.log(data);
+      this.menues = data;
+    });
     this.createNewEmptyDishForm();
     this.createNewEmptyAddon();
   }
@@ -41,16 +54,40 @@ export class MenuesComponent implements OnInit {
 
   }
 
-  deleteMenu(){
+  deleteMenu(index: number){
+    this.confirmationService.confirm({
+      target: event.target,
+      message: 'Zaista želite izbrisati sekciju menija?',
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: 'Da',
+      rejectLabel: 'Ne',
+      accept: () => {
+        this.menuService.deleteMenu(this.menues[index].id);
+        this.menues.splice(index, 1);
+      },
+      reject: () => {
+          //reject action
+      }
+  });
 
   }
 
-  updateMenues(menu: Menu){
-    if(menu !== null){
-      console.log(menu);
-      this.menues.push(menu);
+  createNewMenu(){
+    this.menuAdditionState = AddMenuState.ADD_NEW;
+    // TODO make distincion between updating menu
+  }
+
+  updateMenues(data: {menu: Menu, file: File}){
+
+    if(data != null && data.menu !== null){
+      console.log(data.menu);
+      this.menuService.createNewMenu(data).subscribe(result => {
+        data.menu.id = result.data.id;
+        console.log(result);
+      });
+      this.menues.push(data.menu);
     }
-    this.addMenuFlag = false;
+    this.menuAdditionState = AddMenuState.NO_ADDING;
   }
 
   toggleDishMenu(i: number){

@@ -106,7 +106,6 @@ export class SignUpComponent implements OnInit {
 
     if (this.profile_image !== undefined || this.profile_image !== null) {
       console.log(this.profile_image);
-
       formModel.append("imageFile", this.profile_image);
     }
 
