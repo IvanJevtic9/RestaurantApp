@@ -9,7 +9,7 @@ namespace RestaurantApp.Infrastructure.Data.EntityConfiguration
     {
         public void Configure(EntityTypeBuilder<PaymentOrder> builder)
         {
-            builder.ToTable("PaymentOrder");
+            builder.ToTable("PaymentOrders");
 
             builder.HasKey(r => r.Id);
 
@@ -22,11 +22,13 @@ namespace RestaurantApp.Infrastructure.Data.EntityConfiguration
             builder.HasOne(r => r.Restaurant)
                    .WithMany()
                    .HasForeignKey(p => p.RestaurantId)
+                   .OnDelete(DeleteBehavior.NoAction)
                    .IsRequired();
 
             builder.HasOne(r => r.User)
                    .WithMany()
                    .HasForeignKey(p => p.UserId)
+                   .OnDelete(DeleteBehavior.NoAction)
                    .IsRequired();
 
             builder.Property(r => r.TimeCreated)

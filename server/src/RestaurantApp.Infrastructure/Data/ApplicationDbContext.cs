@@ -17,6 +17,7 @@ namespace RestaurantApp.Infrastructure.Data
             modelBuilder.ApplyConfiguration(new RestaurantMenuConfiguration());
             modelBuilder.ApplyConfiguration(new MenuItemConfiguration());
             modelBuilder.ApplyConfiguration(new GalleryImageConfiguration());
+            modelBuilder.ApplyConfiguration(new PaymentOrderConfiguration());
         }
     }
 }
