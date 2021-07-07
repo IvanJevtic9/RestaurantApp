@@ -204,6 +204,8 @@ namespace RestaurantApp.Web
             services.AddTransient<IValidator<LoginDto>, LoginValidator>();
             services.AddTransient<IValidator<GalleryDto>, GalleryValidator>();
             services.AddTransient<IValidator<RestaurantMenuItemDto>, MenuItemValidator>();
+            services.AddTransient<IValidator<PaymentOrderTransitionDto>, PaymentOrderTransitionValidator>();
+            services.AddTransient<IValidator<PaymentOrderDto>, PaymentOrderValidator>();
         }
     }
 }
