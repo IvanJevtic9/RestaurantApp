@@ -153,9 +153,6 @@ export class AdminService {
             dishes: []
           };
 
-          console.log(element.imageUrl);
-
-
           element.menuItems.forEach(element => {
             menu.dishes.push({
               id: element.id,
@@ -166,7 +163,6 @@ export class AdminService {
               image: element.imageUrl
             })
           });
-          console.log(menu);
 
           menues.push(menu);
         });
@@ -191,6 +187,21 @@ export class AdminService {
       formData,
       {headers: this.createHeader()}
     )
+  }
+
+  updateExsistingDish(dish: Dish, file: File){
+    const formData = new FormData();
+    formData.append("name", dish.name);
+    formData.append("description", dish.ingredients_list);
+    formData.append("attributes", JSON.stringify(dish.attributes));
+    formData.append("price", ''+dish.price);
+    formData.append("itemImage", file);
+
+    return this.http.put<{data: {id: number; imageUrl: string}}>(
+      this.config.DISH_API + '/' + dish.id,
+      formData,
+      {headers: this.createHeader()}
+    );
   }
 
   deleteDish(dish_id: number){

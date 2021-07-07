@@ -184,11 +184,15 @@
                   </div>
 
                   <div class="p-col-12 p-pb-3 p-px-4 att-list" *ngIf="!addAttributeFlag">
-                    <span *ngFor="let item of addon_category">
+                    <span *ngFor="let item of addon_category; let addition_index = index">
                       {{item.name}}
                       <span>
                         ({{item.addon_values_count}})
                       </span>
+                      <div class="att-list-action-group">
+                        <i class="fas fa-edit p-m-1" (click)="editAddition(addition_index)"></i>
+                        <i class="fas fa-trash p-m-1" (click)="removeAddition(addition_index)"></i>
+                      </div>
                     </span>
                     <div class="light-text" *ngIf="addon_category.length == 0">
                       Niste dodali nijedan dodatak za jelo.

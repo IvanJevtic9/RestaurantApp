@@ -4,6 +4,7 @@ import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { AdminService } from '../../../services/admin.service';
 import { ConfirmationService } from 'primeng/api';
 import { FileUploadService } from '../../../services/file.service';
+import { attribute } from '../../../models/Food.model';
 
 export enum AddMenuState{
   NO_ADDING,
@@ -27,12 +28,13 @@ export class MenuesComponent implements OnInit {
   toggle = -1;
   editIndex = -1;
   addDishFlag = false;
-  editDishFlag = false; // edit Dish
+  editDishIndex = -1; // edit Dish
 
   // Att Values
   newAddonGroup: FormGroup = null;
 
   addAttributeFlag = false;
+  editAttributeIndex = -1;
   addon_values: {name: string, price: number}[] = [];
   addon_category: {name: string, addon_values_count: number}[] = [];
   newAttributeInput: FormGroup = null;
@@ -176,27 +178,6 @@ export class MenuesComponent implements OnInit {
     }
   }
 
-  saveNewCategory(){
-    const control = this.addDishForm.get("attribute");
-    console.log(control);
-
-    if(
-      this.newAddonGroup.value.name === '' ||
-      this.newAddonGroup.value.values.length == 0
-    ){
-      return;
-    }
-
-    if(control instanceof FormArray){
-      control.push(this.newAddonGroup);
-      this.addon_category.push({
-        name: this.newAddonGroup.value.name,
-        addon_values_count: this.addon_values.length
-      })
-      this.addAttributeFlag = false;
-    }
-  }
-
   cancelAddingNewcategory(){
     this.addAttributeFlag = false;
   }
@@ -206,7 +187,6 @@ export class MenuesComponent implements OnInit {
 
     if(this.uploader.checkFileType(files)){
       this.uploader.uploadFile(files[0], (img) => {
-
         this.addDishForm.value.image  = img;
       });
     }
@@ -226,10 +206,15 @@ export class MenuesComponent implements OnInit {
     if(this.addDishForm.value.name === ''){
       return;
     }
+    if(this.editDishIndex != -1){
+      this.onUpdateDish(i);
+      return;
+    }
     const dish: Dish = {
       name: this.addDishForm.value.name,
       id: -1,
       price: this.addDishForm.value.price,
+      image: this.addDishForm.value.image,
       ingredients_list: this.addDishForm.value.ingredients_list,
       attributes: this.addDishForm.value.attribute
     };
@@ -238,7 +223,6 @@ export class MenuesComponent implements OnInit {
     this.menuService.createNewDish(this.menues[i].id, dish, this.dishImage).subscribe(data => {
       console.log(data);
       dish.id = data.data.id;
-      dish.image = data.data.imageUrl;
     })
 
     this.onAddDishClear();
@@ -253,6 +237,7 @@ export class MenuesComponent implements OnInit {
     this.addon_values = [];
     this.addon_category = [];
     this.dishImage = null;
+    this.editDishIndex = -1;
   }
 
   deleteDish(menu_index: number, dish_index: number){
@@ -262,13 +247,139 @@ export class MenuesComponent implements OnInit {
   }
 
   editDish(menu_index: number, dish_index: number){
+    this.editDishIndex = dish_index;
+    this.createDish()
 
-    this.addDishForm.value.name = this.menues[menu_index].dishes[dish_index].name;
-    this.addDishForm.value.ingredients_list = this.menues[menu_index].dishes[dish_index].ingredients_list;
-    // this.addDishForm.value.name = this.menues[menu_index].dishes[dish_index].name;
-    // this.addDishForm.value.name = this.menues[menu_index].dishes[dish_index].name;
-    // this.addDishForm.value.name = this.menues[menu_index].dishes[dish_index].name;
-    // this.addDishForm.value.name = this.menues[menu_index].dishes[dish_index].name;
+    console.log(this.menues[menu_index].dishes[dish_index]);
+
+    const attribute = new FormArray([]);
+    this.addon_category = [];
+
+    this.menues[menu_index].dishes[dish_index].attributes.forEach(el => {
+      const values = new FormArray([]);
+      const newGroup = new FormGroup({
+        name: new FormControl(el.name, Validators.required),
+        should_add_on_price: new FormControl(el.should_add_on_price),
+        values: values
+      });
+
+      el.values.forEach((val) => {
+
+        values.push(new FormGroup({
+          name: new FormControl(val.name, Validators.required),
+          price: new FormControl(val.price, Validators.required)
+        }))
+      });
+
+      this.addon_category.push({
+        name: el.name,
+        addon_values_count: el.values.length
+      });
+      attribute.push(newGroup);
+    });
+
+    console.log(attribute);
+
+    this.addDishForm = new FormGroup({
+      name: new FormControl(this.menues[menu_index].dishes[dish_index].name, [Validators.required]),
+      ingredients_list: new FormControl(this.menues[menu_index].dishes[dish_index].ingredients_list, [Validators.required]),
+      image: new FormControl(this.menues[menu_index].dishes[dish_index].image),
+      attribute: attribute,
+      price: new FormControl(this.menues[menu_index].dishes[dish_index].price)
+    });
   }
 
+  onUpdateDish(menu_index: number){
+    this.menues[menu_index].dishes[this.editDishIndex].name = this.addDishForm.value.name;
+    this.menues[menu_index].dishes[this.editDishIndex].price = this.addDishForm.value.price;
+    this.menues[menu_index].dishes[this.editDishIndex].ingredients_list = this.addDishForm.value.ingredients_list;
+    this.menues[menu_index].dishes[this.editDishIndex].attributes = this.addDishForm.value.attribute;
+    this.menues[menu_index].dishes[this.editDishIndex].image = this.addDishForm.value.image;
+
+    this.menuService
+      .updateExsistingDish(this.menues[menu_index].dishes[this.editDishIndex], this.dishImage)
+      .subscribe(data => {
+        console.log(data);
+      })
+    this.onAddDishClear();
+  }
+
+  editAddition(addition_index: number){
+    this.addAttributeFlag = true;
+    this.addAttributeFlag = true;
+    this.editAttributeIndex = addition_index;
+    this.addon_values = [];
+    let values: FormArray;
+    let atr: FormGroup;
+
+
+    const control = this.addDishForm.get("attribute");
+    console.log(control);
+    if(control instanceof FormArray){
+      const m = control.at(addition_index);
+      if(m instanceof FormGroup){
+        atr = m;
+        const mvalue = atr.get("values");
+        if(mvalue instanceof FormArray){
+          values = mvalue;
+          for(let i = 0; i < mvalue.length; ++i){
+            this.addon_values.push({
+              name: mvalue.at(i).value.name,
+              price: mvalue.at(i).value.price
+            });
+          }
+        }
+      }
+    }
+
+    // Attribute group
+    this.newAddonGroup = new FormGroup({
+      name: new FormControl(atr.value.name, Validators.required),
+      should_add_on_price: new FormControl(atr.value.should_add_on_price),
+      values: values
+    });
+
+    // Choice
+    this.newAttributeInput =  new FormGroup({
+      name: new FormControl('', Validators.required),
+      price: new FormControl(0, Validators.required)
+    })
+  }
+
+
+  saveNewCategory(){
+    if(
+      this.newAddonGroup.value.name === '' ||
+      this.newAddonGroup.value.values.length == 0
+    ){
+      return;
+    }
+
+    const control = this.addDishForm.get("attribute");
+    if(control instanceof FormArray){
+      if(this.editAttributeIndex != -1){
+        this.addon_category[this.editAttributeIndex].name = this.newAddonGroup.value.name;
+        this.addon_category[this.editAttributeIndex].addon_values_count = this.addon_values.length;
+        control.removeAt(this.editAttributeIndex)
+        control.insert(this.editAttributeIndex, this.newAddonGroup);
+      }
+      else {
+        control.push(this.newAddonGroup);
+        this.addon_category.push({
+          name: this.newAddonGroup.value.name,
+          addon_values_count: this.addon_values.length
+        })
+      }
+      this.editAttributeIndex = -1;
+      this.addAttributeFlag = false;
+    }
+  }
+
+  removeAddition(addition_index: number){
+    this.addon_category.splice(addition_index, 1);
+    const control = this.addDishForm.get("attribute");
+    if(control instanceof FormArray){
+      control.removeAt(addition_index);
+    }
+  }
 }
