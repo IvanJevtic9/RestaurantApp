@@ -9,6 +9,7 @@ import { FileUploadService } from '../../services/file.service';
 })
 export class MenuFormComponent implements OnInit {
   @Output('menu') onMenu: EventEmitter<{menu: Menu, file: File}> = new EventEmitter();
+  @Input('editMenu') editMenu: Menu;
 
   display = false;
   errorFlag = false;
@@ -25,7 +26,14 @@ export class MenuFormComponent implements OnInit {
 
   constructor(private uploader: FileUploadService) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if(this.editMenu !== undefined){
+      this.imgURL = this.editMenu.image;
+      this.menu.id = this.editMenu.id;
+      this.menu.name = this.editMenu.name;
+      this.menu.image = this.editMenu.image;
+    }
+  }
 
   handleFileInput(files: any){
     this.fileToUpload = files[0];
@@ -52,6 +60,6 @@ export class MenuFormComponent implements OnInit {
   }
 
   onCancel(){
-    this.onMenu.emit(null);
+    this.onMenu.emit((this.editMenu !== undefined) ?  {menu: this.editMenu, file: null} : null);
   }
 }

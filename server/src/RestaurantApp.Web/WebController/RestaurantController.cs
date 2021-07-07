@@ -398,6 +398,7 @@ namespace RestaurantApp.Web.WebController
 
             imageManager.DeleteFile((int)menuItem.ItemImageId);
             unitOfWork.MenuItem.Remove(menuItem);
+            unitOfWork.SaveChanges();
 
             response.Message = ResponseCodes.SUCCESSFUL_REQUEST;
             return Ok(response);

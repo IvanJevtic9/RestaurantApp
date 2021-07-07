@@ -30,20 +30,20 @@
           type="text"
           [(ngModel)]="menu.name">
 
-        <div *ngIf="errorFlag" class="error-message">
-          Morate uneti ovo polje
-        </div>
+      <div *ngIf="errorFlag" class="error-message">
+        Morate uneti ovo polje
+      </div>
 
-        <div class="p-mt-auto p-d-flex">
-          <button class="btnn btnn-p ric p-mr-1 p-ml-auto" pRipple (click)="onConfirm()">
-            <i class="fas fa-check"></i>
-            Potvrdi
-          </button>
-          <button class="btnn btnn-b ric" pRipple (click)="onCancel()">
-              <i class="fas fa-times"></i>
-              Poništi
-          </button>
-        </div>
+      <div class="p-mt-auto p-d-flex">
+        <button class="btnn btnn-p ric p-mr-1 p-ml-auto" pRipple (click)="onConfirm()">
+          <i class="fas fa-check"></i>
+          Potvrdi
+        </button>
+        <button class="btnn btnn-b ric" pRipple (click)="onCancel()">
+            <i class="fas fa-times"></i>
+            Poništi
+        </button>
+      </div>
     </div>
 
 </div>
