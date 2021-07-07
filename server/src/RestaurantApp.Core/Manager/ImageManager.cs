@@ -72,7 +72,7 @@ namespace RestaurantApp.Core.Manager
 
             var fileName = $"{DateTime.Now.ToString("ddMMyyyy_HH_mm_ss")}_{dbEntity.ImageName}";
             var fileLocation = Path.Combine(rootWebLocation, filePurp);
-            var fileUri = Path.Combine(hostUrl, filePurp, fileName);
+            var fileUri = Path.Combine(hostUrl, filePurp.Replace('\\','/'), fileName);
 
             dbEntity.ImageName = fileName;
             dbEntity.Url = fileUri;
