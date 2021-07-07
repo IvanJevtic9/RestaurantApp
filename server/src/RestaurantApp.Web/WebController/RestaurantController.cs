@@ -85,7 +85,7 @@ namespace RestaurantApp.Web.WebController
                 return BadRequest(response);
             }
 
-            var userId = Convert.ToInt32(this.User.Claims.ToList().FirstOrDefault(x => x.Type.Equals("id")).Value);
+            var userId = Convert.ToInt32(this.User.Claims.ToList().FirstOrDefault(x => x.Type.Equals("id"))?.Value);
             var accountType = this.User.Claims.ToList().FirstOrDefault(x => x.Type.Equals("accountType")).Value;
 
             if (accountType == AccountType.User.ToString())
@@ -565,9 +565,10 @@ namespace RestaurantApp.Web.WebController
                 return NotFound();
             }
 
+            Enum.TryParse(this.User.Claims.ToList().FirstOrDefault(x => x.Type.Equals("accountType")).Value, out AccountType accountType);
+
             try
             {
-                var accountType = (AccountType)(object)this.User.Claims.ToList().FirstOrDefault(x => x.Type.Equals("accountType")).Value;
                 paymentOrder.MakeTransition(accountType, request.TransitionName);
                 if (accountType == AccountType.Restaurant) paymentOrder.DeliveryTime = request.DeliveryTime;
             }
@@ -576,12 +577,15 @@ namespace RestaurantApp.Web.WebController
                 var dict = new Dictionary<string, List<string>>();
                 dict.Add("restaurantId", new List<string>() { ex.Message });
 
-                return BadRequest(dict.GetModelError(dynamicTypeFactory));
+                response.Errors = dict.GetModelError(dynamicTypeFactory);
+                return BadRequest(response);
             }
 
             unitOfWork.SaveChanges();
 
             var data = mapper.Map<PaymentOrderSerializer>(paymentOrder);
+            data.AvailableTransitions = paymentOrder.GetAvailableTransitions(accountType);
+
             response.Data = data;
 
             return Ok(response);
@@ -593,13 +597,13 @@ namespace RestaurantApp.Web.WebController
         {
             var response = new ApiResponse();
 
-            var userId = Convert.ToInt32(this.User.Claims.ToList().FirstOrDefault(x => x.Type.Equals("userId")).Value);
-            var restaurantId = Convert.ToInt32(this.User.Claims.ToList().FirstOrDefault(x => x.Type.Equals("restaurantId")).Value);
-            var accountType = this.User.Claims.ToList().FirstOrDefault(x => x.Type.Equals("accountType")).Value;
+            var userId = Convert.ToInt32(this.User.Claims.ToList().FirstOrDefault(x => x.Type.Equals("userId"))?.Value);
+            var restaurantId = Convert.ToInt32(this.User.Claims.ToList().FirstOrDefault(x => x.Type.Equals("restaurantId"))?.Value);
+            Enum.TryParse(this.User.Claims.ToList().FirstOrDefault(x => x.Type.Equals("accountType")).Value, out AccountType accountType);
 
             List<PaymentOrder> po = new List<PaymentOrder>();
 
-            if (accountType == AccountType.User.ToString())
+            if (accountType == AccountType.User)
             {
                 po = unitOfWork.PaymentOrder.GetAll(x => x.UserId == userId).ToList();
             }
@@ -622,6 +626,11 @@ namespace RestaurantApp.Web.WebController
             }
 
             var data = mapper.Map<List<PaymentOrderSerializer>>(po);
+            for (int i = 0; i < po.Count; i++)
+            {
+                data[i].AvailableTransitions = po[i].GetAvailableTransitions(accountType);
+            }
+            
             response.Data = data;
 
             return Ok(response);
