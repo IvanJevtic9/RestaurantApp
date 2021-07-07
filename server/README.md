@@ -15,13 +15,9 @@
 * Open Package Manager Console
 * Execute update-database command
 
-## Make sure you have this folders
+## Make sure you have created folder on this locations
 
-/*
-<ItemGroup>
-  <Folder Include="wwwroot\Images\MenuCategoryPictures\" />
-  <Folder Include="wwwroot\Images\GalleryPictures\" />
-  <Folder Include="wwwroot\Images\ProfilePictures\" />
-  <Folder Include="wwwroot\Images\MenuItemPictures\" />
-</ItemGroup>
-*/
+* "wwwroot\Images\MenuCategoryPictures\"
+* "wwwroot\Images\GalleryPictures\"
+* "wwwroot\Images\ProfilePictures\"
+* "wwwroot\Images\MenuItemPictures\"
