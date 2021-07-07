@@ -17,9 +17,11 @@
 
 ## Make sure you have this folders
 
+/*
 <ItemGroup>
   <Folder Include="wwwroot\Images\MenuCategoryPictures\" />
   <Folder Include="wwwroot\Images\GalleryPictures\" />
   <Folder Include="wwwroot\Images\ProfilePictures\" />
   <Folder Include="wwwroot\Images\MenuItemPictures\" />
 </ItemGroup>
+*/
