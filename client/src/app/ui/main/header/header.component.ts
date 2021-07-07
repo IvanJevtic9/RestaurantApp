@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 
 //Menu
 import {MenuItem} from 'primeng/api';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -20,7 +21,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   //Menu
   items: MenuItem[];
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.accountSubscription = this.authService.account.subscribe(account => {
@@ -39,7 +40,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
       {
         label: 'Uredite profil',
         icon: 'pi pi-fw pi-user-edit',
-        routerLink: '../user/details'
+        command: () => {
+          if(this.account.isUserType){
+            this.router.navigate(['/user/details']);
+          } else {
+            this.router.navigate(['/admin/user/details']);
+          }
+        }
       },
       {
         label: 'Pregled porudzbina',

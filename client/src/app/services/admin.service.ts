@@ -208,7 +208,8 @@ export class AdminService {
     return this.http.delete(
       this.config.DISH_API + '/' + dish_id,
       {headers: this.createHeader()}
-    ).subscribe(data => { console.log(data);
+    ).subscribe(data => {
+      console.log(data);
     });
   }
 

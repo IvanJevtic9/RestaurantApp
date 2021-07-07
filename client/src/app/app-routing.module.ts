@@ -14,6 +14,8 @@ import { GalleryComponent } from './ui/admin/gallery/gallery.component';
 import { UserComponent } from './ui/user/user.component';
 import { UserDataComponent } from './ui/user/user-data/user-data.component';
 import { UserPasswordComponent } from './ui/user/user-password/user-password.component';
+import { VendorGuard } from './vendor-guard.service';
+import { CustomerGuard } from './customer-guard.service';
 
 const routes: Routes = [
   { path: 'login', redirectTo: 'login/sign-in' },
@@ -26,12 +28,12 @@ const routes: Routes = [
   { path: '', component: MainComponent, children:[
     {path: 'home', component: HomeComponent},
     {path: 'restaurant/:id', component: ClientSearchComponent},
-    {path: 'user', component: UserComponent, children: [
+    {path: 'user', canActivate: [CustomerGuard], component: UserComponent, children: [
       {path: 'details', component: UserDataComponent},
       {path: 'change-password', component: UserPasswordComponent},
     ]}
   ]},
-  { path: 'admin',    component: AdminComponent, children: [
+  { path: 'admin',    component: AdminComponent, canActivate: [VendorGuard], children: [
     {path: 'menues',  component: MenuesComponent},
     {path: 'about',   component: AboutUsComponent},
     {path: 'orders',   component: AdminOrdersComponent},

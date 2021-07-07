@@ -5,6 +5,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { BehaviorSubject, throwError } from "rxjs";
 import { Account, AccountType } from "../models/Account.model";
 import { MessageService } from "primeng/api";
+import { Router } from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -37,9 +38,14 @@ export class AuthService{
     private http: HttpClient,
     private config: Config,
     private messageService: MessageService,
+    private router: Router
   ){
-    const acc = JSON.parse(localStorage.getItem(this.ACCOUNT));
-    this.account = new BehaviorSubject<Account>(acc);
+    const temp = JSON.parse(localStorage.getItem(this.ACCOUNT));
+    this.account = new BehaviorSubject<Account>(temp == null ? null : new Account(temp.token));
+
+    if(temp != null){
+      this.autoLogout();
+    }
   }
 
   authenticate(username: string, password: string){
@@ -81,6 +87,7 @@ export class AuthService{
     }
     localStorage.removeItem(this.ACCOUNT);
     this.account.next(null);
+    this.router.navigate(['/home']);
   }
 
   updateAccountData(account: Account){

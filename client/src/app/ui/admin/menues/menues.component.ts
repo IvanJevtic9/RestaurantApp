@@ -104,13 +104,12 @@ export class MenuesComponent implements OnInit {
           this.menues[this.editIndex].image = data.menu.image;
         }
 
-        this.menuService.updateMenu(data.menu.id, name, image).subscribe((response) => console.log(response));
+        this.menuService.updateMenu(data.menu.id, name, image).subscribe((response) => {});
       }
     }
     else if(data != null && data.menu !== null){
       this.menuService.createNewMenu(data).subscribe(result => {
         data.menu.id = result.data.id;
-        console.log(result);
       });
       this.menues.push(data.menu);
     }
@@ -158,16 +157,12 @@ export class MenuesComponent implements OnInit {
   }
 
   addAttribute(){
-    console.log(this.newAttributeInput);
-
     if(this.newAttributeInput.value.name === '' || this.newAttributeInput.value.price === ''){
-      console.log('ee');
       return;
     }
 
     const values = this.newAddonGroup.get("values");
     if(values instanceof FormArray){
-      console.log('eee');
 
       values.push(this.newAttributeInput);
       this.addon_values.push({
@@ -221,8 +216,8 @@ export class MenuesComponent implements OnInit {
 
     this.menues[i].dishes.push(dish);
     this.menuService.createNewDish(this.menues[i].id, dish, this.dishImage).subscribe(data => {
-      console.log(data);
       dish.id = data.data.id;
+      dish.image = data.data.imageUrl;
     })
 
     this.onAddDishClear();
@@ -241,7 +236,6 @@ export class MenuesComponent implements OnInit {
   }
 
   deleteDish(menu_index: number, dish_index: number){
-    console.log(this.menues[menu_index].dishes[dish_index]);
     this.menuService.deleteDish(this.menues[menu_index].dishes[dish_index].id);
     this.menues[menu_index].dishes.splice(dish_index, 1);
   }
@@ -249,8 +243,6 @@ export class MenuesComponent implements OnInit {
   editDish(menu_index: number, dish_index: number){
     this.editDishIndex = dish_index;
     this.createDish()
-
-    console.log(this.menues[menu_index].dishes[dish_index]);
 
     const attribute = new FormArray([]);
     this.addon_category = [];
@@ -278,8 +270,6 @@ export class MenuesComponent implements OnInit {
       attribute.push(newGroup);
     });
 
-    console.log(attribute);
-
     this.addDishForm = new FormGroup({
       name: new FormControl(this.menues[menu_index].dishes[dish_index].name, [Validators.required]),
       ingredients_list: new FormControl(this.menues[menu_index].dishes[dish_index].ingredients_list, [Validators.required]),
@@ -296,10 +286,11 @@ export class MenuesComponent implements OnInit {
     this.menues[menu_index].dishes[this.editDishIndex].attributes = this.addDishForm.value.attribute;
     this.menues[menu_index].dishes[this.editDishIndex].image = this.addDishForm.value.image;
 
+    const i = this.editDishIndex;
     this.menuService
       .updateExsistingDish(this.menues[menu_index].dishes[this.editDishIndex], this.dishImage)
       .subscribe(data => {
-        console.log(data);
+        this.menues[menu_index].dishes[i].image = data.data.imageUrl;
       })
     this.onAddDishClear();
   }
@@ -314,7 +305,6 @@ export class MenuesComponent implements OnInit {
 
 
     const control = this.addDishForm.get("attribute");
-    console.log(control);
     if(control instanceof FormArray){
       const m = control.at(addition_index);
       if(m instanceof FormGroup){

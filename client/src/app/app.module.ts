@@ -44,7 +44,6 @@ import { UserComponent } from './ui/user/user.component';
 import { UserDataComponent } from './ui/user/user-data/user-data.component';
 import { UserPasswordComponent } from './ui/user/user-password/user-password.component';
 import {ConfirmPopupModule} from 'primeng/confirmpopup';
-import {ConfirmationService} from 'primeng/api';
 @NgModule({
   declarations: [
     AppComponent,
