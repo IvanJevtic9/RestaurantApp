@@ -260,11 +260,11 @@ namespace RestaurantApp.Web.WebController
                 response.Errors = ModelState.GetErrors(dynamicTypeFactory);
                 return BadRequest(response);
             }
-            
+
             var userId = this.User.Claims.ToList().FirstOrDefault(x => x.Type.Equals("id")).Value;
             var account = accountManager.GetById(Convert.ToInt32(userId));
 
-            if(account == null)
+            if (account == null)
             {
                 response.Message = ResponseCodes.ACCOUNT_DOES_NOT_EXIST;
                 return NotFound(response);

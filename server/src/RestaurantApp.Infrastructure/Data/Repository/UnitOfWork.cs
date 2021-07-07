@@ -20,6 +20,8 @@ namespace RestaurantApp.Infrastructure.Data.Repository
 
         public IGalleryImageRepository GalleryImage { get; }
 
+        public IPaymentOrderRepository PaymentOrder { get; }
+
         public UnitOfWork(ApplicationDbContext db)
         {
             this.db = db;
@@ -31,6 +33,7 @@ namespace RestaurantApp.Infrastructure.Data.Repository
             Menu = new RestaurantMenuRepository(db);
             MenuItem = new MenuItemRepository(db);
             GalleryImage = new GalleryImageRepository(db);
+            PaymentOrder = new PaymentOrderRepository(db);
         }
 
         public void Dispose()

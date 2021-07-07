@@ -14,7 +14,6 @@ namespace RestaurantApp.Web.Validator
         public RestaurantValidator()
         {
             RuleFor(m => m.Name).NotEmpty().WithMessage(a => ResponseCodes.RequiredField(nameof(a.Name)));
-            RuleFor(m => m.ManuBanner).NotEmpty().WithMessage(a => ResponseCodes.RequiredField(nameof(a.ManuBanner)));
         }
     }
 
@@ -59,6 +58,24 @@ namespace RestaurantApp.Web.Validator
                     break;
                 }
             });
+        }
+    }
+
+    public class PaymentOrderValidator : AbstractValidator<PaymentOrderDto>
+    {
+        public PaymentOrderValidator()
+        {
+            RuleFor(m => m.PaymentItems).NotEmpty().WithMessage(a => ResponseCodes.RequiredField(nameof(a.PaymentItems)));
+            RuleFor(m => m.TotalPrice).NotEmpty().WithMessage(a => ResponseCodes.RequiredField(nameof(a.TotalPrice)));
+            RuleFor(m => m.RestaurantId).NotEmpty().WithMessage(a => ResponseCodes.RequiredField(nameof(a.RestaurantId)));
+        }
+    }
+
+    public class PaymentOrderTransitionValidator : AbstractValidator<PaymentOrderTransitionDto>
+    {
+        public PaymentOrderTransitionValidator()
+        {
+            RuleFor(m => m.TransitionName).NotEmpty().WithMessage(a => ResponseCodes.RequiredField(nameof(a.TransitionName)));
         }
     }
 }

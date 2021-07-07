@@ -11,6 +11,7 @@ namespace RestaurantApp.Core.RepositoryInterface
         IRestaurantMenuRepository Menu { get; }
         IMenuItemRepository MenuItem { get; }
         IGalleryImageRepository GalleryImage { get; }
+        IPaymentOrderRepository PaymentOrder { get; }
 
         void SaveChanges();
     }

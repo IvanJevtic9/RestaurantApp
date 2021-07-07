@@ -1,5 +1,8 @@
 ﻿using RestaurantApp.Core.Entity;
 using RestaurantApp.Core.RepositoryInterface;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace RestaurantApp.Infrastructure.Data.Repository
 {
@@ -36,6 +39,12 @@ namespace RestaurantApp.Infrastructure.Data.Repository
     public class MenuItemRepository : Repository<MenuItem>, IMenuItemRepository
     {
         public MenuItemRepository(ApplicationDbContext db) : base(db)
+        { }
+    }
+
+    public class PaymentOrderRepository : Repository<PaymentOrder>, IPaymentOrderRepository
+    {
+        public PaymentOrderRepository(ApplicationDbContext db) : base(db)
         { }
     }
 }

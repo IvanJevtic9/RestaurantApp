@@ -46,7 +46,7 @@ namespace RestaurantApp.Web.WebController
 
             var restaurant = unitOfWork.Restaurant.GetById(id);
 
-            if(restaurant == null)
+            if (restaurant == null)
             {
                 response.Message = ResponseCodes.DOES_NOT_EXIST;
                 return NotFound(response);
@@ -56,6 +56,21 @@ namespace RestaurantApp.Web.WebController
             response.Data = data;
 
             return Ok(response);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllRestaurant([FromQuery] string query)
+        {
+            var response = new ApiResponse();
+
+            var restaurants = unitOfWork.Restaurant.GetAll(r => r.Name.Contains(query) ||
+                                                           r.Account.City.Contains(query) ||
+                                                           r.Account.Address.Contains(query)).ToList();
+
+            var data = mapper.Map<List<RestaurantListSerializer>>(restaurants);
+            response.Data = data;
+
+            return Ok(data);
         }
 
         [HttpPost("menu")]
@@ -478,6 +493,136 @@ namespace RestaurantApp.Web.WebController
 
             unitOfWork.SaveChanges();
             response.Message = ResponseCodes.SUCCESSFUL_REQUEST;
+
+            return Ok(response);
+        }
+
+        [HttpPost("payment-order")]
+        [Authorize]
+        public async Task<IActionResult> CreatePaymentOrder([FromBody] PaymentOrderListDto request)
+        {
+            var response = new ApiResponse();
+
+            if (!ModelState.IsValid)
+            {
+                response.Errors = ModelState.GetErrors(dynamicTypeFactory);
+                return BadRequest(response);
+            }
+
+            var userId = Convert.ToInt32(this.User.Claims.ToList().FirstOrDefault(x => x.Type.Equals("userId")).Value);
+
+            if (userId == null)
+            {
+                return Forbid();
+            }
+
+            foreach (var order in request.PaymentOrders)
+            {
+                var restaurant = unitOfWork.Restaurant.GetById(order.RestaurantId);
+                if (restaurant == null)
+                {
+                    var dict = new Dictionary<string, List<string>>();
+                    dict.Add("restaurantId", new List<string>() { ResponseCodes.DOES_NOT_EXIST });
+
+                    response.Errors = dict.GetModelError(dynamicTypeFactory);
+                    return BadRequest(response);
+                }
+
+                var paymentOrder = new PaymentOrder
+                {
+                    PaymentItems = order.PaymentItems,
+                    RestaurantId = order.RestaurantId,
+                    TotalPrice = order.TotalPrice,
+                    TimeCreated = DateTime.Now,
+                    UserId = userId
+                };
+
+                unitOfWork.PaymentOrder.Add(paymentOrder);
+            }
+
+            unitOfWork.SaveChanges();
+
+            response.Message = ResponseCodes.SUCCESSFUL_REQUEST;
+            return Ok(response);
+        }
+
+        [HttpPut("payment-order/{id}")]
+        [Authorize]
+        public async Task<IActionResult> PaymentOrderTransition([FromBody] PaymentOrderTransitionDto request, [FromRoute] int id)
+        {
+            var response = new ApiResponse();
+
+            if (!ModelState.IsValid)
+            {
+                response.Errors = ModelState.GetErrors(dynamicTypeFactory);
+                return BadRequest(response);
+            }
+
+            var paymentOrder = unitOfWork.PaymentOrder.GetById(id);
+            if (paymentOrder == null)
+            {
+                response.Message = ResponseCodes.DOES_NOT_EXIST;
+                return NotFound();
+            }
+
+            try
+            {
+                var accountType = (AccountType)(object)this.User.Claims.ToList().FirstOrDefault(x => x.Type.Equals("accountType")).Value;
+                paymentOrder.MakeTransition(accountType, request.TransitionName);
+                if (accountType == AccountType.Restaurant) paymentOrder.DeliveryTime = request.DeliveryTime;
+            }
+            catch (InvalidOperationException ex)
+            {
+                var dict = new Dictionary<string, List<string>>();
+                dict.Add("restaurantId", new List<string>() { ex.Message });
+
+                return BadRequest(dict.GetModelError(dynamicTypeFactory));
+            }
+
+            unitOfWork.SaveChanges();
+
+            var data = mapper.Map<PaymentOrderSerializer>(paymentOrder);
+            response.Data = data;
+
+            return Ok(response);
+        }
+
+        [HttpGet("payment-order")]
+        [Authorize]
+        public async Task<IActionResult> GetPaymentOrder([FromQuery] bool active, [FromQuery] DateTime? dateFrom, [FromQuery] DateTime? dateTo)
+        {
+            var response = new ApiResponse();
+
+            var userId = Convert.ToInt32(this.User.Claims.ToList().FirstOrDefault(x => x.Type.Equals("userId")).Value);
+            var restaurantId = Convert.ToInt32(this.User.Claims.ToList().FirstOrDefault(x => x.Type.Equals("restaurantId")).Value);
+            var accountType = this.User.Claims.ToList().FirstOrDefault(x => x.Type.Equals("accountType")).Value;
+
+            List<PaymentOrder> po = new List<PaymentOrder>();
+
+            if (accountType == AccountType.User.ToString())
+            {
+                po = unitOfWork.PaymentOrder.GetAll(x => x.UserId == userId).ToList();
+            }
+            else
+            {
+                po = unitOfWork.PaymentOrder.GetAll(x => x.RestaurantId == restaurantId).ToList();
+            }
+
+            if (active)
+            {
+                po.Where(x => active ? x.State == PaymentOrderState.Draft : x.State != PaymentOrderState.Draft).ToList();
+            }
+            if (dateFrom != null)
+            {
+                po.Where(x => x.TimeCreated >= dateFrom).ToList();
+            }
+            if (dateTo != null)
+            {
+                po.Where(x => x.TimeCreated <= dateTo).ToList();
+            }
+
+            var data = mapper.Map<List<PaymentOrderSerializer>>(po);
+            response.Data = data;
 
             return Ok(response);
         }

@@ -1,4 +1,7 @@
 ﻿using RestaurantApp.Core.Entity;
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace RestaurantApp.Core.RepositoryInterface
 {
@@ -21,5 +24,8 @@ namespace RestaurantApp.Core.RepositoryInterface
     { }
 
     public interface IGalleryImageRepository : IRepository<GalleryImage>
+    { }
+
+    public interface IPaymentOrderRepository : IRepository<PaymentOrder>
     { }
 }
