@@ -8,49 +8,49 @@ namespace RestaurantApp.Web.WebModel
 {
     public class RestaurantMenuDto
     {
-        public string Name { get; }
-        public IFormFile ManuBanner { get; }
+        public string Name { get; set; }
+        public IFormFile ManuBanner { get; set; }
     }
 
     public class RestaurantMenuItemUpdateDto
     {
-        public string Name { get; }
-        public string Description { get; }
-        public string Attributes { get; }
-        public double? Price { get; }
-        public IFormFile ItemImage { get; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Attributes { get; set; }
+        public double? Price { get; set; }
+        public IFormFile ItemImage { get; set; }
     }
 
     public class RestaurantMenuItemDto : RestaurantMenuItemUpdateDto
     {
-        public int MenuId { get; }
+        public int MenuId { get; set; }
     }
 
     public class GalleryDto
     {
-        public List<IFormFile> GalleryImages { get; }
+        public List<IFormFile> GalleryImages { get; set; }
     }
 
     public class GalleryDelDto
     {
-        public List<int> GalleryIds { get; }
+        public List<int> GalleryIds { get; set; }
     }
 
     public class PaymentOrderListDto
     {
-        public List<PaymentOrderDto> PaymentOrders { get; }
+        public List<PaymentOrderDto> PaymentOrders { get; set; }
     }
 
     public class PaymentOrderDto
     {
-        public string PaymentItems { get; }
-        public double TotalPrice { get; }
-        public int RestaurantId { get; }
+        public string PaymentItems { get; set; }
+        public double TotalPrice { get; set; }
+        public int RestaurantId { get; set; }
     }
 
     public class PaymentOrderTransitionDto
     {
-        public string TransitionName { get; }
-        public DateTime? DeliveryTime { get; }
+        public string TransitionName { get; set; }
+        public DateTime? DeliveryTime { get; set; }
     }
 }
