@@ -2,7 +2,6 @@
 
 * Visual Studio 2019
 * .NET Core SDK 5.0
-* Microsoft SQL Server Management Studio 18
 * SQL Server
 
 ## How To Run
