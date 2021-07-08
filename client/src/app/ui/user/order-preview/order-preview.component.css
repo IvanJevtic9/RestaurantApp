@@ -67,16 +67,16 @@
   border-left-color: var(--primary-color) !important;
 }
 .sub-order > td{
-  background-color: var(--primary-color);
+  background-color: var(--yellow-500);
   color: var(--secondary-color);
 }
 .sub-order > td:last-child{
-  font-family: 'Roboto-midium' !important;
+  font-family: 'MRegular' !important;
   border-left: 0px solid white !important;
   border-right-color: var(--primary-color) !important;
 }
 .content /deep/ .p-datatable /deep/ .p-datatable-wrapper{
-  font-family: 'Roboto';
+  font-family: 'MLight';
 }
 .content /deep/ .p-datatable /deep/ .p-datatable-wrapper /deep/ .p-datatable-tbody > tr > td:first-child{
   text-align: center;

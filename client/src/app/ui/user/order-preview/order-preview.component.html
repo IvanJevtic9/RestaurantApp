@@ -28,7 +28,7 @@
             </div>
           </p-header>
 
-          <p-table [value]="big">
+          <p-table [value]="orders.data">
             <ng-template pTemplate="header">
               <tr>
                 <th colspan="2">Slika</th>
@@ -47,7 +47,7 @@
                   <span class="p-text-bold">{{att.restaurant.name}}</span>
                 </td>
                 <td colspan="3">
-                  {{att.paymentItems.totalPrice | number : '1.2-2'}} din.
+                  {{att.totalPrice | number : '1.2-2'}} din.
                 </td>
               </tr>
               <tr *ngFor="let artical of att.paymentItems">
@@ -64,12 +64,12 @@
             <ng-template pTemplate="footer">
               <tr>
                 <td colspan="8">Transport i dostava</td>
-                <td colspan="3">{{(big.total_price > 10000)?'0.00':'500.00'}} din.</td>
+                <td colspan="3">{{(big.totalPrice > 1000)?'0.00':'500.00'}} din.</td>
               </tr>
               <tr>
                 <td colspan="8">Sve ukupno</td>
                 <td colspan="3">
-                  {{big.total_cost + ((big.total_cost > 10000)?0:500)| number : '1.2-2'}} din.
+                  {{big.totalPrice + ((big.totalPrice > 1000)?0:500)| number : '1.2-2'}} din.
                 </td>
               </tr>
             </ng-template>

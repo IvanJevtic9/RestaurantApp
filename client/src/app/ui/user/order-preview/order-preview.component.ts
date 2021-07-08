@@ -16,12 +16,17 @@ export class OrderPreviewComponent implements OnInit {
   ngOnInit(): void {
     this.cartService.getMyOrders()
       .subscribe(result => {
-        console.log(result);
+        // console.log(result);
 
         this.orders.data = result.data;
         this.orders.data.forEach(el => {
+          // console.log(JSON.parse(el.paymentItems));
           el.paymentItems = JSON.parse(el.paymentItems);
         })
+
+
+        console.log(this.orders);
+
       });
 
     // for(let big of this.allOrders){
