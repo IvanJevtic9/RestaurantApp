@@ -33,6 +33,7 @@ import { DialogModule } from 'primeng/dialog';
 import { AccordionModule } from 'primeng/accordion';
 import { InputNumberModule } from 'primeng/inputnumber';
 import {CheckboxModule} from 'primeng/checkbox';
+import {TableModule} from 'primeng/table';
 
 import { AdminComponent } from './ui/admin/admin.component';
 import { AboutUsComponent } from './ui/admin/about-us/about-us.component';
@@ -44,6 +45,8 @@ import { UserComponent } from './ui/user/user.component';
 import { UserDataComponent } from './ui/user/user-data/user-data.component';
 import { UserPasswordComponent } from './ui/user/user-password/user-password.component';
 import {ConfirmPopupModule} from 'primeng/confirmpopup';
+import { CartPreviewComponent } from './ui/main/cart-preview/cart-preview.component';
+import { OrderPreviewComponent } from './ui/user/order-preview/order-preview.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -63,7 +66,9 @@ import {ConfirmPopupModule} from 'primeng/confirmpopup';
     GalleryComponent,
     UserComponent,
     UserDataComponent,
-    UserPasswordComponent
+    UserPasswordComponent,
+    CartPreviewComponent,
+    OrderPreviewComponent
   ],
   imports: [
     BrowserModule,
@@ -88,7 +93,8 @@ import {ConfirmPopupModule} from 'primeng/confirmpopup';
     DropdownModule,
     AccordionModule,
     InputNumberModule,
-    ConfirmPopupModule
+    ConfirmPopupModule,
+    TableModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

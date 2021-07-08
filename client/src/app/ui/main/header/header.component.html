@@ -16,13 +16,13 @@
           </a>
         </li>
         <li>
-          <span class="cart">
-            {{price}}
+          <span class="cart" (click)="previewCart()">
+            {{price}} din.
             <i class="fas fa-shopping-cart"></i>
           </span>
         </li>
         <!--Samo za testestiranje-->
-        
+
         <p-avatar (click)="menu.toggle($event)"
           *ngIf="account !== null"
           [label]="acc_initials"
@@ -41,7 +41,7 @@
     <div>
       <ul>
         <li>
-          <a routerLink="/admin/about" 
+          <a routerLink="/admin/about"
           [routerLinkActive]="['is-active']">
             <span>O nama</span>
           </a>

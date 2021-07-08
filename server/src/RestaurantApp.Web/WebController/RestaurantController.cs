@@ -63,9 +63,14 @@ namespace RestaurantApp.Web.WebController
         {
             var response = new ApiResponse();
 
-            var restaurants = unitOfWork.Restaurant.GetAll(r => r.Name.Contains(query) ||
-                                                           r.Account.City.Contains(query) ||
-                                                           r.Account.Address.Contains(query)).ToList();
+            var restaurants = unitOfWork.Restaurant.GetAll().ToList();
+            
+            if(query != null)
+            {
+                restaurants = restaurants.Where(r => r.Name.Contains(query) ||
+                                                     r.Account.City.Contains(query) ||
+                                                     r.Account.Address.Contains(query)).ToList();
+            }
 
             var data = mapper.Map<List<RestaurantListSerializer>>(restaurants);
             response.Data = data;

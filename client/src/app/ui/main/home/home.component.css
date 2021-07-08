@@ -18,7 +18,13 @@
   margin-bottom: 0px;
 }
 .restaurant-img img{
-   width: 100%;
+  display: block;
+  max-width:250px;
+  max-height:120px;
+  margin-left: auto;
+  margin-right: auto;
+  width: auto;
+  height: auto;
 }
 
 .restaurant-details{

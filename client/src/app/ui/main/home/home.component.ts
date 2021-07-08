@@ -29,7 +29,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.aSubscription = this.authService.account.subscribe(user => {
       this.account = user;
-      this.restaurants = this.menuService.getAllRestaurants();
+      this.menuService.getAllRestaurants().subscribe(data => {
+        this.restaurants = data;
+      });
     });
   }
 

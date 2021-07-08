@@ -1,12 +1,12 @@
 
 <div class="background-gallery"
   [ngStyle]="{
-    'background': '#e3e3e3 url(' + restaurant.image + ') no-repeat center center/cover'}">
+    'background': '#e3e3e3 url(' + gallery[0] + ') no-repeat center center/cover'}">
 
-  <div class="info-wrapper p-mx-auto">
+  <div class="info-wrapper p-mx-auto" *ngIf="restaurant !== null">
     <div class="info p-grid">
         <div class="p-col-fixed img" style="width: 60px;">
-          <img src="{{restaurant.image === null ? 'assets/img/no-img.png' : restaurant.image}}" alt="logo">
+          <img src="{{restaurant.profileUrl === null ? 'assets/img/restaurant.png' : restaurant.profileUrl}}" alt="logo">
         </div>
         <div class="p-col">
           <h2 class="p-mb-1 bold-text">{{restaurant.name}}</h2>
@@ -18,8 +18,8 @@
     </div>
   </div>
 </div>
-<div style="background-color: white;height: 100%;">
-  <p-tabView class="tab-view" >
+<div style="background-color: white;height: 100%;" >
+  <p-tabView class="tab-view">
     <p-tabPanel header="Menu" >
       <div class="wrapper p-mx-auto">
         <div *ngFor="let item of menus" class="restaurant-menu">
@@ -27,8 +27,8 @@
             <h3>{{item.name}}</h3>
           </div>
 
-          <div *ngFor="let dish of item.dishes" class="restaurant-dish">
-            <div class="p-grid">
+          <div *ngFor="let dish of item.dishes" class="restaurant-dish" >
+            <div class="p-grid" (click)="displayItem(dish)">
               <div class="p-col">
                 <h4 class="p-mt-2">
                   {{dish.name}}
@@ -37,7 +37,7 @@
                 <p class="dish-price">Od {{dish.price | number : '1.2-2'}} din.</p>
               </div>
               <div class="p-col-fixed p-mr-2 p-mt-1 img-container" style="width: 230px">
-                <img src="assets/img/pizza.webp" class="dish-img p-mx-auto">
+                <img *ngIf="dish.image !== null" src="{{ dish.image }}" class="dish-img p-mx-auto">
               </div>
             </div>
           </div>
@@ -54,4 +54,46 @@
 
   </p-tabView>
 </div>
+
+<p-dialog
+   [(visible)]="displayItemFlag"
+   [modal]="true"
+   [breakpoints]="{'960px': '75vw', '640px': '100vw'}"
+   [style]="{width: '700px'}"
+   [baseZIndex]="10000"
+   [draggable]="false"
+   [resizable]="false"
+  >
+    <ng-template pTemplate="header">
+      <div style="height: 380px; width: 100%;" [ngStyle]="{
+        'background': 'red url(' + displayDish.image + ') no-repeat center center/cover'}">
+      </div>
+    </ng-template>
+    <div *ngIf="displayDish">
+      <h4>
+        {{displayDish.name}}
+      </h4>
+      <p class="dish-desc">
+        {{displayDish.ingredients_list}}
+      </p>
+      <p class="dish-price">
+        {{displayDish.price | number : '1.2-2'}} din.
+      </p>
+    </div>
+    <ng-template pTemplate="footer">
+      <div class="p-grid" style="background-color: #f7f7f7;">
+        <div class="p-col-1">
+          <p-inputNumber [(ngModel)]="count"
+            [showButtons]="true"
+            [min]="1"
+            [max]="10"
+            inputId="stacked"></p-inputNumber>
+        </div>
+        <div class="p-col-11">
+          <p-button icon="pi pi-check"
+            (click)="addDishToCart()" label="Dodaj u korpu" styleClass="p-button-text"></p-button>
+        </div>
+      </div>
+    </ng-template>
+</p-dialog>
 

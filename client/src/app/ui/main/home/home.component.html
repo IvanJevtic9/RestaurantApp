@@ -9,7 +9,7 @@
   </div>
   <div *ngFor="let item of restaurants" class="restaurant-item p-grid" (click)="navigateToRestaurantPage(item.id)">
     <div class="p-sm-12 p-md-3 restaurant-img">
-      <img src="assets/img/bckg.webp" alt="">
+      <img src="{{item.profileUrl === null ? 'assets/img/restaurant.png' : item.profileUrl}}" alt="">
     </div>
     <div class="p-sm-12 p-md-9 restaurant-details">
       <h3>{{item.name}}</h3>

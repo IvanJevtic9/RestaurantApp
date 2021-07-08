@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 //Menu
 import {MenuItem} from 'primeng/api';
 import { Router } from '@angular/router';
+import { CartService } from '../../../services/cart.service';
 
 @Component({
   selector: 'app-header',
@@ -16,12 +17,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   account: Account;
   accountSubscription: Subscription;
+  cartSubscription: Subscription;
+
   acc_initials: string;
   price = 0;
   //Menu
   items: MenuItem[];
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private cartService: CartService
+  ) {}
 
   ngOnInit(): void {
     this.accountSubscription = this.authService.account.subscribe(account => {
@@ -34,6 +41,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
           this.acc_initials = account.restaurant.name.charAt(0);
         }
       }
+    });
+
+    this.cartSubscription = this.cartService.cart.subscribe(cart => {
+      this.price = cart.total_price;
     });
 
     this.items = [
@@ -50,7 +61,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
       },
       {
         label: 'Pregled porudzbina',
-        icon: 'pi pi-fw pi-shopping-cart'
+        icon: 'pi pi-fw pi-shopping-cart',
+        command: () => {
+          if(this.account.isUserType){
+            this.router.navigate(['/my-orders']);
+          } else {
+            // this.router.navigate(['/admin/user/details']);
+          }
+        }
       },
       {
         label: 'Odjavite se',
@@ -64,6 +82,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(){
     this.accountSubscription.unsubscribe();
+    this.cartSubscription.unsubscribe();
+  }
+
+  previewCart(){
+    this.router.navigate(['/cart']);
   }
 
   logout(){

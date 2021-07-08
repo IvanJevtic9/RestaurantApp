@@ -5,6 +5,6 @@ export interface Restaurant{
   address: string;
   postalCode: string;
   phone: string;
-  image: string;
+  profileUrl: string;
   description: string;
 }
